@@ -1,28 +1,28 @@
 fileFormatVersion: 2
-guid: 43ae609c561c8364480fbda13f57447e
+guid: b3457b9721f5fa04babf80962c3b0ff7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3257741789314943562
-    second: VS_no_background_0
+      213: -1875464760430347487
+    second: Fiery_play_0
   - first:
-      213: 1664090378188383853
-    second: VS_no_background_1
+      213: -6844274167372806881
+    second: Fiery_play_1
   - first:
-      213: 1555139328907740430
-    second: VS_no_background_2
+      213: -674940904281979885
+    second: Fiery_play_2
   - first:
-      213: 6906647754145577738
-    second: VS_no_background_3
+      213: -5609215005689876869
+    second: Fiery_play_3
   - first:
-      213: -5967825202595080591
-    second: VS_no_background_4
+      213: 3259866972717211073
+    second: Fiery_play_4
   - first:
-      213: 3764164650747027405
-    second: VS_no_background_5
+      213: -4454252873756750887
+    second: Fiery_play_5
   - first:
-      213: -7211807065631940124
-    second: VS_no_background_6
+      213: 6493457747888030365
+    second: Fiery_play_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -131,13 +131,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: VS_no_background_0
+      name: Fiery_play_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 107
-        width: 426
-        height: 627
+        x: 0
+        y: 0
+        width: 1536
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b5ffe55a1d2ac2d0800000000000000
-      internalID: -3257741789314943562
+      spriteID: 12b39cdacb209f5e0800000000000000
+      internalID: -1875464760430347487
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VS_no_background_1
+      name: Fiery_play_1
       rect:
         serializedVersion: 2
-        x: 135
-        y: 715
-        width: 27
-        height: 28
+        x: 82
+        y: 622
+        width: 6
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d66601ad169081710800000000000000
-      internalID: 1664090378188383853
+      spriteID: f158c5448e04401a0800000000000000
+      internalID: -6844274167372806881
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VS_no_background_2
+      name: Fiery_play_2
       rect:
         serializedVersion: 2
-        x: 345
-        y: 176
-        width: 483
-        height: 597
+        x: 993
+        y: 304
+        width: 8
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,20 +190,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e0509cbeaf6f49510800000000000000
-      internalID: 1555139328907740430
+      spriteID: 31444e3d2d022a6f0800000000000000
+      internalID: -674940904281979885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VS_no_background_3
+      name: Fiery_play_3
       rect:
         serializedVersion: 2
-        x: 771
-        y: 684
-        width: 44
-        height: 34
+        x: 995
+        y: 298
+        width: 6
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,20 +212,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a0bb8961a8759df50800000000000000
-      internalID: 6906647754145577738
+      spriteID: b7e6015dba01822b0800000000000000
+      internalID: -5609215005689876869
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VS_no_background_4
+      name: Fiery_play_4
       rect:
         serializedVersion: 2
-        x: 190
-        y: 75
-        width: 245
-        height: 476
+        x: 1041
+        y: 303
+        width: 6
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 17652bdd8960e2da0800000000000000
-      internalID: -5967825202595080591
+      spriteID: 1cd56db7dbf5d3d20800000000000000
+      internalID: 3259866972717211073
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VS_no_background_5
+      name: Fiery_play_5
       rect:
         serializedVersion: 2
-        x: 404
-        y: 143
-        width: 432
-        height: 213
+        x: 994
+        y: 198
+        width: 7
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,20 +256,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dcfdbd37ecffc3430800000000000000
-      internalID: 3764164650747027405
+      spriteID: 9db47f76c905f22c0800000000000000
+      internalID: -4454252873756750887
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VS_no_background_6
+      name: Fiery_play_6
       rect:
         serializedVersion: 2
-        x: 136
-        y: 98
-        width: 43
-        height: 30
+        x: 994
+        y: 24
+        width: 6
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,8 +278,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e12b500fa38aeb90800000000000000
-      internalID: -7211807065631940124
+      spriteID: d92cfdafa656d1a50800000000000000
+      internalID: 6493457747888030365
       vertices: []
       indices: 
       edges: []
@@ -298,13 +298,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      VS_no_background_0: -3257741789314943562
-      VS_no_background_1: 1664090378188383853
-      VS_no_background_2: 1555139328907740430
-      VS_no_background_3: 6906647754145577738
-      VS_no_background_4: -5967825202595080591
-      VS_no_background_5: 3764164650747027405
-      VS_no_background_6: -7211807065631940124
+      Fiery_play_0: -1875464760430347487
+      Fiery_play_1: -6844274167372806881
+      Fiery_play_2: -674940904281979885
+      Fiery_play_3: -5609215005689876869
+      Fiery_play_4: 3259866972717211073
+      Fiery_play_5: -4454252873756750887
+      Fiery_play_6: 6493457747888030365
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
