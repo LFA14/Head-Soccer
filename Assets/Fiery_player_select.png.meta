@@ -1,0 +1,2392 @@
+fileFormatVersion: 2
+guid: 601650d9ff12ce846a84d7da6cc2c382
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2665717822234108024
+    second: Fiery_player_select_0
+  - first:
+      213: -1902393831089044409
+    second: Fiery_player_select_1
+  - first:
+      213: -6973089588379908946
+    second: Fiery_player_select_2
+  - first:
+      213: -574968814227104256
+    second: Fiery_player_select_3
+  - first:
+      213: 4210849946797720047
+    second: Fiery_player_select_4
+  - first:
+      213: -1827838322119260101
+    second: Fiery_player_select_5
+  - first:
+      213: 612392665759526801
+    second: Fiery_player_select_6
+  - first:
+      213: -3972770610677845433
+    second: Fiery_player_select_7
+  - first:
+      213: -621697390105820370
+    second: Fiery_player_select_8
+  - first:
+      213: -8196842035749539090
+    second: Fiery_player_select_9
+  - first:
+      213: 8767981811481411613
+    second: Fiery_player_select_10
+  - first:
+      213: -5563574980496890036
+    second: Fiery_player_select_11
+  - first:
+      213: -311143495728543878
+    second: Fiery_player_select_12
+  - first:
+      213: -8424234562066611542
+    second: Fiery_player_select_13
+  - first:
+      213: -7855677198304331863
+    second: Fiery_player_select_14
+  - first:
+      213: 6784863805032866550
+    second: Fiery_player_select_15
+  - first:
+      213: -6071693203190805919
+    second: Fiery_player_select_16
+  - first:
+      213: -7389306483165901428
+    second: Fiery_player_select_17
+  - first:
+      213: -2043943662994654607
+    second: Fiery_player_select_18
+  - first:
+      213: 6568074040088420608
+    second: Fiery_player_select_19
+  - first:
+      213: -9020960194419211708
+    second: Fiery_player_select_20
+  - first:
+      213: 3596238980186796120
+    second: Fiery_player_select_21
+  - first:
+      213: -1793607799594571836
+    second: Fiery_player_select_22
+  - first:
+      213: -541327599443142480
+    second: Fiery_player_select_23
+  - first:
+      213: -2621161738601206102
+    second: Fiery_player_select_24
+  - first:
+      213: 2252907576232051950
+    second: Fiery_player_select_25
+  - first:
+      213: 6069367434614919754
+    second: Fiery_player_select_26
+  - first:
+      213: 5829519269760795512
+    second: Fiery_player_select_27
+  - first:
+      213: -1627994267264529394
+    second: Fiery_player_select_28
+  - first:
+      213: 2930577933151554731
+    second: Fiery_player_select_29
+  - first:
+      213: -4660474577188512409
+    second: Fiery_player_select_30
+  - first:
+      213: 3753307665261423781
+    second: Fiery_player_select_31
+  - first:
+      213: 6858627368008218512
+    second: Fiery_player_select_32
+  - first:
+      213: -4943038602476656364
+    second: Fiery_player_select_33
+  - first:
+      213: 5241045542849837019
+    second: Fiery_player_select_34
+  - first:
+      213: -489243053275681726
+    second: Fiery_player_select_35
+  - first:
+      213: 4713157561057164280
+    second: Fiery_player_select_36
+  - first:
+      213: 1810616044241135052
+    second: Fiery_player_select_37
+  - first:
+      213: 613113845032900521
+    second: Fiery_player_select_38
+  - first:
+      213: -822310112807069740
+    second: Fiery_player_select_39
+  - first:
+      213: -848930718453760809
+    second: Fiery_player_select_40
+  - first:
+      213: 2407156244696901887
+    second: Fiery_player_select_41
+  - first:
+      213: -1844513927500732167
+    second: Fiery_player_select_42
+  - first:
+      213: -891068214932932691
+    second: Fiery_player_select_43
+  - first:
+      213: -3083599489840109246
+    second: Fiery_player_select_44
+  - first:
+      213: -8190768323619188145
+    second: Fiery_player_select_45
+  - first:
+      213: -4025868196679857717
+    second: Fiery_player_select_46
+  - first:
+      213: 827790334456095480
+    second: Fiery_player_select_47
+  - first:
+      213: 5251176323280770597
+    second: Fiery_player_select_48
+  - first:
+      213: -4274265540478440855
+    second: Fiery_player_select_49
+  - first:
+      213: 4925302018342160756
+    second: Fiery_player_select_50
+  - first:
+      213: 4781140009279221367
+    second: Fiery_player_select_51
+  - first:
+      213: 8144502835432135803
+    second: Fiery_player_select_52
+  - first:
+      213: -4253513385748176674
+    second: Fiery_player_select_53
+  - first:
+      213: 291504028426488241
+    second: Fiery_player_select_54
+  - first:
+      213: 8488273683674112622
+    second: Fiery_player_select_55
+  - first:
+      213: -7779566181500294673
+    second: Fiery_player_select_56
+  - first:
+      213: -998035320734395850
+    second: Fiery_player_select_57
+  - first:
+      213: 4635598702863189572
+    second: Fiery_player_select_58
+  - first:
+      213: -8438564374688745256
+    second: Fiery_player_select_59
+  - first:
+      213: 2916822381386585897
+    second: Fiery_player_select_60
+  - first:
+      213: 2063254953404201025
+    second: Fiery_player_select_61
+  - first:
+      213: 6121130718035914884
+    second: Fiery_player_select_62
+  - first:
+      213: -1579319617803962911
+    second: Fiery_player_select_63
+  - first:
+      213: 6056379485081543027
+    second: Fiery_player_select_64
+  - first:
+      213: 7626985644693156213
+    second: Fiery_player_select_65
+  - first:
+      213: -95759638272475966
+    second: Fiery_player_select_66
+  - first:
+      213: 1042994389152785082
+    second: Fiery_player_select_67
+  - first:
+      213: 8427822272883278469
+    second: Fiery_player_select_68
+  - first:
+      213: -858584677665191963
+    second: Fiery_player_select_69
+  - first:
+      213: 6905289939104730725
+    second: Fiery_player_select_70
+  - first:
+      213: 1155798998748457378
+    second: Fiery_player_select_71
+  - first:
+      213: 5278074228046961890
+    second: Fiery_player_select_72
+  - first:
+      213: 3875690340770997339
+    second: Fiery_player_select_73
+  - first:
+      213: -2250281239448266065
+    second: Fiery_player_select_74
+  - first:
+      213: -7795008007134744142
+    second: Fiery_player_select_75
+  - first:
+      213: 2866804040006103980
+    second: Fiery_player_select_76
+  - first:
+      213: 5997989154359961285
+    second: Fiery_player_select_77
+  - first:
+      213: 6522499169290767177
+    second: Fiery_player_select_78
+  - first:
+      213: -1392406362713862479
+    second: Fiery_player_select_79
+  - first:
+      213: -219487318803092044
+    second: Fiery_player_select_80
+  - first:
+      213: -2238029782338934974
+    second: Fiery_player_select_81
+  - first:
+      213: -6111959368536548578
+    second: Fiery_player_select_82
+  - first:
+      213: 691214998417744541
+    second: Fiery_player_select_83
+  - first:
+      213: -8951931740770027480
+    second: Fiery_player_select_84
+  - first:
+      213: 5365984710302691904
+    second: Fiery_player_select_85
+  - first:
+      213: -538561870486269308
+    second: Fiery_player_select_86
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Fiery_player_select_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1536
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88fde46a3c7710bd0800000000000000
+      internalID: -2665717822234108024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_1
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 818
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7440b03d3e65995e0800000000000000
+      internalID: -1902393831089044409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_2
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 814
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea404a1e6fb9a3f90800000000000000
+      internalID: -6973089588379908946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_3
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 816
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00ed017e8ec4508f0800000000000000
+      internalID: -574968814227104256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_4
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 824
+        width: 23
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe1c95177b1ff6a30800000000000000
+      internalID: 4210849946797720047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_5
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 802
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b384c37fab632a6e0800000000000000
+      internalID: -1827838322119260101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_6
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 811
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19fa6a982e7af7800800000000000000
+      internalID: 612392665759526801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_7
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 799
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7427f60ad22edd8c0800000000000000
+      internalID: -3972770610677845433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_8
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 799
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2384f084894f57f0800000000000000
+      internalID: -621697390105820370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_9
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 796
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee2b823e897fe3e80800000000000000
+      internalID: -8196842035749539090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_10
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 792
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d108f66b0012ea970800000000000000
+      internalID: 8767981811481411613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_11
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 734
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c476b3648063ac2b0800000000000000
+      internalID: -5563574980496890036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_12
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 719
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a774dee93a89eabf0800000000000000
+      internalID: -311143495728543878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_13
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 726
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa2837f9c4b171b80800000000000000
+      internalID: -8424234562066611542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_14
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 702
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a73fe495370bf290800000000000000
+      internalID: -7855677198304331863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_15
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 710
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f2a364deada82e50800000000000000
+      internalID: 6784863805032866550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_16
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 705
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16a88ae63330dbba0800000000000000
+      internalID: -6071693203190805919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_17
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 696
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8dc76e57e8e37990800000000000000
+      internalID: -7389306483165901428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_18
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 686
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17afa4a511472a3e0800000000000000
+      internalID: -2043943662994654607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_19
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 662
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0016fe15a8c762b50800000000000000
+      internalID: 6568074040088420608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_20
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 675
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44244be8f7c1fc280800000000000000
+      internalID: -9020960194419211708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_21
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 654
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 850727d7c4868e130800000000000000
+      internalID: 3596238980186796120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_22
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 655
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c7abce8533db17e0800000000000000
+      internalID: -1793607799594571836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_23
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 638
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b893189a61dc78f0800000000000000
+      internalID: -541327599443142480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_24
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 639
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aae64d74943cf9bd0800000000000000
+      internalID: -2621161738601206102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_25
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 630
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee40911118fe34f10800000000000000
+      internalID: 2252907576232051950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_26
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 614
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a42db8f5689ba3450800000000000000
+      internalID: 6069367434614919754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_27
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 622
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8730365c3ec96e050800000000000000
+      internalID: 5829519269760795512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_28
+      rect:
+        serializedVersion: 2
+        x: 1326
+        y: 614
+        width: 24
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0c4353e6d33869e0800000000000000
+      internalID: -1627994267264529394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_29
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 619
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bacc8147a118ba820800000000000000
+      internalID: 2930577933151554731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_30
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 581
+        width: 36
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76d90f5701ba25fb0800000000000000
+      internalID: -4660474577188512409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_31
+      rect:
+        serializedVersion: 2
+        x: 1390
+        y: 615
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ac68a88f6d661430800000000000000
+      internalID: 3753307665261423781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_32
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 600
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 097f6eca04dbe2f50800000000000000
+      internalID: 6858627368008218512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_33
+      rect:
+        serializedVersion: 2
+        x: 1360
+        y: 608
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 419e554949cc66bb0800000000000000
+      internalID: -4943038602476656364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_34
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 582
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd77539272febb840800000000000000
+      internalID: 5241045542849837019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_35
+      rect:
+        serializedVersion: 2
+        x: 1356
+        y: 585
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24ceca0090cd539f0800000000000000
+      internalID: -489243053275681726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_36
+      rect:
+        serializedVersion: 2
+        x: 1341
+        y: 577
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fb324594df786140800000000000000
+      internalID: 4713157561057164280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_37
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 565
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc5ad9df2b9902910800000000000000
+      internalID: 1810616044241135052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_38
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 550
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a75f0c2bc7328800800000000000000
+      internalID: 613113845032900521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_39
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 542
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d75ce62f419694f0800000000000000
+      internalID: -822310112807069740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_40
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 534
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dc75a7620ef734f0800000000000000
+      internalID: -848930718453760809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_41
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 526
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff8a504d9dfe76120800000000000000
+      internalID: 2407156244696901887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_42
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 518
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f8ee080b58f666e0800000000000000
+      internalID: -1844513927500732167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_43
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 486
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da7f74afd2a42a3f0800000000000000
+      internalID: -891068214932932691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_44
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 479
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24921820a9ad435d0800000000000000
+      internalID: -3083599489840109246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_45
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 470
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4218213b9b845e80800000000000000
+      internalID: -8190768323619188145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_46
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 454
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc9ca50843e3128c0800000000000000
+      internalID: -4025868196679857717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_47
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 406
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f2e1c16ce6ec7b00800000000000000
+      internalID: 827790334456095480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_48
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 392
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 526971a4b0defd840800000000000000
+      internalID: 5251176323280770597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_49
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 380
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96ae6101322cea4c0800000000000000
+      internalID: -4274265540478440855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_50
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 392
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4798cce17103a5440800000000000000
+      internalID: 4925302018342160756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_51
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 386
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77eee72c1850a5240800000000000000
+      internalID: 4781140009279221367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_52
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 376
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7c181a6d26170170800000000000000
+      internalID: 8144502835432135803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_53
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 370
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed06c1b9c1c78f4c0800000000000000
+      internalID: -4253513385748176674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_54
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 359
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b9c4f09e51ab0400800000000000000
+      internalID: 291504028426488241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_55
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 362
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6221b741f76cc570800000000000000
+      internalID: 8488273683674112622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_56
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 350
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe9680d96cd690490800000000000000
+      internalID: -7779566181500294673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_57
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 344
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6325552e9244622f0800000000000000
+      internalID: -998035320734395850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_58
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 328
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4460c65b574f45040800000000000000
+      internalID: 4635598702863189572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_59
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 336
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d83960296234ea80800000000000000
+      internalID: -8438564374688745256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_60
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 328
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 927d47b7082aa7820800000000000000
+      internalID: 2916822381386585897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_61
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 331
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 148f8b2d27722ac10800000000000000
+      internalID: 2063254953404201025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_62
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 320
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4803348f4ff92f450800000000000000
+      internalID: 6121130718035914884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_63
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 312
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e53df9dc21251ae0800000000000000
+      internalID: -1579319617803962911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_64
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 302
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 371af39bd059c0450800000000000000
+      internalID: 6056379485081543027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_65
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 291
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57170fac80f78d960800000000000000
+      internalID: 7626985644693156213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_66
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 303
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ccf2f8cd1bcbaef0800000000000000
+      internalID: -95759638272475966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_67
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 280
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab26d24fed5797e00800000000000000
+      internalID: 1042994389152785082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_68
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 272
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 582455564b3a5f470800000000000000
+      internalID: 8427822272883278469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_69
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 267
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e74c2ed8c1b514f0800000000000000
+      internalID: -858584677665191963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_70
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 232
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56e8a632d9484df50800000000000000
+      internalID: 6905289939104730725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_71
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 219
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a96720d0193a0010800000000000000
+      internalID: 1155798998748457378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_72
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 211
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ec12e4cb8c7f3940800000000000000
+      internalID: 5278074228046961890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_73
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 198
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b546115a4d739c530800000000000000
+      internalID: 3875690340770997339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_74
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 200
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faad5fd922565c0e0800000000000000
+      internalID: -2250281239448266065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_75
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 186
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b17869648192d390800000000000000
+      internalID: -7795008007134744142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_76
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 171
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca3f73dd51fe8c720800000000000000
+      internalID: 2866804040006103980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_77
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 152
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c665407b532d3350800000000000000
+      internalID: 5997989154359961285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_78
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 146
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94b4b51df62948a50800000000000000
+      internalID: 6522499169290767177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_79
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 94
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1be42775acd2dace0800000000000000
+      internalID: -1392406362713862479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_80
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 91
+        width: 7
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bde90a427934fcf0800000000000000
+      internalID: -219487318803092044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_81
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 95
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24761f245cbe0f0e0800000000000000
+      internalID: -2238029782338934974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_82
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 74
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1b12cc3655fd2ba0800000000000000
+      internalID: -6111959368536548578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_83
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 59
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d92ac1cf060b79900800000000000000
+      internalID: 691214998417744541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_84
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 35
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 828bbd9d28954c380800000000000000
+      internalID: -8951931740770027480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_85
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 39
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 042f4cfe9aec77a40800000000000000
+      internalID: 5365984710302691904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_player_select_86
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 23
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 482981c05d4a688f0800000000000000
+      internalID: -538561870486269308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Fiery_player_select_0: -2665717822234108024
+      Fiery_player_select_1: -1902393831089044409
+      Fiery_player_select_10: 8767981811481411613
+      Fiery_player_select_11: -5563574980496890036
+      Fiery_player_select_12: -311143495728543878
+      Fiery_player_select_13: -8424234562066611542
+      Fiery_player_select_14: -7855677198304331863
+      Fiery_player_select_15: 6784863805032866550
+      Fiery_player_select_16: -6071693203190805919
+      Fiery_player_select_17: -7389306483165901428
+      Fiery_player_select_18: -2043943662994654607
+      Fiery_player_select_19: 6568074040088420608
+      Fiery_player_select_2: -6973089588379908946
+      Fiery_player_select_20: -9020960194419211708
+      Fiery_player_select_21: 3596238980186796120
+      Fiery_player_select_22: -1793607799594571836
+      Fiery_player_select_23: -541327599443142480
+      Fiery_player_select_24: -2621161738601206102
+      Fiery_player_select_25: 2252907576232051950
+      Fiery_player_select_26: 6069367434614919754
+      Fiery_player_select_27: 5829519269760795512
+      Fiery_player_select_28: -1627994267264529394
+      Fiery_player_select_29: 2930577933151554731
+      Fiery_player_select_3: -574968814227104256
+      Fiery_player_select_30: -4660474577188512409
+      Fiery_player_select_31: 3753307665261423781
+      Fiery_player_select_32: 6858627368008218512
+      Fiery_player_select_33: -4943038602476656364
+      Fiery_player_select_34: 5241045542849837019
+      Fiery_player_select_35: -489243053275681726
+      Fiery_player_select_36: 4713157561057164280
+      Fiery_player_select_37: 1810616044241135052
+      Fiery_player_select_38: 613113845032900521
+      Fiery_player_select_39: -822310112807069740
+      Fiery_player_select_4: 4210849946797720047
+      Fiery_player_select_40: -848930718453760809
+      Fiery_player_select_41: 2407156244696901887
+      Fiery_player_select_42: -1844513927500732167
+      Fiery_player_select_43: -891068214932932691
+      Fiery_player_select_44: -3083599489840109246
+      Fiery_player_select_45: -8190768323619188145
+      Fiery_player_select_46: -4025868196679857717
+      Fiery_player_select_47: 827790334456095480
+      Fiery_player_select_48: 5251176323280770597
+      Fiery_player_select_49: -4274265540478440855
+      Fiery_player_select_5: -1827838322119260101
+      Fiery_player_select_50: 4925302018342160756
+      Fiery_player_select_51: 4781140009279221367
+      Fiery_player_select_52: 8144502835432135803
+      Fiery_player_select_53: -4253513385748176674
+      Fiery_player_select_54: 291504028426488241
+      Fiery_player_select_55: 8488273683674112622
+      Fiery_player_select_56: -7779566181500294673
+      Fiery_player_select_57: -998035320734395850
+      Fiery_player_select_58: 4635598702863189572
+      Fiery_player_select_59: -8438564374688745256
+      Fiery_player_select_6: 612392665759526801
+      Fiery_player_select_60: 2916822381386585897
+      Fiery_player_select_61: 2063254953404201025
+      Fiery_player_select_62: 6121130718035914884
+      Fiery_player_select_63: -1579319617803962911
+      Fiery_player_select_64: 6056379485081543027
+      Fiery_player_select_65: 7626985644693156213
+      Fiery_player_select_66: -95759638272475966
+      Fiery_player_select_67: 1042994389152785082
+      Fiery_player_select_68: 8427822272883278469
+      Fiery_player_select_69: -858584677665191963
+      Fiery_player_select_7: -3972770610677845433
+      Fiery_player_select_70: 6905289939104730725
+      Fiery_player_select_71: 1155798998748457378
+      Fiery_player_select_72: 5278074228046961890
+      Fiery_player_select_73: 3875690340770997339
+      Fiery_player_select_74: -2250281239448266065
+      Fiery_player_select_75: -7795008007134744142
+      Fiery_player_select_76: 2866804040006103980
+      Fiery_player_select_77: 5997989154359961285
+      Fiery_player_select_78: 6522499169290767177
+      Fiery_player_select_79: -1392406362713862479
+      Fiery_player_select_8: -621697390105820370
+      Fiery_player_select_80: -219487318803092044
+      Fiery_player_select_81: -2238029782338934974
+      Fiery_player_select_82: -6111959368536548578
+      Fiery_player_select_83: 691214998417744541
+      Fiery_player_select_84: -8951931740770027480
+      Fiery_player_select_85: 5365984710302691904
+      Fiery_player_select_86: -538561870486269308
+      Fiery_player_select_9: -8196842035749539090
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
