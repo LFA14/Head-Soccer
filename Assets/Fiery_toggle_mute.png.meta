@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: 7e63319ca47dbab4d8d748c4c2d95879
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3967487632642086283
+    second: Fiery_toggle_mute_0
+  - first:
+      213: -8983514344474116233
+    second: Fiery_toggle_mute_1
+  - first:
+      213: -5088665138391016747
+    second: Fiery_toggle_mute_2
+  - first:
+      213: 1875136046565148755
+    second: Fiery_toggle_mute_3
+  - first:
+      213: 1113921919792982151
+    second: Fiery_toggle_mute_4
+  - first:
+      213: -1900162622034483250
+    second: Fiery_toggle_mute_5
+  - first:
+      213: 387557585806870696
+    second: Fiery_toggle_mute_6
+  - first:
+      213: 8066832197205477473
+    second: Fiery_toggle_mute_7
+  - first:
+      213: -1396251067944463021
+    second: Fiery_toggle_mute_8
+  - first:
+      213: 6474556553068784021
+    second: Fiery_toggle_mute_9
+  - first:
+      213: 7298072209827062679
+    second: Fiery_toggle_mute_10
+  - first:
+      213: 2660138134440910817
+    second: Fiery_toggle_mute_11
+  - first:
+      213: -5825527777259007044
+    second: Fiery_toggle_mute_12
+  - first:
+      213: 7815371626018576446
+    second: Fiery_toggle_mute_13
+  - first:
+      213: 1785397217034500336
+    second: Fiery_toggle_mute_14
+  - first:
+      213: 4744976949528548336
+    second: Fiery_toggle_mute_15
+  - first:
+      213: -3240106071634229451
+    second: Fiery_toggle_mute_16
+  - first:
+      213: 7396713866170350823
+    second: Fiery_toggle_mute_17
+  - first:
+      213: 2306702166803505982
+    second: Fiery_toggle_mute_18
+  - first:
+      213: -8549866193885206856
+    second: Fiery_toggle_mute_19
+  - first:
+      213: -6851767737786047177
+    second: Fiery_toggle_mute_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 0
+        width: 227
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57aec9dc407a0f8c0800000000000000
+      internalID: -3967487632642086283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_1
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 774
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77f7ef6ec45245380800000000000000
+      internalID: -8983514344474116233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_2
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 622
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5da1a4d740e6169b0800000000000000
+      internalID: -5088665138391016747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_3
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 734
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 358cb09ac42d50a10800000000000000
+      internalID: 1875136046565148755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_4
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 0
+        width: 1282
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78828c09512757f00800000000000000
+      internalID: 1113921919792982151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_5
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 543
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec7e82aa92441a5e0800000000000000
+      internalID: -1900162622034483250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_6
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 593
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a8c6082291e06500800000000000000
+      internalID: 387557585806870696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_7
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 558
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 168cd19b42523ff60800000000000000
+      internalID: 8066832197205477473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_8
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 529
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35519e52d058f9ce0800000000000000
+      internalID: -1396251067944463021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_9
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 493
+        width: 6
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 599a7df91ee3ad950800000000000000
+      internalID: 6474556553068784021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_10
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 569
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79364eb0206f74560800000000000000
+      internalID: 7298072209827062679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_11
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 592
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef12dc0a85bae420800000000000000
+      internalID: 2660138134440910817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_12
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 435
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb35e4ff951972fa0800000000000000
+      internalID: -5825527777259007044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_13
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 441
+        width: 34
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3811841617c57c60800000000000000
+      internalID: 7815371626018576446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_14
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 436
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f8ff483f4107c810800000000000000
+      internalID: 1785397217034500336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_15
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 438
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f3d018456b89d140800000000000000
+      internalID: 4744976949528548336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_16
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 200
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 537c7a5d1b4d803d0800000000000000
+      internalID: -3240106071634229451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_17
+      rect:
+        serializedVersion: 2
+        x: 1035
+        y: 439
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ec3a42621866a660800000000000000
+      internalID: 7396713866170350823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_18
+      rect:
+        serializedVersion: 2
+        x: 1114
+        y: 439
+        width: 15
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3362f6366d030020800000000000000
+      internalID: 2306702166803505982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_19
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 571
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b6e95ceef5c85980800000000000000
+      internalID: -8549866193885206856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery_toggle_mute_20
+      rect:
+        serializedVersion: 2
+        x: 1285
+        y: 549
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 735e7c17b81a9e0a0800000000000000
+      internalID: -6851767737786047177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Fiery_toggle_mute_0: -3967487632642086283
+      Fiery_toggle_mute_1: -8983514344474116233
+      Fiery_toggle_mute_10: 7298072209827062679
+      Fiery_toggle_mute_11: 2660138134440910817
+      Fiery_toggle_mute_12: -5825527777259007044
+      Fiery_toggle_mute_13: 7815371626018576446
+      Fiery_toggle_mute_14: 1785397217034500336
+      Fiery_toggle_mute_15: 4744976949528548336
+      Fiery_toggle_mute_16: -3240106071634229451
+      Fiery_toggle_mute_17: 7396713866170350823
+      Fiery_toggle_mute_18: 2306702166803505982
+      Fiery_toggle_mute_19: -8549866193885206856
+      Fiery_toggle_mute_2: -5088665138391016747
+      Fiery_toggle_mute_20: -6851767737786047177
+      Fiery_toggle_mute_3: 1875136046565148755
+      Fiery_toggle_mute_4: 1113921919792982151
+      Fiery_toggle_mute_5: -1900162622034483250
+      Fiery_toggle_mute_6: 387557585806870696
+      Fiery_toggle_mute_7: 8066832197205477473
+      Fiery_toggle_mute_8: -1396251067944463021
+      Fiery_toggle_mute_9: 6474556553068784021
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

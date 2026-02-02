@@ -2,17 +2,27 @@ using UnityEngine;
 
 public class MenuMusic : MonoBehaviour
 {
-    private static MenuMusic instance;
+    public static MenuMusic Instance;
+
+    private AudioSource audioSource;
 
     void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    public void ToggleMusic()
+    {
+        if (audioSource == null) return;
+        audioSource.mute = !audioSource.mute;
     }
 }
