@@ -21,4 +21,8 @@ public class MenuButtonAction : MonoBehaviour
         yield return new WaitForSecondsRealtime(clickDelay);
         SceneManager.LoadScene(sceneName);
     }
+    private void Awake()
+{
+    DontDestroyOnLoad(gameObject);
+}
 }
