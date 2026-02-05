@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 433154648}
   - component: {fileID: 433154647}
   - component: {fileID: 433154650}
+  - component: {fileID: 433154651}
   m_Layer: 5
   m_Name: BtnCharacters
   m_TagString: Untagged
@@ -370,6 +371,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &433154651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433154645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 433154648}
 --- !u!1 &520057423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,6 +1078,7 @@ GameObject:
   - component: {fileID: 1475278531}
   - component: {fileID: 1475278530}
   - component: {fileID: 1475278533}
+  - component: {fileID: 1475278534}
   m_Layer: 5
   m_Name: BtnTournament
   m_TagString: Untagged
@@ -1213,6 +1228,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &1475278534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475278528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 1475278531}
 --- !u!1 &1643444951
 GameObject:
   m_ObjectHideFlags: 0
@@ -1224,7 +1252,7 @@ GameObject:
   - component: {fileID: 1643444952}
   - component: {fileID: 1643444953}
   m_Layer: 0
-  m_Name: audio
+  m_Name: hover_Button_Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1355,6 +1383,7 @@ GameObject:
   - component: {fileID: 1909486368}
   - component: {fileID: 1909486367}
   - component: {fileID: 1909486370}
+  - component: {fileID: 1909486371}
   m_Layer: 5
   m_Name: BtnQuickPlay
   m_TagString: Untagged
@@ -1516,6 +1545,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &1909486371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909486365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 1909486368}
 --- !u!1 &1929755220
 GameObject:
   m_ObjectHideFlags: 0
