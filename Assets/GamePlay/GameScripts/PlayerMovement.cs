@@ -26,13 +26,13 @@ public class PlayerMovement : MonoBehaviour
             groundLayer
         );
 
-if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-{
-    rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-}
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
 
-rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
 
     }
 }

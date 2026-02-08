@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6862745, g: 0.6862745, b: 0.6862745, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -544,11 +544,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 459057058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 336.05872, y: 879.07104}
+  m_AnchoredPosition: {x: -623, y: 394.30347}
   m_SizeDelta: {x: 330, y: 240}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &291042922
@@ -792,6 +792,7 @@ RectTransform:
   - {fileID: 867350225}
   - {fileID: 219928900}
   - {fileID: 319728962}
+  - {fileID: 291042921}
   - {fileID: 101084875}
   m_Father: {fileID: 1753726396}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -874,7 +875,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 981, y: -455}
+  m_AnchoredPosition: {x: 700, y: -436}
   m_SizeDelta: {x: 535, y: 465}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &531044860
@@ -1271,7 +1272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1001, y: -469}
+  m_AnchoredPosition: {x: -722, y: -447}
   m_SizeDelta: {x: 668.9751, y: 586.5712}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &645947650
@@ -2392,7 +2393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6862745, g: 0.6862745, b: 0.6862745, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2455,7 +2456,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1001, y: 409}
+  m_AnchoredPosition: {x: -743, y: 433}
   m_SizeDelta: {x: 596.4186, y: 409.3633}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1956041708
@@ -2694,4 +2695,3 @@ SceneRoots:
   - {fileID: 542268122}
   - {fileID: 1850834520}
   - {fileID: 917224557}
-  - {fileID: 291042921}
