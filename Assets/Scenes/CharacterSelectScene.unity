@@ -394,6 +394,7 @@ GameObject:
   - component: {fileID: 276186298}
   - component: {fileID: 276186297}
   - component: {fileID: 276186296}
+  - component: {fileID: 276186299}
   m_Layer: 5
   m_Name: ComDown
   m_TagString: Untagged
@@ -514,6 +515,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 276186294}
   m_CullTransparentMesh: 1
+--- !u!114 &276186299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276186294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 276186297}
 --- !u!1 &291042920
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +615,7 @@ GameObject:
   - component: {fileID: 317415126}
   - component: {fileID: 317415125}
   - component: {fileID: 317415124}
+  - component: {fileID: 317415127}
   m_Layer: 5
   m_Name: ComUp
   m_TagString: Untagged
@@ -721,6 +736,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317415122}
   m_CullTransparentMesh: 1
+--- !u!114 &317415127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317415122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 317415125}
 --- !u!1 &319728961
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,6 +880,7 @@ GameObject:
   - component: {fileID: 531044862}
   - component: {fileID: 531044861}
   - component: {fileID: 531044860}
+  - component: {fileID: 531044864}
   m_Layer: 5
   m_Name: PlayBtn
   m_TagString: Untagged
@@ -987,6 +1016,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 531044858}
   m_CullTransparentMesh: 1
+--- !u!114 &531044864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531044858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 531044862}
 --- !u!1 &542268119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,6 +1120,7 @@ GameObject:
   - component: {fileID: 584150152}
   - component: {fileID: 584150151}
   - component: {fileID: 584150150}
+  - component: {fileID: 584150153}
   m_Layer: 5
   m_Name: PlayerDown
   m_TagString: Untagged
@@ -1198,6 +1241,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 584150148}
   m_CullTransparentMesh: 1
+--- !u!114 &584150153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584150148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 584150151}
 --- !u!1 &624103140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1556,6 +1612,7 @@ GameObject:
   - component: {fileID: 840545717}
   - component: {fileID: 840545716}
   - component: {fileID: 840545715}
+  - component: {fileID: 840545718}
   m_Layer: 5
   m_Name: PlayerUp
   m_TagString: Untagged
@@ -1676,6 +1733,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 840545713}
   m_CullTransparentMesh: 1
+--- !u!114 &840545718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840545713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 840545716}
 --- !u!1 &867350224
 GameObject:
   m_ObjectHideFlags: 0
