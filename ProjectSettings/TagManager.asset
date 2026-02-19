@@ -47,5 +47,8 @@ TagManager:
   - name: right net
     uniqueID: 1936922499
     locked: 0
+  - name: player 1
+    uniqueID: 535479641
+    locked: 0
   m_RenderingLayers:
   - Default
