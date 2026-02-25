@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4a08581da3cb35e49a8a0c6552aef689
+guid: 4223ac2041d4d824398bc0a604082ef4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4666485715778765785
-    second: court_0
+      213: 448978775927879105
+    second: court2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: court_0
+      name: court2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 626
-        height: 417
+        width: 2220
+        height: 1336
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72c729137ff4d3fb0800000000000000
-      internalID: -4666485715778765785
+      spriteID: 1c5fed261d71b3600800000000000000
+      internalID: 448978775927879105
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      court_0: -4666485715778765785
+      court2_0: 448978775927879105
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
