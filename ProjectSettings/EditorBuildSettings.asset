@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CharactersInfoScene.unity
     guid: 0884159e190b9754bb43fbe1f09f694a
+  - enabled: 1
+    path: Assets/Scenes/TournamentBracketScene.unity
+    guid: af3a51584fa1bc94c8b6b4f9a93f5cd9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
