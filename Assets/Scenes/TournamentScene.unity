@@ -615,6 +615,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TournamentSelectionData
   playerPrefab: {fileID: 0}
   playerIndex: 0
+  bracketIndexes: 00000000000000000000000000000000
 --- !u!1 &542490586
 GameObject:
   m_ObjectHideFlags: 0

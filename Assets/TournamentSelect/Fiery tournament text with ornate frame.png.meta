@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: da633f54df548ea4bad54c74a62d4ca3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4807705832000343592
+    second: Fiery tournament text with ornate frame_0
+  - first:
+      213: 4630414018203868552
+    second: Fiery tournament text with ornate frame_1
+  - first:
+      213: 6283245617960915808
+    second: Fiery tournament text with ornate frame_2
+  - first:
+      213: 3115242005949292937
+    second: Fiery tournament text with ornate frame_3
+  - first:
+      213: -6694694134301214091
+    second: Fiery tournament text with ornate frame_4
+  - first:
+      213: -3663832572854789847
+    second: Fiery tournament text with ornate frame_5
+  - first:
+      213: -1622306936129537596
+    second: Fiery tournament text with ornate frame_6
+  - first:
+      213: 3295846684387449528
+    second: Fiery tournament text with ornate frame_7
+  - first:
+      213: -4417193733079542952
+    second: Fiery tournament text with ornate frame_8
+  - first:
+      213: 5593957188343873535
+    second: Fiery tournament text with ornate frame_9
+  - first:
+      213: 4674030692943175912
+    second: Fiery tournament text with ornate frame_10
+  - first:
+      213: -1026846013794611173
+    second: Fiery tournament text with ornate frame_11
+  - first:
+      213: -4912691159378601362
+    second: Fiery tournament text with ornate frame_12
+  - first:
+      213: -6298726262905493171
+    second: Fiery tournament text with ornate frame_13
+  - first:
+      213: 3576329293445637671
+    second: Fiery tournament text with ornate frame_14
+  - first:
+      213: 3280366685008205892
+    second: Fiery tournament text with ornate frame_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 0
+        width: 1514
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d1bb03a409974db0800000000000000
+      internalID: -4807705832000343592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_1
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 839
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88dd70e3409824040800000000000000
+      internalID: 4630414018203868552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_2
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 843
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06317177992923750800000000000000
+      internalID: 6283245617960915808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_3
+      rect:
+        serializedVersion: 2
+        x: 775
+        y: 839
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 981abf169109b3b20800000000000000
+      internalID: 3115242005949292937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_4
+      rect:
+        serializedVersion: 2
+        x: 1256
+        y: 588
+        width: 26
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57ab515a72ba713a0800000000000000
+      internalID: -6694694134301214091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_5
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 605
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9291c72dfa3772dc0800000000000000
+      internalID: -3663832572854789847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_6
+      rect:
+        serializedVersion: 2
+        x: 1289
+        y: 600
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c9b85bdf686c79e0800000000000000
+      internalID: -1622306936129537596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_7
+      rect:
+        serializedVersion: 2
+        x: 1276
+        y: 565
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ba1019e8133dbd20800000000000000
+      internalID: 3295846684387449528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_8
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 534
+        width: 36
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85356bbf3b9f2b2c0800000000000000
+      internalID: -4417193733079542952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_9
+      rect:
+        serializedVersion: 2
+        x: 1285
+        y: 567
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fffbafbbc6ab1ad40800000000000000
+      internalID: 5593957188343873535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_10
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 546
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e0a622b62e7dd040800000000000000
+      internalID: 4674030692943175912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_11
+      rect:
+        serializedVersion: 2
+        x: 1308
+        y: 540
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b101fbcadf8efb1f0800000000000000
+      internalID: -1026846013794611173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_12
+      rect:
+        serializedVersion: 2
+        x: 757
+        y: 291
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6a590a4b6d92dbb0800000000000000
+      internalID: -4912691159378601362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_13
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 295
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d49281206dd6698a0800000000000000
+      internalID: -6298726262905493171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_14
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 271
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 726a6af4b8ca1a130800000000000000
+      internalID: 3576329293445637671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fiery tournament text with ornate frame_15
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 281
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44890f0be14368d20800000000000000
+      internalID: 3280366685008205892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Fiery tournament text with ornate frame_0: -4807705832000343592
+      Fiery tournament text with ornate frame_1: 4630414018203868552
+      Fiery tournament text with ornate frame_10: 4674030692943175912
+      Fiery tournament text with ornate frame_11: -1026846013794611173
+      Fiery tournament text with ornate frame_12: -4912691159378601362
+      Fiery tournament text with ornate frame_13: -6298726262905493171
+      Fiery tournament text with ornate frame_14: 3576329293445637671
+      Fiery tournament text with ornate frame_15: 3280366685008205892
+      Fiery tournament text with ornate frame_2: 6283245617960915808
+      Fiery tournament text with ornate frame_3: 3115242005949292937
+      Fiery tournament text with ornate frame_4: -6694694134301214091
+      Fiery tournament text with ornate frame_5: -3663832572854789847
+      Fiery tournament text with ornate frame_6: -1622306936129537596
+      Fiery tournament text with ornate frame_7: 3295846684387449528
+      Fiery tournament text with ornate frame_8: -4417193733079542952
+      Fiery tournament text with ornate frame_9: 5593957188343873535
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

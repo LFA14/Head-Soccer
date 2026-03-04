@@ -21,18 +21,25 @@ public class TournamentBracketManager : MonoBehaviour
     [Header("Buttons")]
     public Button playMatchBtn;
 
-    [Header("Shuffle")]
-    public float shuffleDuration = 1.2f;
-    public float shuffleInterval = 0.06f;
+    [Header("Score UI (for TR vs BR winner)")]
+    public BracketScoreUI scoreUI;
+
+    [Header("Shuffle 1 (initial opponents)")]
+    public float shuffleDuration = 0.75f;
+    public float shuffleInterval = 0.03f;
+
+    [Header("Other-side semi-final reveal (TR vs BR -> Final Right)")]
+    public float otherMatchDelay = 0.0f;               // set 0 for instant
+    public float otherMatchShuffleDuration = 0.45f;
+    public float otherMatchShuffleInterval = 0.03f;
 
     [Header("Scene names")]
-    public string gameSceneName = "GameScene"; // your gameplay scene
+    public string gameSceneName = "GameScene";
 
     void Start()
     {
         if (playMatchBtn != null) playMatchBtn.interactable = false;
 
-        // If bracket not generated yet -> generate + shuffle once
         if (TournamentStateData.Instance == null)
         {
             Debug.LogError("TournamentStateData missing in scene.");
@@ -40,12 +47,9 @@ public class TournamentBracketManager : MonoBehaviour
         }
 
         if (!TournamentStateData.Instance.bracketGenerated)
-        {
             StartCoroutine(GenerateAndShuffleBracket());
-        }
         else
         {
-            // Already have bracket state -> just redraw
             RedrawAll();
             DecideIfPlayEnabled();
         }
@@ -53,30 +57,33 @@ public class TournamentBracketManager : MonoBehaviour
 
     IEnumerator GenerateAndShuffleBracket()
     {
-        // Need selected player from previous scene
         if (TournamentSelectionData.Instance == null)
         {
             Debug.LogError("TournamentSelectionData.Instance is null. Did you come from the select scene?");
             yield break;
         }
 
-        int playerIndex = TournamentSelectionData.Instance.playerIndex;
+        if (portraitSprites == null || portraitSprites.Length < 4)
+        {
+            Debug.LogError("portraitSprites must have at least 4 sprites.");
+            yield break;
+        }
 
-        // Build list of remaining indices
+        int playerIndex = Mathf.Clamp(TournamentSelectionData.Instance.playerIndex, 0, portraitSprites.Length - 1);
+
+        // Build pool of remaining indices
         List<int> pool = new List<int>();
         for (int i = 0; i < portraitSprites.Length; i++)
             if (i != playerIndex) pool.Add(i);
 
-        // pick 3 random distinct opponents
         Shuffle(pool);
         int opp1 = pool[0];
         int opp2 = pool[1];
         int opp3 = pool[2];
 
-        // store initial bracket layout
         var st = TournamentStateData.Instance;
-        st.tl = playerIndex;   // YOU always TL
-        st.bl = opp1;          // your opponent BL
+        st.tl = playerIndex;
+        st.bl = opp1;
         st.tr = opp2;
         st.br = opp3;
 
@@ -86,40 +93,95 @@ public class TournamentBracketManager : MonoBehaviour
         st.finalResolved = false;
         st.champion = -1;
 
-        // Visual shuffle effect on 3 AI slots (BL/TR/BR), keep TL fixed
-        float t = 0f;
-        while (t < shuffleDuration)
+        st.finalLeft = -1;
+        st.finalRight = -1;
+
+        // Show TL instantly (no empty frame)
+        SetImage(slotTL, st.tl);
+
+        // ---- Shuffle 1 (BL/TR/BR), using unscaled time (smooth) ----
+        float elapsed = 0f;
+        float tick = 0f;
+
+        while (elapsed < shuffleDuration)
         {
-            t += shuffleInterval;
+            float dt = Time.unscaledDeltaTime;
+            elapsed += dt;
+            tick += dt;
 
-            // random faces while shuffling
-            SetImage(slotTL, st.tl);
-            SetImage(slotBL, RandomIndexNot(playerIndex));
-            SetImage(slotTR, RandomIndexNot(playerIndex));
-            SetImage(slotBR, RandomIndexNot(playerIndex));
+            if (tick >= shuffleInterval)
+            {
+                tick = 0f;
 
-            yield return new WaitForSecondsRealtime(shuffleInterval);
+                SetImage(slotTL, st.tl);
+                SetImage(slotBL, RandomIndexNot(playerIndex));
+                SetImage(slotTR, RandomIndexNot(playerIndex));
+                SetImage(slotBR, RandomIndexNot(playerIndex));
+            }
+
+            yield return null;
         }
 
-        // stop on the real chosen opponents
+        // Stop on real opponents
         RedrawAll();
+        DecideIfPlayEnabled();
 
-        // resolve other match (TR vs BR) immediately/randomly for now
-        ResolveOtherMatch();
+        // Let UI breathe for 1 frame (removes "freeze" feeling)
+        yield return null;
 
+        // ---- Other-side reveal (starts fast) ----
+        if (otherMatchDelay > 0f)
+        {
+            float d = 0f;
+            while (d < otherMatchDelay)
+            {
+                d += Time.unscaledDeltaTime;
+                yield return null;
+            }
+        }
+
+        yield return StartCoroutine(ResolveOtherMatchWithShuffle());
         DecideIfPlayEnabled();
     }
 
-    void ResolveOtherMatch()
+    IEnumerator ResolveOtherMatchWithShuffle()
     {
         var st = TournamentStateData.Instance;
 
-        // randomly pick winner of TR vs BR
-        st.finalRight = (Random.value < 0.5f) ? st.tr : st.br;
+        // Make sure finalR shows immediately (no blank gap)
+        SetImage(finalR, st.tr);
+
+        float elapsed = 0f;
+        float tick = 0f;
+
+        while (elapsed < otherMatchShuffleDuration)
+        {
+            float dt = Time.unscaledDeltaTime;
+            elapsed += dt;
+            tick += dt;
+
+            if (tick >= otherMatchShuffleInterval)
+            {
+                tick = 0f;
+                int show = (Random.value < 0.5f) ? st.tr : st.br;
+                SetImage(finalR, show);
+            }
+
+            yield return null;
+        }
+
+        // Pick winner for real + show score
+        int winner = (Random.value < 0.5f) ? st.tr : st.br;
+        int loser = (winner == st.tr) ? st.br : st.tr;
+
+        st.finalRight = winner;
         st.otherMatchResolved = true;
 
-        // your final slot left will be unknown until you play, so just clear for now
-        st.finalLeft = -1;
+        int wg, lg;
+        MakeKnockoutScore(out wg, out lg);
+
+        if (scoreUI != null)
+            scoreUI.Show($"{wg} - {lg}");
 
         RedrawAll();
     }
@@ -128,10 +190,7 @@ public class TournamentBracketManager : MonoBehaviour
     {
         var st = TournamentStateData.Instance;
 
-        // you can play semi-final as soon as bracket generated
         bool canPlaySemi = st.bracketGenerated && !st.playerMatchResolved;
-
-        // later: if semi done and final not done => allow final match
         bool canPlayFinal = st.playerMatchResolved && st.otherMatchResolved && !st.finalResolved;
 
         if (playMatchBtn != null)
@@ -142,7 +201,7 @@ public class TournamentBracketManager : MonoBehaviour
     {
         var st = TournamentStateData.Instance;
 
-        // If semi not done -> fight BL
+        // Semi: fight BL
         if (!st.playerMatchResolved)
         {
             st.nextOpponentIndex = st.bl;
@@ -150,8 +209,8 @@ public class TournamentBracketManager : MonoBehaviour
             return;
         }
 
-        // If semi done -> fight finalRight
-        if (!st.finalResolved)
+        // Final: fight finalRight
+        if (st.playerMatchResolved && st.otherMatchResolved && !st.finalResolved)
         {
             st.nextOpponentIndex = st.finalRight;
             SceneManager.LoadScene(gameSceneName);
@@ -168,11 +227,9 @@ public class TournamentBracketManager : MonoBehaviour
         SetImage(slotTR, st.tr);
         SetImage(slotBR, st.br);
 
-        // Final slots
         SetImage(finalL, st.finalLeft);
         SetImage(finalR, st.finalRight);
 
-        // Champion slot
         SetImage(champion, st.champion);
     }
 
@@ -182,7 +239,6 @@ public class TournamentBracketManager : MonoBehaviour
 
         if (index < 0 || portraitSprites == null || index >= portraitSprites.Length)
         {
-            // hide if not assigned yet
             var c = img.color; c.a = 0f; img.color = c;
             img.sprite = null;
             return;
@@ -194,7 +250,8 @@ public class TournamentBracketManager : MonoBehaviour
 
     int RandomIndexNot(int notThis)
     {
-        if (portraitSprites.Length <= 1) return 0;
+        if (portraitSprites == null || portraitSprites.Length <= 1) return 0;
+
         int r = Random.Range(0, portraitSprites.Length - 1);
         if (r >= notThis) r++;
         return r;
@@ -206,6 +263,36 @@ public class TournamentBracketManager : MonoBehaviour
         {
             int j = Random.Range(0, i + 1);
             (list[i], list[j]) = (list[j], list[i]);
+        }
+    }
+
+    // ----- Score generation (realistic, no ties) -----
+
+    int SampleGoalsBiased()
+    {
+        int[] goals = { 0, 1, 2, 3, 4, 5 };
+        int[] w = { 22, 32, 24, 14, 6, 2 }; // mostly 0-3
+        int r = Random.Range(0, 100);
+        int sum = 0;
+        for (int i = 0; i < w.Length; i++)
+        {
+            sum += w[i];
+            if (r < sum) return goals[i];
+        }
+        return 1;
+    }
+
+    void MakeKnockoutScore(out int winnerGoals, out int loserGoals)
+    {
+        while (true)
+        {
+            int a = SampleGoalsBiased();
+            int b = SampleGoalsBiased();
+            if (a == b) continue;
+
+            winnerGoals = Mathf.Max(a, b);
+            loserGoals = Mathf.Min(a, b);
+            return;
         }
     }
 }
