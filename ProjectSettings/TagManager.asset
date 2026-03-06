@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Ball
   layers:
   - Default
   - TransparentFX
@@ -49,6 +50,12 @@ TagManager:
     locked: 0
   - name: player 1
     uniqueID: 535479641
+    locked: 0
+  - name: left net
+    uniqueID: 3215432089
+    locked: 0
+  - name: ball
+    uniqueID: 3463970273
     locked: 0
   m_RenderingLayers:
   - Default
