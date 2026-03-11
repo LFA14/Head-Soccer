@@ -978,6 +978,18 @@ MonoBehaviour:
           m_StringArgument: GameScene
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 917224556}
+        m_TargetAssemblyTypeName: CharacterSelectManager, Assembly-CSharp
+        m_MethodName: ConfirmSelection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &531044862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1866,6 +1878,7 @@ MonoBehaviour:
   comIndex: 0
   popScale: 1.12
   popDuration: 0.12
+  gameSceneName: GameScene
 --- !u!4 &917224557
 Transform:
   m_ObjectHideFlags: 0
@@ -2759,9 +2772,9 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1850834520}
   - {fileID: 1345142880}
   - {fileID: 1294399908}
   - {fileID: 1753726396}
   - {fileID: 542268122}
-  - {fileID: 1850834520}
   - {fileID: 917224557}

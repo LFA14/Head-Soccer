@@ -1,17 +1,18 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CharacterSelectManager : MonoBehaviour
 {
     [Header("Character prefabs (used later for spawning)")]
     public GameObject[] characterPrefabs;
 
-    [Header("Portrait UI Images (inside the frames)")]
+    [Header("Portrait UI Images")]
     public Image playerPortrait;
     public Image comPortrait;
 
-    [Header("Portrait sprites (what you show in the selector)")]
+    [Header("Portrait sprites")]
     public Sprite[] portraitSprites;
 
     [Header("Indexes")]
@@ -22,11 +23,14 @@ public class CharacterSelectManager : MonoBehaviour
     public float popScale = 1.12f;
     public float popDuration = 0.12f;
 
-    public void PlayerUp()  { playerIndex = Prev(playerIndex); ApplyPlayer(true); }
-    public void PlayerDown(){ playerIndex = Next(playerIndex); ApplyPlayer(true); }
+    [Header("Scene")]
+    public string gameSceneName = "GameScene";
 
-    public void ComUp()     { comIndex = Prev(comIndex); ApplyCom(true); }
-    public void ComDown()   { comIndex = Next(comIndex); ApplyCom(true); }
+    public void PlayerUp() { playerIndex = Prev(playerIndex); ApplyPlayer(true); }
+    public void PlayerDown() { playerIndex = Next(playerIndex); ApplyPlayer(true); }
+
+    public void ComUp() { comIndex = Prev(comIndex); ApplyCom(true); }
+    public void ComDown() { comIndex = Next(comIndex); ApplyCom(true); }
 
     int Next(int i)
     {
@@ -43,16 +47,26 @@ public class CharacterSelectManager : MonoBehaviour
     void ApplyPlayer(bool animate)
     {
         if (playerPortrait == null || portraitSprites.Length == 0) return;
+
         playerPortrait.sprite = portraitSprites[playerIndex];
-        var c = playerPortrait.color; c.a = 1f; playerPortrait.color = c; // ensure visible
+
+        var c = playerPortrait.color;
+        c.a = 1f;
+        playerPortrait.color = c;
+
         if (animate) StartCoroutine(Pop(playerPortrait.rectTransform));
     }
 
     void ApplyCom(bool animate)
     {
         if (comPortrait == null || portraitSprites.Length == 0) return;
+
         comPortrait.sprite = portraitSprites[comIndex];
-        var c = comPortrait.color; c.a = 1f; comPortrait.color = c; // ensure visible
+
+        var c = comPortrait.color;
+        c.a = 1f;
+        comPortrait.color = c;
+
         if (animate) StartCoroutine(Pop(comPortrait.rectTransform));
     }
 
@@ -66,7 +80,6 @@ public class CharacterSelectManager : MonoBehaviour
         float half = popDuration * 0.5f;
         float time = 0f;
 
-        // up
         while (time < half)
         {
             time += Time.unscaledDeltaTime;
@@ -75,7 +88,6 @@ public class CharacterSelectManager : MonoBehaviour
             yield return null;
         }
 
-        // down
         time = 0f;
         while (time < half)
         {
@@ -88,20 +100,23 @@ public class CharacterSelectManager : MonoBehaviour
         t.localScale = start;
     }
 
-    // Call this BEFORE loading GameScene
     public void ConfirmSelection()
     {
-        if (SelectionData.Instance == null) return;
+        if (SelectionData.Instance == null)
+        {
+            Debug.LogError("SelectionData.Instance missing!");
+            return;
+        }
 
-        // Save prefabs to spawn later
         if (characterPrefabs != null && characterPrefabs.Length > 0)
         {
-            if (playerIndex < characterPrefabs.Length) SelectionData.Instance.playerPrefab = characterPrefabs[playerIndex];
-            if (comIndex < characterPrefabs.Length) SelectionData.Instance.comPrefab = characterPrefabs[comIndex];
+            SelectionData.Instance.playerPrefab = characterPrefabs[playerIndex];
+            Debug.Log("Saved player prefab: " + SelectionData.Instance.playerPrefab.name);
         }
+
+        SceneManager.LoadScene(gameSceneName);
     }
 
-    // Optional: call once on Start to show initial characters
     void Start()
     {
         ApplyPlayer(false);
