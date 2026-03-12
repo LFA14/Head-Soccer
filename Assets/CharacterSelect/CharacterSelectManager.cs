@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CharacterSelectManager : MonoBehaviour
 {
-    [Header("Character prefabs (used later for spawning)")]
+    [Header("Character prefabs")]
     public GameObject[] characterPrefabs;
 
     [Header("Portrait UI Images")]
@@ -26,53 +26,86 @@ public class CharacterSelectManager : MonoBehaviour
     [Header("Scene")]
     public string gameSceneName = "GameScene";
 
-    public void PlayerUp() { playerIndex = Prev(playerIndex); ApplyPlayer(true); }
-    public void PlayerDown() { playerIndex = Next(playerIndex); ApplyPlayer(true); }
+    void Start()
+    {
+        ApplyPlayer(false);
+        ApplyCom(false);
+    }
 
-    public void ComUp() { comIndex = Prev(comIndex); ApplyCom(true); }
-    public void ComDown() { comIndex = Next(comIndex); ApplyCom(true); }
+    public void PlayerUp()
+    {
+        playerIndex = Prev(playerIndex);
+        ApplyPlayer(true);
+    }
+
+    public void PlayerDown()
+    {
+        playerIndex = Next(playerIndex);
+        ApplyPlayer(true);
+    }
+
+    public void ComUp()
+    {
+        comIndex = Prev(comIndex);
+        ApplyCom(true);
+    }
+
+    public void ComDown()
+    {
+        comIndex = Next(comIndex);
+        ApplyCom(true);
+    }
 
     int Next(int i)
     {
-        if (portraitSprites.Length == 0) return 0;
+        if (portraitSprites == null || portraitSprites.Length == 0)
+            return 0;
+
         return (i + 1) % portraitSprites.Length;
     }
 
     int Prev(int i)
     {
-        if (portraitSprites.Length == 0) return 0;
+        if (portraitSprites == null || portraitSprites.Length == 0)
+            return 0;
+
         return (i - 1 + portraitSprites.Length) % portraitSprites.Length;
     }
 
     void ApplyPlayer(bool animate)
     {
-        if (playerPortrait == null || portraitSprites.Length == 0) return;
+        if (playerPortrait == null || portraitSprites == null || portraitSprites.Length == 0)
+            return;
 
         playerPortrait.sprite = portraitSprites[playerIndex];
 
-        var c = playerPortrait.color;
+        Color c = playerPortrait.color;
         c.a = 1f;
         playerPortrait.color = c;
 
-        if (animate) StartCoroutine(Pop(playerPortrait.rectTransform));
+        if (animate)
+            StartCoroutine(Pop(playerPortrait.rectTransform));
     }
 
     void ApplyCom(bool animate)
     {
-        if (comPortrait == null || portraitSprites.Length == 0) return;
+        if (comPortrait == null || portraitSprites == null || portraitSprites.Length == 0)
+            return;
 
         comPortrait.sprite = portraitSprites[comIndex];
 
-        var c = comPortrait.color;
+        Color c = comPortrait.color;
         c.a = 1f;
         comPortrait.color = c;
 
-        if (animate) StartCoroutine(Pop(comPortrait.rectTransform));
+        if (animate)
+            StartCoroutine(Pop(comPortrait.rectTransform));
     }
 
     IEnumerator Pop(RectTransform t)
     {
-        if (t == null) yield break;
+        if (t == null)
+            yield break;
 
         Vector3 start = Vector3.one;
         Vector3 peak = Vector3.one * popScale;
@@ -89,6 +122,7 @@ public class CharacterSelectManager : MonoBehaviour
         }
 
         time = 0f;
+
         while (time < half)
         {
             time += Time.unscaledDeltaTime;
@@ -108,18 +142,30 @@ public class CharacterSelectManager : MonoBehaviour
             return;
         }
 
-        if (characterPrefabs != null && characterPrefabs.Length > 0)
+        if (characterPrefabs == null || characterPrefabs.Length == 0)
         {
-            SelectionData.Instance.playerPrefab = characterPrefabs[playerIndex];
-            Debug.Log("Saved player prefab: " + SelectionData.Instance.playerPrefab.name);
+            Debug.LogError("Character prefabs array is empty!");
+            return;
         }
 
-        SceneManager.LoadScene(gameSceneName);
-    }
+        if (playerIndex < 0 || playerIndex >= characterPrefabs.Length)
+        {
+            Debug.LogError("Player index is out of range!");
+            return;
+        }
 
-    void Start()
-    {
-        ApplyPlayer(false);
-        ApplyCom(false);
+        if (comIndex < 0 || comIndex >= characterPrefabs.Length)
+        {
+            Debug.LogError("COM index is out of range!");
+            return;
+        }
+
+        SelectionData.Instance.playerPrefab = characterPrefabs[playerIndex];
+        SelectionData.Instance.comPrefab = characterPrefabs[comIndex];
+
+        Debug.Log("Saved player prefab: " + SelectionData.Instance.playerPrefab.name);
+        Debug.Log("Saved com prefab: " + SelectionData.Instance.comPrefab.name);
+
+        SceneManager.LoadScene(gameSceneName);
     }
 }

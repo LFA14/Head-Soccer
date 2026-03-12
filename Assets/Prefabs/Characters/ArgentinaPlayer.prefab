@@ -34,8 +34,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2922998672201443730, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: m_Name
-      value: Character Variant
+      value: ArgentinaPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 4137872036214206903, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+      propertyPath: playerRb
+      value: 
+      objectReference: {fileID: 1330335343021424140}
     - target: {fileID: 4675672030960015929, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.82305
@@ -88,6 +92,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+      propertyPath: m_LinearDamping
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7899179588855317257, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: m_Size.x
       value: 15.02
@@ -103,5 +119,46 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2922998672201443730, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8185280161668791415}
   m_SourcePrefab: {fileID: 100100000, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+--- !u!50 &1330335343021424140 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+  m_PrefabInstance: {fileID: 8609625151453305840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6911648545756279394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2922998672201443730, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+  m_PrefabInstance: {fileID: 8609625151453305840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8185280161668791415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6911648545756279394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42262c51e6a7d3344a2df0c3b7a52f5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleAI
+  rb: {fileID: 1330335343021424140}
+  moveSpeed: 4
+  jumpForce: 10
+  kickDistance: 1.5
+  kickController: {fileID: 0}
+  groundCheck: {fileID: 8550542557626681095}
+  groundCheckRadius: 0.3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  jumpCooldown: 1
+--- !u!4 &8550542557626681095 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 131212775230168311, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+  m_PrefabInstance: {fileID: 8609625151453305840}
+  m_PrefabAsset: {fileID: 0}

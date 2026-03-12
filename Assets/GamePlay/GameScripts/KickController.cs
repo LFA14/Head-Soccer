@@ -8,50 +8,65 @@ public class KickController : MonoBehaviour
     public float kickAngle = -60f;
     public float kickSpeed = 900f;
     public float returnSpeed = 1200f;
-    public float walkSwingAngle = 18f;
-    public float walkSwingSpeed = 12f;
-    public float walkSpeedForMaxSwing = 7f;
 
-    bool isKicking;
+    public float moveAngle = 20f;
+    public float minMoveSpeed = 0.1f;
+
+    public bool isPlayer = true;
+
+    private bool isKicking;
 
     void Update()
     {
-        // K = kick
-        if (Input.GetKeyDown(KeyCode.K))
+        // PLAYER INPUT
+        if (isPlayer && Input.GetKeyDown(KeyCode.K))
+        {
             isKicking = true;
+        }
 
         float targetAngle = 0f;
+
         if (isKicking)
         {
             targetAngle = kickAngle;
         }
         else
         {
-            float moveSpeed = 0f;
+            float speedX = 0f;
+
             if (playerRb != null)
-                moveSpeed = Mathf.Abs(playerRb.linearVelocity.x);
+                speedX = playerRb.linearVelocity.x;
 
-            float swingT = walkSpeedForMaxSwing > 0f
-                ? Mathf.Clamp01(moveSpeed / walkSpeedForMaxSwing)
-                : 0f;
-
-            if (swingT > 0f)
-                targetAngle = Mathf.Sin(Time.time * walkSwingSpeed) * walkSwingAngle * swingT;
+            if (speedX > minMoveSpeed)
+                targetAngle = moveAngle;
+            else if (speedX < -minMoveSpeed)
+                targetAngle = -moveAngle;
         }
 
+        if (legPivot == null) return;
+
         float currentAngle = legPivot.localEulerAngles.z;
-        if (currentAngle > 180f) currentAngle -= 360f;
+
+        if (currentAngle > 180f)
+            currentAngle -= 360f;
 
         float speed = isKicking ? kickSpeed : returnSpeed;
+
         float newAngle = Mathf.MoveTowards(
             currentAngle,
             targetAngle,
             speed * Time.deltaTime
         );
 
-        legPivot.localRotation = Quaternion.Euler(0, 0, newAngle);
+        legPivot.localRotation = Quaternion.Euler(0f, 0f, newAngle);
 
         if (isKicking && Mathf.Abs(newAngle - kickAngle) < 1f)
             isKicking = false;
+    }
+
+    // ⭐ AI can call this
+    public void TriggerKick()
+    {
+        isKicking = true;
     }
 }
