@@ -94,15 +94,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: m_Mass
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
-      propertyPath: m_GravityScale
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+      propertyPath: m_GravityScale
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: m_LinearDamping
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7899179588855317257, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: m_Size.x
@@ -116,13 +116,15 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2922998672201443730, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8185280161668791415}
+      addedObject: {fileID: 2962371065183961394}
   m_SourcePrefab: {fileID: 100100000, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
 --- !u!50 &1330335343021424140 stripped
 Rigidbody2D:
@@ -134,7 +136,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2922998672201443730, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
   m_PrefabInstance: {fileID: 8609625151453305840}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8185280161668791415
+--- !u!114 &2962371065183961394
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,20 +145,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 6911648545756279394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42262c51e6a7d3344a2df0c3b7a52f5b, type: 3}
+  m_Script: {fileID: 11500000, guid: b41e084c291d3f944b30a8823d1c8c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleAI
+  isAI: 0
   rb: {fileID: 1330335343021424140}
-  moveSpeed: 4
-  jumpForce: 10
-  kickDistance: 1.5
-  kickController: {fileID: 0}
   groundCheck: {fileID: 8550542557626681095}
   groundCheckRadius: 0.3
   groundLayer:
     serializedVersion: 2
-    m_Bits: 256
-  jumpCooldown: 1
+    m_Bits: 0
+  moveForce: 14
+  maxMoveSpeed: 6
+  stopDistance: 0.35
+  airControlMultiplier: 0.55
+  jumpVelocity: 14
+  jumpCooldown: 0.7
+  minBallHeightToJump: 0.75
+  jumpRangeX: 2.8
+  kickDistance: 1.6
+  kickCooldown: 0.45
+  behindBallOffset: 0.8
+  defendRange: 7
+  attackCommitDistance: 5
+  predictionTime: 0.35
+  homeX: -6
 --- !u!4 &8550542557626681095 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 131212775230168311, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}

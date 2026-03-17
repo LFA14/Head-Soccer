@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 4.5f;
-    public float jumpForce = 20f;
+    public float moveSpeed = 7f;
+    public float jumpForce = 12f;
 
     public Transform groundCheck;
-    public float groundCheckRadius = 0.25f;
+    public float groundCheckRadius = 0.3f;
     public LayerMask groundLayer;
 
     public bool isPlayer = true;
@@ -16,18 +16,20 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        if (rb == null)
+            rb = GetComponentInParent<Rigidbody2D>();
     }
 
     void Update()
     {
-        if (!isPlayer)
-        {
-            return;
-        }
+        if (!isPlayer) return;
+        if (rb == null) return;
 
         float moveInput = Input.GetAxisRaw("Horizontal");
 
         bool isGrounded = false;
+
         if (groundCheck != null)
         {
             isGrounded = Physics2D.OverlapCircle(
@@ -42,7 +44,15 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
-        float targetX = moveInput * moveSpeed;
-        rb.linearVelocity = new Vector2(targetX, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
     }
 }

@@ -18,7 +18,6 @@ public class KickController : MonoBehaviour
 
     void Update()
     {
-        // PLAYER INPUT
         if (isPlayer && Input.GetKeyDown(KeyCode.K))
         {
             isKicking = true;
@@ -64,7 +63,6 @@ public class KickController : MonoBehaviour
             isKicking = false;
     }
 
-    // ⭐ AI can call this
     public void TriggerKick()
     {
         isKicking = true;

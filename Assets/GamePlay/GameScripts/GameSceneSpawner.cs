@@ -21,59 +21,65 @@ public class GameSceneSpawner : MonoBehaviour
 
         if (SelectionData.Instance.comPrefab == null)
         {
-            Debug.LogError("Selected AI prefab is null.");
+            Debug.LogError("Selected com prefab is null.");
             return;
         }
 
-        Vector3 playerPos = playerSpawnPoint.position + new Vector3(0, 1f, 0);
-        Vector3 aiPos = aiSpawnPoint.position + new Vector3(0, 1f, 0);
-
         GameObject player = Instantiate(
             SelectionData.Instance.playerPrefab,
-            playerPos,
+            playerSpawnPoint.position + new Vector3(0f, 1f, 0f),
             Quaternion.identity
         );
 
         GameObject ai = Instantiate(
             SelectionData.Instance.comPrefab,
-            aiPos,
+            aiSpawnPoint.position + new Vector3(0f, 1f, 0f),
             Quaternion.identity
         );
 
-        Vector3 pScale = player.transform.localScale;
-        pScale.x = Mathf.Abs(pScale.x);
-        player.transform.localScale = pScale;
+        Vector3 playerScale = player.transform.localScale;
+        playerScale.x = Mathf.Abs(playerScale.x);
+        player.transform.localScale = playerScale;
 
-        Vector3 aScale = ai.transform.localScale;
-        aScale.x = -Mathf.Abs(aScale.x);
-        ai.transform.localScale = aScale;
+        Vector3 aiScale = ai.transform.localScale;
+        aiScale.x = -Mathf.Abs(aiScale.x);
+        ai.transform.localScale = aiScale;
 
-        PlayerMovement pMove = player.GetComponentInChildren<PlayerMovement>();
-        if (pMove != null)
+        PlayerMovement playerMove = player.GetComponentInChildren<PlayerMovement>();
+        if (playerMove != null)
         {
-            pMove.isPlayer = true;
-            pMove.enabled = true;
+            playerMove.isPlayer = true;
         }
 
-        PlayerMovement aMove = ai.GetComponentInChildren<PlayerMovement>();
-        if (aMove != null)
+        SimpleAI playerAI = player.GetComponentInChildren<SimpleAI>();
+        if (playerAI != null)
         {
-            aMove.isPlayer = false;
-            aMove.enabled = false;
+            playerAI.isAI = false;
         }
 
-        KickController pKick = player.GetComponentInChildren<KickController>();
-        if (pKick != null)
+        KickController playerKick = player.GetComponentInChildren<KickController>();
+        if (playerKick != null)
         {
-            pKick.isPlayer = true;
-            pKick.enabled = true;
+            playerKick.isPlayer = true;
         }
 
-        KickController aKick = ai.GetComponentInChildren<KickController>();
-        if (aKick != null)
+        PlayerMovement aiMove = ai.GetComponentInChildren<PlayerMovement>();
+        if (aiMove != null)
         {
-            aKick.isPlayer = false;
-            aKick.enabled = true;
+            aiMove.isPlayer = false;
+        }
+
+        SimpleAI aiBrain = ai.GetComponentInChildren<SimpleAI>();
+        if (aiBrain != null)
+        {
+            aiBrain.isAI = true;
+            aiBrain.homeX = aiSpawnPoint.position.x;
+        }
+
+        KickController aiKick = ai.GetComponentInChildren<KickController>();
+        if (aiKick != null)
+        {
+            aiKick.isPlayer = false;
         }
     }
 }
