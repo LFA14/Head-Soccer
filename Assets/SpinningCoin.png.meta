@@ -1,0 +1,359 @@
+fileFormatVersion: 2
+guid: aaed4089d7bb1f14dae35b44d7a87d84
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1048814748171222420
+    second: SpinningCoin_0
+  - first:
+      213: 7325430459495320438
+    second: SpinningCoin_1
+  - first:
+      213: 1819599955693060216
+    second: SpinningCoin_2
+  - first:
+      213: -5133568426770567129
+    second: SpinningCoin_3
+  - first:
+      213: -5905566641372893663
+    second: SpinningCoin_4
+  - first:
+      213: 4089550912867208077
+    second: SpinningCoin_5
+  - first:
+      213: 5602212123600219370
+    second: SpinningCoin_6
+  - first:
+      213: -568983262120685362
+    second: SpinningCoin_7
+  - first:
+      213: -6739681227086832249
+    second: SpinningCoin_8
+  - first:
+      213: -1763162266794094758
+    second: SpinningCoin_9
+  - first:
+      213: 621926367208197201
+    second: SpinningCoin_10
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SpinningCoin_0
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 399
+        width: 223
+        height: 246
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c62401c1b8cd171f0800000000000000
+      internalID: -1048814748171222420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpinningCoin_1
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 399
+        width: 239
+        height: 249
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67b8b0de03829a560800000000000000
+      internalID: 7325430459495320438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpinningCoin_6
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 412
+        width: 221
+        height: 236
+      alignment: 9
+      pivot: {x: 23.93737, y: 3.6960144}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 870c660e484804910800000000000000
+      internalID: 1819599955693060216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpinningCoin_
+      rect:
+        serializedVersion: 2
+        x: 499
+        y: 399
+        width: 155
+        height: 246
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 720fd24f6b6e1c8b0800000000000000
+      internalID: -5133568426770567129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpinningCoin_4
+      rect:
+        serializedVersion: 2
+        x: 928
+        y: 408
+        width: 157
+        height: 237
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12e629fbd663b0ea0800000000000000
+      internalID: -5905566641372893663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpinningCoin_3
+      rect:
+        serializedVersion: 2
+        x: 730
+        y: 403
+        width: 68
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8b035c43e001c830800000000000000
+      internalID: 4089550912867208077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpinningCoin_5
+      rect:
+        serializedVersion: 2
+        x: 1126
+        y: 408
+        width: 182
+        height: 243
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aece39f9e3e0fbd40800000000000000
+      internalID: 5602212123600219370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpinningCoin_9
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 399
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5f8d5e824df787e0800000000000000
+      internalID: -1763162266794094758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpinningCoin_10
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 320
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15cc4e16cb681a800800000000000000
+      internalID: 621926367208197201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: f2f62564c1de4cb45b16a1d2bbdf49e6
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SpinningCoin_: -5133568426770567129
+      SpinningCoin_0: -1048814748171222420
+      SpinningCoin_1: 7325430459495320438
+      SpinningCoin_10: 621926367208197201
+      SpinningCoin_3: 4089550912867208077
+      SpinningCoin_4: -5905566641372893663
+      SpinningCoin_5: 5602212123600219370
+      SpinningCoin_6: 1819599955693060216
+      SpinningCoin_7: -568983262120685362
+      SpinningCoin_8: -6739681227086832249
+      SpinningCoin_9: -1763162266794094758
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
