@@ -4,43 +4,76 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
 
+    [Header("Starting Values")]
+    public int startingCoins = 100;
+
+    [Header("Testing")]
+    public bool resetCoinsOnPlay = false;
+    public bool resetAllSavesOnPlay = false;
+
     public int Coins { get; private set; }
 
     private const string CoinsKey = "Coins";
 
-   void Awake()
-{
-    if (Instance == null)
+    private void Awake()
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
-        if (!PlayerPrefs.HasKey(CoinsKey))
+        if (Instance == null)
         {
-            Coins = 100; // starting coins
-            PlayerPrefs.SetInt(CoinsKey, Coins);
-            PlayerPrefs.Save();
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            if (resetAllSavesOnPlay)
+            {
+                PlayerPrefs.DeleteAll();
+                PlayerPrefs.Save();
+            }
+            else if (resetCoinsOnPlay)
+            {
+                PlayerPrefs.DeleteKey(CoinsKey);
+                PlayerPrefs.Save();
+            }
+
+            if (!PlayerPrefs.HasKey(CoinsKey))
+            {
+                Coins = startingCoins;
+                PlayerPrefs.SetInt(CoinsKey, Coins);
+                PlayerPrefs.Save();
+            }
+            else
+            {
+                Coins = PlayerPrefs.GetInt(CoinsKey);
+            }
         }
         else
         {
-            Coins = PlayerPrefs.GetInt(CoinsKey);
+            Destroy(gameObject);
         }
     }
-    else
-    {
-        Destroy(gameObject);
-    }
-}
+
     public void AddCoins(int amount)
     {
         Coins += amount;
-        PlayerPrefs.SetInt(CoinsKey, Coins);
-        PlayerPrefs.Save();
+
+        if (Coins < 0)
+            Coins = 0;
+
+        SaveCoins();
     }
 
     public void SetCoins(int amount)
     {
-        Coins = amount;
+        Coins = Mathf.Max(0, amount);
+        SaveCoins();
+    }
+
+    public void ResetCoins()
+    {
+        Coins = startingCoins;
+        SaveCoins();
+    }
+
+    private void SaveCoins()
+    {
         PlayerPrefs.SetInt(CoinsKey, Coins);
         PlayerPrefs.Save();
     }
