@@ -6,6 +6,10 @@ public class MatchTimer : MonoBehaviour
     public TextMeshProUGUI timerText;
     public float matchTime = 90f;
 
+    [Header("Game Over")]
+    public GameObject gameOverImage;     // 👈 UI image
+    public GameObject[] objectsToStop;   // 👈 ball + players
+
     private bool isRunning = true;
 
     void Start()
@@ -39,9 +43,15 @@ public class MatchTimer : MonoBehaviour
         isRunning = false;
         timerText.text = "0";
 
-        // Later you can add:
-        // Time.timeScale = 0;
-        // Show win screen
-        // Disable controls
+        // ✅ Stop gameplay
+        foreach (GameObject obj in objectsToStop)
+        {
+            if (obj != null)
+                obj.SetActive(false);
+        }
+
+        // ✅ Show Game Over
+        if (gameOverImage != null)
+            gameOverImage.SetActive(true);
     }
 }
