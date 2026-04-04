@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CountdownManager : MonoBehaviour
 {
@@ -21,6 +22,17 @@ public class CountdownManager : MonoBehaviour
     [Header("Match Timer")]
     public float matchTime = 10f;
     public TextMeshProUGUI timerText;
+
+    [Header("Game Over")]
+    public GameObject gameOverImage;
+    public GameObject endGameButton;
+    public string sceneToLoad = "MenuScene";
+
+    [Header("Power Bars")]
+    public GameObject powerBar1;
+    public GameObject powerBar2;
+    public GameObject powerBar3;
+    public GameObject powerBar4;
 
     [Header("Objects")]
     public GameObject ball;
@@ -62,6 +74,12 @@ public class CountdownManager : MonoBehaviour
         UpdateScoreUI();
         UpdateTimerUI();
 
+        if (gameOverImage != null)
+            gameOverImage.SetActive(false);
+
+        if (endGameButton != null)
+            endGameButton.SetActive(false);
+
         FindPlayers();
         CachePlayerReferences();
         StartCoroutine(Countdown());
@@ -81,9 +99,7 @@ public class CountdownManager : MonoBehaviour
 
         if (currentTime <= 0f)
         {
-            matchEnded = true;
-            matchTimerRunning = false;
-            SetGameplay(false);
+            EndMatch();
         }
     }
 
@@ -347,4 +363,48 @@ public class CountdownManager : MonoBehaviour
             }
         }
     }
+
+    void EndMatch()
+    {
+        matchEnded = true;
+        matchTimerRunning = false;
+
+        SetGameplay(false);
+
+        if (timerText != null)
+            timerText.text = "0";
+
+        if (leftPlayerRoot != null)
+            leftPlayerRoot.gameObject.SetActive(false);
+
+        if (rightPlayerRoot != null)
+            rightPlayerRoot.gameObject.SetActive(false);
+
+        if (ball != null)
+            ball.SetActive(false);
+
+        if (powerBar1 != null)
+            powerBar1.SetActive(false);
+
+        if (powerBar2 != null)
+            powerBar2.SetActive(false);
+
+        if (powerBar3 != null)
+            powerBar3.SetActive(false);
+
+        if (powerBar4 != null)
+            powerBar4.SetActive(false);
+
+        if (gameOverImage != null)
+            gameOverImage.SetActive(true);
+
+        if (endGameButton != null)
+            endGameButton.SetActive(true);
+    }
+
+   public void LoadNextScene()
+{
+    Debug.Log("BUTTON CLICKED");
+    SceneManager.LoadScene(1);
+}
 }
