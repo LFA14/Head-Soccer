@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   moveSpeed: 7
-  jumpForce: 5
+  jumpForce: 10
   groundCheck: {fileID: 131212775230168311}
   groundCheckRadius: 0.15
   groundLayer:
@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 4675672030960015929}
   - component: {fileID: 6321708518642681595}
   - component: {fileID: 4137872036214206903}
+  - component: {fileID: 1588066307927273337}
   m_Layer: 0
   m_Name: BrazilPlayer
   m_TagString: Untagged
@@ -382,7 +383,47 @@ MonoBehaviour:
   returnSpeed: 1200
   moveAngle: -20
   minMoveSpeed: 0.1
-  isPlayer: 1
+  isPlayer: 0
+--- !u!114 &1588066307927273337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922998672201443730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b41e084c291d3f944b30a8823d1c8c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleAI
+  isAI: 1
+  rb: {fileID: 7281692259065849340}
+  groundCheck: {fileID: 131212775230168311}
+  bodyCenter: {fileID: 3257246650521567434}
+  groundCheckRadius: 0.3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  moveSpeed: 8
+  airMoveSpeed: 5.5
+  stopDistance: 0.35
+  slowDownDistance: 1.2
+  jumpVelocity: 14
+  jumpCooldown: 0.7
+  minBallHeightToJump: 0.75
+  jumpRangeX: 2.8
+  emergencyJumpRangeX: 1.4
+  kickDistance: 1.6
+  kickCooldown: 0.45
+  kickHeightTolerance: 1.4
+  kickBurstSpeed: 8
+  attackRightGoal: 1
+  behindBallOffset: 0.8
+  closeControlOffset: 0.35
+  defendRange: 7
+  attackCommitDistance: 5
+  predictionTime: 0.35
+  homeX: -6
 --- !u!1 &4404854117173832516
 GameObject:
   m_ObjectHideFlags: 0

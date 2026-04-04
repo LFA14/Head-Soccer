@@ -917,12 +917,12 @@ MonoBehaviour:
   player2Score: 0
   player1ScoreText: {fileID: 650728717}
   player2ScoreText: {fileID: 429205234}
+  matchTime: 10
+  timerText: {fileID: 1774477543}
   ball: {fileID: 1203901924}
-  player1: {fileID: 5567287346109320293}
-  player2: {fileID: 5567287346109320293}
   ballSpawnPoint: {fileID: 481089028}
-  player1SpawnPoint: {fileID: 1477370469}
-  player2SpawnPoint: {fileID: 957148111}
+  leftPlayerSpawnPoint: {fileID: 957148111}
+  rightPlayerSpawnPoint: {fileID: 1477370469}
 --- !u!4 &479199177
 Transform:
   m_ObjectHideFlags: 0
@@ -2959,6 +2959,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameSceneSpawner
   playerSpawnPoint: {fileID: 490395694}
   aiSpawnPoint: {fileID: 1534345876}
+  tournamentCharacterPrefabs:
+  - {fileID: 2922998672201443730, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+  - {fileID: 6911648545756279394, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
+  - {fileID: 2219135143139106925, guid: 64f58a5ee77553a469e42429afd00295, type: 3}
+  - {fileID: 2158106328202159356, guid: f14496351d6ea544b867dbcea81af280, type: 3}
 --- !u!4 &1369826669
 Transform:
   m_ObjectHideFlags: 0
@@ -4264,11 +4269,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f14496351d6ea544b867dbcea81af280, type: 3}
---- !u!1 &5567287346109320293 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2158106328202159356, guid: f14496351d6ea544b867dbcea81af280, type: 3}
-  m_PrefabInstance: {fileID: 5567287346109320292}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

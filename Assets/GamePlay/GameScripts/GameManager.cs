@@ -18,39 +18,91 @@ public class CountdownManager : MonoBehaviour
     public TextMeshProUGUI player1ScoreText;
     public TextMeshProUGUI player2ScoreText;
 
-    [Header("Objects to Reset")]
+    [Header("Match Timer")]
+    public float matchTime = 10f;
+    public TextMeshProUGUI timerText;
+
+    [Header("Objects")]
     public GameObject ball;
-    public GameObject player1;
-    public GameObject player2;
 
     [Header("Spawn Points")]
     public Transform ballSpawnPoint;
-    public Transform player1SpawnPoint;
-    public Transform player2SpawnPoint;
+    public Transform leftPlayerSpawnPoint;
+    public Transform rightPlayerSpawnPoint;
+
+    private Transform leftPlayerHead;
+    private Transform rightPlayerHead;
+
+    private Transform leftPlayerRoot;
+    private Transform rightPlayerRoot;
+
+    private Rigidbody2D ballRb;
+    private Rigidbody2D leftPlayerRb;
+    private Rigidbody2D rightPlayerRb;
+
+    private PlayerMovement leftPlayerMovement;
+    private PlayerMovement rightPlayerMovement;
+
+    private KickController leftKick;
+    private KickController rightKick;
+
+    private SimpleAI leftAI;
+    private SimpleAI rightAI;
 
     private bool goalScored = false;
+    private bool gameplayEnabled = false;
+    private bool matchTimerRunning = false;
+    private bool matchEnded = false;
+
+    private float currentTime;
 
     void Start()
     {
+        currentTime = matchTime;
         UpdateScoreUI();
+        UpdateTimerUI();
+
+        FindPlayers();
+        CachePlayerReferences();
         StartCoroutine(Countdown());
     }
 
-   public void PlayerScored(int playerNumber)
-{
-    Debug.Log("Point awarded to player: " + playerNumber);
+    void Update()
+    {
+        if (!matchTimerRunning || matchEnded)
+            return;
 
-    if (goalScored) return;
-    goalScored = true;
+        currentTime -= Time.deltaTime;
 
-    if (playerNumber == 1)
-        player1Score++;
-    else
-        player2Score++;
+        if (currentTime < 0f)
+            currentTime = 0f;
 
-    UpdateScoreUI();
-    StartCoroutine(ResetAfterGoal());
-}
+        UpdateTimerUI();
+
+        if (currentTime <= 0f)
+        {
+            matchEnded = true;
+            matchTimerRunning = false;
+            SetGameplay(false);
+        }
+    }
+
+    public void PlayerScored(int playerNumber)
+    {
+        if (goalScored || matchEnded)
+            return;
+
+        goalScored = true;
+
+        if (playerNumber == 1)
+            player1Score++;
+        else
+            player2Score++;
+
+        UpdateScoreUI();
+        StartCoroutine(ResetAfterGoal());
+    }
+
     void UpdateScoreUI()
     {
         if (player1ScoreText != null)
@@ -60,12 +112,21 @@ public class CountdownManager : MonoBehaviour
             player2ScoreText.text = player2Score.ToString();
     }
 
+    void UpdateTimerUI()
+    {
+        if (timerText != null)
+            timerText.text = Mathf.CeilToInt(currentTime).ToString();
+    }
+
     IEnumerator ResetAfterGoal()
     {
         SetGameplay(false);
+        matchTimerRunning = false;
 
         yield return new WaitForSeconds(1f);
 
+        FindPlayers();
+        CachePlayerReferences();
         ResetObjects();
 
         yield return StartCoroutine(Countdown());
@@ -73,57 +134,142 @@ public class CountdownManager : MonoBehaviour
         goalScored = false;
     }
 
+    void FindPlayers()
+    {
+        Rigidbody2D[] allBodies = FindObjectsOfType<Rigidbody2D>();
+
+        Transform foundLeftHead = null;
+        Transform foundRightHead = null;
+
+        float mostLeftX = float.MaxValue;
+        float mostRightX = float.MinValue;
+
+        foreach (Rigidbody2D rb in allBodies)
+        {
+            if (rb == null)
+                continue;
+
+            if (ball != null && rb.gameObject == ball)
+                continue;
+
+            if (rb.transform.name != "Head")
+                continue;
+
+            float x = rb.transform.position.x;
+
+            if (x < mostLeftX)
+            {
+                mostLeftX = x;
+                foundLeftHead = rb.transform;
+            }
+
+            if (x > mostRightX)
+            {
+                mostRightX = x;
+                foundRightHead = rb.transform;
+            }
+        }
+
+        leftPlayerHead = foundLeftHead;
+        rightPlayerHead = foundRightHead;
+
+        leftPlayerRoot = leftPlayerHead != null ? leftPlayerHead.root : null;
+        rightPlayerRoot = rightPlayerHead != null ? rightPlayerHead.root : null;
+    }
+
+    void CachePlayerReferences()
+    {
+        ballRb = ball != null ? ball.GetComponent<Rigidbody2D>() : null;
+
+        leftPlayerRb = leftPlayerHead != null ? leftPlayerHead.GetComponent<Rigidbody2D>() : null;
+        rightPlayerRb = rightPlayerHead != null ? rightPlayerHead.GetComponent<Rigidbody2D>() : null;
+
+        leftPlayerMovement = leftPlayerHead != null ? leftPlayerHead.GetComponentInParent<PlayerMovement>() : null;
+        rightPlayerMovement = rightPlayerHead != null ? rightPlayerHead.GetComponentInParent<PlayerMovement>() : null;
+
+        leftKick = leftPlayerHead != null ? leftPlayerHead.GetComponentInParent<KickController>() : null;
+        rightKick = rightPlayerHead != null ? rightPlayerHead.GetComponentInParent<KickController>() : null;
+
+        leftAI = leftPlayerHead != null ? leftPlayerHead.GetComponentInParent<SimpleAI>() : null;
+        rightAI = rightPlayerHead != null ? rightPlayerHead.GetComponentInParent<SimpleAI>() : null;
+    }
+
     void ResetObjects()
     {
         if (ball != null && ballSpawnPoint != null)
+        {
             ball.transform.position = ballSpawnPoint.position;
-
-        if (player1 != null && player1SpawnPoint != null)
-            player1.transform.position = player1SpawnPoint.position;
-
-        if (player2 != null && player2SpawnPoint != null)
-            player2.transform.position = player2SpawnPoint.position;
-
-        Rigidbody2D ballRb = ball != null ? ball.GetComponent<Rigidbody2D>() : null;
-        Rigidbody2D p1Rb = player1 != null ? player1.GetComponent<Rigidbody2D>() : null;
-        Rigidbody2D p2Rb = player2 != null ? player2.GetComponent<Rigidbody2D>() : null;
-
-        if (ballRb != null)
-        {
-            ballRb.linearVelocity = Vector2.zero;
-            ballRb.angularVelocity = 0f;
+            ball.transform.rotation = ballSpawnPoint.rotation;
         }
 
-        if (p1Rb != null)
+        ResetPlayer(leftPlayerRoot, leftPlayerHead, leftPlayerRb, leftPlayerSpawnPoint);
+        ResetPlayer(rightPlayerRoot, rightPlayerHead, rightPlayerRb, rightPlayerSpawnPoint);
+
+        StopRigidBody(ballRb);
+    }
+
+    void ResetPlayer(Transform playerRoot, Transform playerHead, Rigidbody2D playerRb, Transform spawnPoint)
+    {
+        if (spawnPoint == null)
+            return;
+
+        if (playerRb != null)
         {
-            p1Rb.linearVelocity = Vector2.zero;
-            p1Rb.angularVelocity = 0f;
+            playerRb.linearVelocity = Vector2.zero;
+            playerRb.angularVelocity = 0f;
         }
 
-        if (p2Rb != null)
+        if (playerRoot != null)
         {
-            p2Rb.linearVelocity = Vector2.zero;
-            p2Rb.angularVelocity = 0f;
+            playerRoot.position = spawnPoint.position;
+            playerRoot.rotation = spawnPoint.rotation;
         }
+
+        if (playerHead != null)
+        {
+            playerHead.position = spawnPoint.position;
+            playerHead.rotation = spawnPoint.rotation;
+        }
+    }
+
+    void StopRigidBody(Rigidbody2D rb)
+    {
+        if (rb == null)
+            return;
+
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
     }
 
     IEnumerator Countdown()
     {
         SetGameplay(false);
 
-        countdownImage.gameObject.SetActive(true);
+        if (countdownImage != null)
+            countdownImage.gameObject.SetActive(true);
 
         yield return ShowNumber(threeSprite);
         yield return ShowNumber(twoSprite);
         yield return ShowNumber(oneSprite);
 
-        countdownImage.gameObject.SetActive(false);
+        if (countdownImage != null)
+            countdownImage.gameObject.SetActive(false);
+
+        StopRigidBody(ballRb);
+        StopRigidBody(leftPlayerRb);
+        StopRigidBody(rightPlayerRb);
 
         SetGameplay(true);
+
+        if (!matchEnded)
+            matchTimerRunning = true;
     }
 
     IEnumerator ShowNumber(Sprite sprite)
     {
+        if (countdownImage == null)
+            yield break;
+
         countdownImage.sprite = sprite;
         yield return null;
         yield return StartCoroutine(PopEffect());
@@ -132,8 +278,11 @@ public class CountdownManager : MonoBehaviour
 
     IEnumerator PopEffect()
     {
+        if (countdownImage == null)
+            yield break;
+
         float duration = 0.25f;
-        float t = 0;
+        float t = 0f;
 
         Vector3 start = Vector3.zero;
         Vector3 peak = Vector3.one * 1.3f;
@@ -148,7 +297,7 @@ public class CountdownManager : MonoBehaviour
             yield return null;
         }
 
-        t = 0;
+        t = 0f;
 
         while (t < duration)
         {
@@ -162,12 +311,40 @@ public class CountdownManager : MonoBehaviour
 
     void SetGameplay(bool state)
     {
-        foreach (GameObject obj in objectsToDisableAtStart)
+        gameplayEnabled = state;
+
+        if (!state)
         {
-            if (obj != null)
-                obj.SetActive(state);
-            else
-                Debug.LogWarning("Missing object in disable list!");
+            StopRigidBody(ballRb);
+            StopRigidBody(leftPlayerRb);
+            StopRigidBody(rightPlayerRb);
+        }
+
+        if (leftPlayerMovement != null)
+            leftPlayerMovement.enabled = state;
+
+        if (rightPlayerMovement != null)
+            rightPlayerMovement.enabled = state;
+
+        if (leftKick != null)
+            leftKick.enabled = state;
+
+        if (rightKick != null)
+            rightKick.enabled = state;
+
+        if (leftAI != null)
+            leftAI.enabled = state;
+
+        if (rightAI != null)
+            rightAI.enabled = state;
+
+        if (objectsToDisableAtStart != null)
+        {
+            foreach (GameObject obj in objectsToDisableAtStart)
+            {
+                if (obj != null)
+                    obj.SetActive(state);
+            }
         }
     }
 }

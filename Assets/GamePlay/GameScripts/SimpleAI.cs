@@ -15,30 +15,35 @@ public class SimpleAI : MonoBehaviour
     private KickController kickController;
 
     [Header("Ground Check")]
-    public float groundCheckRadius = 0.3f;
+    public float groundCheckRadius = 0.25f;
     public LayerMask groundLayer;
 
     [Header("Movement")]
     public float moveSpeed = 8f;
     public float airMoveSpeed = 6f;
-    public float stopDistance = 0.2f;
+    public float stopDistance = 0.3f;
+    public float slowDownDistance = 1.2f;
 
     [Header("Jump")]
     public float jumpVelocity = 14f;
-    public float jumpCooldown = 0.45f;
-    public float minBallHeightToJump = 0.7f;
-    public float jumpRangeX = 2.8f;
+    public float jumpCooldown = 0.5f;
+    public float minBallHeightToJump = 0.8f;
+    public float jumpRangeX = 2.5f;
+    public float emergencyJumpRangeX = 1.2f;
 
     [Header("Kick")]
     public float kickDistance = 2f;
-    public float kickCooldown = 0.25f;
+    public float kickCooldown = 0.3f;
+    public float kickHeightTolerance = 1.5f;
+    public float kickBurstSpeed = 8f;
 
-    [Header("AI Soccer Logic")]
+    [Header("Soccer Logic")]
     public bool attackRightGoal = true;
-    public float behindBallOffset = 1.1f;
-    public float defendRange = 8f;
-    public float attackCommitDistance = 5f;
-    public float predictionTime = 0.25f;
+    public float behindBallOffset = 1f;
+    public float closeControlOffset = 0.35f;
+    public float defendRange = 7f;
+    public float attackCommitDistance = 4.5f;
+    public float predictionTime = 0.2f;
 
     [Header("Home Position")]
     public float homeX = -6f;
@@ -89,91 +94,120 @@ public class SimpleAI : MonoBehaviour
             return;
         }
 
-        bool isGrounded = false;
+        bool isGrounded = IsGrounded();
 
-        if (groundCheck != null)
-        {
-            isGrounded = Physics2D.OverlapCircle(
-                groundCheck.position,
-                groundCheckRadius,
-                groundLayer
-            );
-        }
+        Vector2 myPos = bodyCenter != null ? (Vector2)bodyCenter.position : (Vector2)transform.position;
+        Vector2 ballPos = ball.position;
+        Vector2 ballVel = ballRb != null ? ballRb.linearVelocity : Vector2.zero;
 
-        float myX = bodyCenter.position.x;
-        float myY = bodyCenter.position.y;
+        Vector2 predictedBall = ballPos + ballVel * predictionTime;
 
-        float predictedBallX = ball.position.x;
-        float predictedBallY = ball.position.y;
+        float myX = myPos.x;
+        float myY = myPos.y;
 
-        if (ballRb != null)
-        {
-            predictedBallX += ballRb.linearVelocity.x * predictionTime;
-            predictedBallY += ballRb.linearVelocity.y * predictionTime;
-        }
-
-        float distanceToBallX = Mathf.Abs(predictedBallX - myX);
-
-        bool ballIsFar = distanceToBallX > defendRange;
-        bool ballNearMe = distanceToBallX < attackCommitDistance;
+        float distanceToBallX = Mathf.Abs(predictedBall.x - myX);
 
         float targetX;
 
-        if (ballIsFar)
+        if (distanceToBallX > defendRange)
         {
             targetX = homeX;
         }
         else
         {
             if (attackRightGoal)
-                targetX = predictedBallX - behindBallOffset;
+                targetX = predictedBall.x - behindBallOffset;
             else
-                targetX = predictedBallX + behindBallOffset;
+                targetX = predictedBall.x + behindBallOffset;
 
-            if (ballNearMe)
+            if (distanceToBallX < attackCommitDistance)
             {
                 if (attackRightGoal)
-                    targetX = predictedBallX - 0.4f;
+                    targetX = predictedBall.x - closeControlOffset;
                 else
-                    targetX = predictedBallX + 0.4f;
+                    targetX = predictedBall.x + closeControlOffset;
             }
         }
 
-        float xToTarget = targetX - myX;
-        float targetSpeed = 0f;
-
-        if (Mathf.Abs(xToTarget) > stopDistance)
-        {
-            float dir = Mathf.Sign(xToTarget);
-            targetSpeed = dir * (isGrounded ? moveSpeed : airMoveSpeed);
-        }
-
-        rb.linearVelocity = new Vector2(targetSpeed, rb.linearVelocity.y);
+        MoveToTarget(targetX, isGrounded, myX);
 
         bool shouldJump =
-            predictedBallY > myY + minBallHeightToJump &&
-            Mathf.Abs(predictedBallX - myX) < jumpRangeX;
+            predictedBall.y > myY + minBallHeightToJump &&
+            Mathf.Abs(predictedBall.x - myX) < jumpRangeX;
 
         bool emergencyJump =
-            ball.position.y > myY + 0.2f &&
-            Mathf.Abs(ball.position.x - myX) < 1.2f;
+            ballPos.y > myY + 0.15f &&
+            Mathf.Abs(ballPos.x - myX) < emergencyJumpRangeX;
 
         if (isGrounded && Time.time >= nextJumpTime && (shouldJump || emergencyJump))
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpVelocity);
+            SetVelocity(rb.linearVelocity.x, jumpVelocity);
             nextJumpTime = Time.time + jumpCooldown;
         }
 
-        float distToBall = Vector2.Distance(bodyCenter.position, ball.position);
+        TryKick(myPos, ballPos);
+    }
 
-        if (distToBall < kickDistance && Time.time >= nextKickTime && kickController != null)
+    private void MoveToTarget(float targetX, bool isGrounded, float myX)
+    {
+        float xToTarget = targetX - myX;
+        float absX = Mathf.Abs(xToTarget);
+
+        float targetSpeed = 0f;
+
+        if (absX > stopDistance)
+        {
+            float dir = Mathf.Sign(xToTarget);
+            float speed = isGrounded ? moveSpeed : airMoveSpeed;
+
+            if (absX < slowDownDistance)
+            {
+                float factor = Mathf.Clamp(absX / slowDownDistance, 0.35f, 1f);
+                speed *= factor;
+            }
+
+            targetSpeed = dir * speed;
+        }
+
+        SetVelocity(targetSpeed, rb.linearVelocity.y);
+    }
+
+    private void TryKick(Vector2 myPos, Vector2 ballPos)
+    {
+        if (kickController == null)
+            return;
+
+        if (Time.time < nextKickTime)
+            return;
+
+        float distToBall = Vector2.Distance(myPos, ballPos);
+        float verticalDiff = Mathf.Abs(ballPos.y - myPos.y);
+
+        bool ballCloseEnough = distToBall <= kickDistance;
+        bool heightOkay = verticalDiff <= kickHeightTolerance;
+        bool ballInFront = attackRightGoal ? ballPos.x >= myPos.x - 0.2f : ballPos.x <= myPos.x + 0.2f;
+
+        if (ballCloseEnough && heightOkay && ballInFront)
         {
             kickController.TriggerKick();
             nextKickTime = Time.time + kickCooldown;
 
-            float burstX = attackRightGoal ? 10f : -10f;
-            rb.linearVelocity = new Vector2(burstX, rb.linearVelocity.y);
+            float burstX = attackRightGoal ? kickBurstSpeed : -kickBurstSpeed;
+            SetVelocity(burstX, rb.linearVelocity.y);
         }
+    }
+
+    private bool IsGrounded()
+    {
+        if (groundCheck == null)
+            return true;
+
+        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+    }
+
+    private void SetVelocity(float x, float y)
+    {
+        rb.linearVelocity = new Vector2(x, y);
     }
 
     private void OnDrawGizmosSelected()

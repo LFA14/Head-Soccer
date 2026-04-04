@@ -37,6 +37,10 @@ PrefabInstance:
       value: ArgentinaPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 4137872036214206903, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+      propertyPath: isPlayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4137872036214206903, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: playerRb
       value: 
       objectReference: {fileID: 1330335343021424140}
@@ -92,6 +96,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 7159254575480424490, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: m_Mass
       value: 1
@@ -103,6 +111,10 @@ PrefabInstance:
     - target: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: m_LinearDamping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385925620993975825, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+      propertyPath: jumpForce
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7899179588855317257, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
       propertyPath: m_Size.x
@@ -119,6 +131,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 0}
+    - {fileID: 7159254575480424490, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+    - {fileID: 1588066307927273337, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -129,6 +143,11 @@ PrefabInstance:
 --- !u!50 &1330335343021424140 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 7281692259065849340, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
+  m_PrefabInstance: {fileID: 8609625151453305840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6507588106887093050 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3257246650521567434, guid: 089760aea3dd60745acb70cba9ad1718, type: 3}
   m_PrefabInstance: {fileID: 8609625151453305840}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &6911648545756279394 stripped
@@ -148,24 +167,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41e084c291d3f944b30a8823d1c8c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleAI
-  isAI: 0
+  isAI: 1
   rb: {fileID: 1330335343021424140}
   groundCheck: {fileID: 8550542557626681095}
+  bodyCenter: {fileID: 6507588106887093050}
   groundCheckRadius: 0.3
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
-  moveForce: 14
-  maxMoveSpeed: 6
+    m_Bits: 256
+  moveSpeed: 8
+  airMoveSpeed: 5.5
   stopDistance: 0.35
-  airControlMultiplier: 0.55
+  slowDownDistance: 1.2
   jumpVelocity: 14
   jumpCooldown: 0.7
   minBallHeightToJump: 0.75
   jumpRangeX: 2.8
+  emergencyJumpRangeX: 1.4
   kickDistance: 1.6
   kickCooldown: 0.45
+  kickHeightTolerance: 1.4
+  kickBurstSpeed: 8
+  attackRightGoal: 1
   behindBallOffset: 0.8
+  closeControlOffset: 0.35
   defendRange: 7
   attackCommitDistance: 5
   predictionTime: 0.35
