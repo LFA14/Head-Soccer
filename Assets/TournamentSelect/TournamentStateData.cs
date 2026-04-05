@@ -28,6 +28,7 @@ public class TournamentStateData : MonoBehaviour
     public bool playerMatchResolved = false; // TL vs BL finished in gameplay
     public bool finalResolved = false;
 
+    public string playerMatchScore = "";
     public string otherMatchScore = "";
     public string finalScore = "";
 
@@ -55,6 +56,7 @@ public class TournamentStateData : MonoBehaviour
         otherMatchResolved = false;
         playerMatchResolved = false;
         finalResolved = false;
+        playerMatchScore = "";
         otherMatchScore = "";
         finalScore = "";
         nextOpponentIndex = -1;

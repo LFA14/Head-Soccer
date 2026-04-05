@@ -41,6 +41,7 @@ public class TournamentMatchResultHandler : MonoBehaviour
             }
 
             st.playerMatchResolved = true;
+            st.playerMatchScore = playerScore + " - " + opponentScore;
 
             if (playerWon)
             {

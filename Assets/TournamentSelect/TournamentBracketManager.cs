@@ -23,6 +23,7 @@ public class TournamentBracketManager : MonoBehaviour
     public Button playMatchBtn;
 
     [Header("Score UI (for TR vs BR winner)")]
+    public BracketScoreUI playerMatchScoreUI;
     public BracketScoreUI scoreUI;
     public BracketScoreUI finalScoreUI;
 
@@ -103,6 +104,7 @@ public class TournamentBracketManager : MonoBehaviour
         st.playerMatchResolved = false;
         st.finalResolved = false;
         st.champion = -1;
+        st.playerMatchScore = "";
         st.otherMatchScore = "";
         st.finalScore = "";
 
@@ -283,21 +285,19 @@ public class TournamentBracketManager : MonoBehaviour
 
     void EnsureScoreReferences()
     {
-        if (finalScoreUI != null)
-            return;
-
         BracketScoreUI[] scoreComponents = FindObjectsOfType<BracketScoreUI>(true);
         foreach (BracketScoreUI candidate in scoreComponents)
         {
-            if (candidate == null || candidate == scoreUI || candidate.scoreText == null)
+            if (candidate == null || candidate.scoreText == null)
                 continue;
 
             string objectName = candidate.scoreText.gameObject.name.ToLowerInvariant();
-            if (objectName.Contains("final") && objectName.Contains("score"))
-            {
+
+            if (playerMatchScoreUI == null && objectName.Contains("othermatchscoretext (1)"))
+                playerMatchScoreUI = candidate;
+
+            if (finalScoreUI == null && candidate != scoreUI && objectName.Contains("final") && objectName.Contains("score"))
                 finalScoreUI = candidate;
-                return;
-            }
         }
 
         TextMeshProUGUI[] texts = FindObjectsOfType<TextMeshProUGUI>(true);
@@ -307,18 +307,33 @@ public class TournamentBracketManager : MonoBehaviour
                 continue;
 
             string objectName = candidate.gameObject.name.ToLowerInvariant();
-            if (!objectName.Contains("final") || !objectName.Contains("score"))
-                continue;
 
-            finalScoreUI = gameObject.AddComponent<BracketScoreUI>();
-            finalScoreUI.scoreText = candidate;
-            return;
+            if (playerMatchScoreUI == null && objectName.Contains("othermatchscoretext (1)"))
+            {
+                playerMatchScoreUI = gameObject.AddComponent<BracketScoreUI>();
+                playerMatchScoreUI.scoreText = candidate;
+                continue;
+            }
+
+            if (finalScoreUI == null && objectName.Contains("final") && objectName.Contains("score"))
+            {
+                finalScoreUI = gameObject.AddComponent<BracketScoreUI>();
+                finalScoreUI.scoreText = candidate;
+            }
         }
     }
 
     void RedrawSavedScores()
     {
         var st = TournamentStateData.Instance;
+
+        if (playerMatchScoreUI != null)
+        {
+            if (string.IsNullOrWhiteSpace(st.playerMatchScore))
+                playerMatchScoreUI.Hide();
+            else
+                playerMatchScoreUI.ShowImmediate(st.playerMatchScore);
+        }
 
         if (scoreUI != null)
         {
@@ -339,6 +354,9 @@ public class TournamentBracketManager : MonoBehaviour
 
     void HideAllScoreUI()
     {
+        if (playerMatchScoreUI != null)
+            playerMatchScoreUI.Hide();
+
         if (scoreUI != null)
             scoreUI.Hide();
 

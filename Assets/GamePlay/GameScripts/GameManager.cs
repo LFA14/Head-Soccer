@@ -66,8 +66,10 @@ public class CountdownManager : MonoBehaviour
     private bool matchTimerRunning = false;
     private bool matchEnded = false;
     private bool resultProcessed = false;
+    private bool isSuddenDeath = false;
 
     private float currentTime;
+    private float suddenDeathTime = 0f;
     private TournamentMatchResultHandler tournamentMatchResultHandler;
 
     void Start()
@@ -93,6 +95,13 @@ public class CountdownManager : MonoBehaviour
         if (!matchTimerRunning || matchEnded)
             return;
 
+        if (isSuddenDeath)
+        {
+            suddenDeathTime += Time.deltaTime;
+            UpdateTimerUI();
+            return;
+        }
+
         currentTime -= Time.deltaTime;
 
         if (currentTime < 0f)
@@ -101,9 +110,7 @@ public class CountdownManager : MonoBehaviour
         UpdateTimerUI();
 
         if (currentTime <= 0f)
-        {
-            EndMatch();
-        }
+            HandleEndOfNormalTime();
     }
 
     public void PlayerScored(int playerNumber)
@@ -119,6 +126,15 @@ public class CountdownManager : MonoBehaviour
             player2Score++;
 
         UpdateScoreUI();
+
+        if (isSuddenDeath)
+        {
+            Debug.Log("Sudden Death goal scored by side " + playerNumber + ". Ending match immediately.");
+            goalScored = false;
+            EndMatch();
+            return;
+        }
+
         StartCoroutine(ResetAfterGoal());
     }
 
@@ -134,7 +150,34 @@ public class CountdownManager : MonoBehaviour
     void UpdateTimerUI()
     {
         if (timerText != null)
-            timerText.text = Mathf.CeilToInt(currentTime).ToString();
+        {
+            if (isSuddenDeath)
+                timerText.text = "+" + Mathf.CeilToInt(suddenDeathTime).ToString("00");
+            else
+                timerText.text = Mathf.CeilToInt(currentTime).ToString();
+        }
+    }
+
+    void HandleEndOfNormalTime()
+    {
+        if (player1Score == player2Score)
+        {
+            EnterSuddenDeath();
+            return;
+        }
+
+        EndMatch();
+    }
+
+    void EnterSuddenDeath()
+    {
+        if (isSuddenDeath)
+            return;
+
+        isSuddenDeath = true;
+        suddenDeathTime = 0f;
+        UpdateTimerUI();
+        Debug.Log("Match ended in a draw. Entering Sudden Death.");
     }
 
     IEnumerator ResetAfterGoal()
@@ -376,7 +419,12 @@ public class CountdownManager : MonoBehaviour
         FinalizeMatchResultIfNeeded();
 
         if (timerText != null)
-            timerText.text = "0";
+        {
+            if (isSuddenDeath)
+                timerText.text = "+" + Mathf.CeilToInt(suddenDeathTime).ToString("00");
+            else
+                timerText.text = "0";
+        }
 
         if (leftPlayerRoot != null)
             leftPlayerRoot.gameObject.SetActive(false);
