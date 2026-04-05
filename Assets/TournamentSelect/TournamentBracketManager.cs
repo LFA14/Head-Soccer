@@ -201,23 +201,28 @@ public class TournamentBracketManager : MonoBehaviour
     {
         var st = TournamentStateData.Instance;
 
-        // Semi: fight BL
         if (!st.playerMatchResolved)
         {
             st.nextOpponentIndex = st.bl;
+
+            if (MatchContext.Instance != null)
+                MatchContext.Instance.SetMode(MatchContext.MatchMode.Tournament);
+
             SceneManager.LoadScene(gameSceneName);
             return;
         }
 
-        // Final: fight finalRight
         if (st.playerMatchResolved && st.otherMatchResolved && !st.finalResolved)
         {
             st.nextOpponentIndex = st.finalRight;
+
+            if (MatchContext.Instance != null)
+                MatchContext.Instance.SetMode(MatchContext.MatchMode.Tournament);
+
             SceneManager.LoadScene(gameSceneName);
             return;
         }
     }
-
     public void RedrawAll()
     {
         var st = TournamentStateData.Instance;
