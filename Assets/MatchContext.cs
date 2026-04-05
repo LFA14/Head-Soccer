@@ -12,6 +12,7 @@ public class MatchContext : MonoBehaviour
     }
 
     public MatchMode currentMode = MatchMode.None;
+    public bool playerIsOnRightSide = true;
 
     private void Awake()
     {
@@ -28,5 +29,10 @@ public class MatchContext : MonoBehaviour
     public void SetMode(MatchMode mode)
     {
         currentMode = mode;
+    }
+
+    public void SetPlayerSide(bool isOnRightSide)
+    {
+        playerIsOnRightSide = isOnRightSide;
     }
 }

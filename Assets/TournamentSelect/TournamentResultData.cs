@@ -22,6 +22,17 @@ public class TournamentResultData : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public static TournamentResultData GetOrCreate()
+    {
+        if (Instance != null)
+            return Instance;
+
+        GameObject dataObject = new GameObject("TournamentResultData");
+        Instance = dataObject.AddComponent<TournamentResultData>();
+        DontDestroyOnLoad(dataObject);
+        return Instance;
+    }
+
     public void SetResult(bool won, bool didQualify, bool tournamentWon, bool finalMatch, int reward)
     {
         playerWon = won;

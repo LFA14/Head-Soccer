@@ -28,6 +28,10 @@ public class CountdownManager : MonoBehaviour
     public GameObject endGameButton;
     public string sceneToLoad = "MenuScene";
 
+    [Header("Quick Match Rewards")]
+    public int quickMatchWinReward = 10;
+    public int quickMatchLoseReward = 5;
+
     [Header("Power Bars")]
     public GameObject powerBar1;
     public GameObject powerBar2;
@@ -469,6 +473,30 @@ public class CountdownManager : MonoBehaviour
         Debug.Log("Match ended with score " + player1Score + " - " + player2Score +
                   " in mode " + MatchContext.Instance.currentMode);
 
+        int playerScore;
+        int opponentScore;
+        GetPlayerAndOpponentScores(out playerScore, out opponentScore);
+        bool playerWon = DidPlayerWinMatch(playerScore, opponentScore);
+
+        if (MatchContext.Instance.currentMode == MatchContext.MatchMode.QuickMatch)
+        {
+            int reward = playerWon ? quickMatchWinReward : quickMatchLoseReward;
+
+            if (CoinManager.Instance != null)
+                CoinManager.Instance.AddCoins(reward);
+
+            TournamentResultData.GetOrCreate().SetResult(
+                playerWon,
+                false,
+                false,
+                false,
+                reward
+            );
+
+            resultProcessed = true;
+            return;
+        }
+
         if (MatchContext.Instance.currentMode != MatchContext.MatchMode.Tournament)
         {
             resultProcessed = true;
@@ -484,11 +512,6 @@ public class CountdownManager : MonoBehaviour
             return;
         }
 
-        int playerScore;
-        int opponentScore;
-        GetPlayerAndOpponentScores(out playerScore, out opponentScore);
-
-        bool playerWon = DidPlayerWinMatch(playerScore, opponentScore);
         if (tournamentMatchResultHandler.FinishTournamentMatch(playerWon, playerScore, opponentScore))
             resultProcessed = true;
     }
@@ -508,7 +531,12 @@ public class CountdownManager : MonoBehaviour
 
     void GetPlayerAndOpponentScores(out int playerScore, out int opponentScore)
     {
-        bool playerIsLeftSide = IsPlayerOnLeftSide();
+        bool playerIsLeftSide;
+
+        if (MatchContext.Instance != null)
+            playerIsLeftSide = !MatchContext.Instance.playerIsOnRightSide;
+        else
+            playerIsLeftSide = IsPlayerOnLeftSide();
 
         if (playerIsLeftSide)
         {

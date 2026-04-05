@@ -59,6 +59,9 @@ public class GameSceneSpawner : MonoBehaviour
             Quaternion.identity
         );
 
+        if (MatchContext.Instance != null)
+            MatchContext.Instance.SetPlayerSide(playerSpawnPoint.position.x > aiSpawnPoint.position.x);
+
         SetupSpawnedCharacters(player, ai);
     }
 
@@ -105,6 +108,9 @@ public class GameSceneSpawner : MonoBehaviour
             aiSpawnPoint.position + new Vector3(0f, 1f, 0f),
             Quaternion.identity
         );
+
+        if (MatchContext.Instance != null)
+            MatchContext.Instance.SetPlayerSide(playerSpawnPoint.position.x > aiSpawnPoint.position.x);
 
         SetupSpawnedCharacters(player, ai);
 

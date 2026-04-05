@@ -5,12 +5,36 @@ public class TournamentResultContinueButton : MonoBehaviour
 {
     public string bracketSceneName = "TournamentBracketScene";
     public string mainMenuSceneName = "MenuScene";
+    public string quickMatchResultSceneName = "QuickMatchResultScene";
 
     public void ContinueAfterTournamentResult()
     {
+        if (IsQuickMatchResultScene())
+        {
+            if (MatchContext.Instance != null)
+                MatchContext.Instance.SetMode(MatchContext.MatchMode.None);
+
+            if (TournamentResultData.Instance != null)
+                TournamentResultData.Instance.ClearResult();
+
+            SceneManager.LoadScene(GetSafeMainMenuSceneName());
+            return;
+        }
+
+        if (MatchContext.Instance != null && MatchContext.Instance.currentMode == MatchContext.MatchMode.QuickMatch)
+        {
+            MatchContext.Instance.SetMode(MatchContext.MatchMode.None);
+
+            if (TournamentResultData.Instance != null)
+                TournamentResultData.Instance.ClearResult();
+
+            SceneManager.LoadScene(GetSafeMainMenuSceneName());
+            return;
+        }
+
         if (TournamentResultData.Instance == null)
         {
-            SceneManager.LoadScene(bracketSceneName);
+            SceneManager.LoadScene(GetSafeMainMenuSceneName());
             return;
         }
 
@@ -25,6 +49,13 @@ public class TournamentResultContinueButton : MonoBehaviour
         {
             SceneManager.LoadScene(bracketSceneName);
         }
+    }
+
+    bool IsQuickMatchResultScene()
+    {
+        Scene activeScene = SceneManager.GetActiveScene();
+        return activeScene.IsValid() &&
+               activeScene.name == quickMatchResultSceneName;
     }
 
     string GetSafeMainMenuSceneName()
