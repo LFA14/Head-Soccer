@@ -106,6 +106,12 @@ public class TournamentCharacterSelectManager : MonoBehaviour
                 TournamentSelectionData.Instance.playerPrefab = characterPrefabs[playerIndex];
         }
 
+        if (TournamentStateData.Instance != null)
+            TournamentStateData.Instance.ResetTournament();
+
+        if (TournamentResultData.Instance != null)
+            TournamentResultData.Instance.ClearResult();
+
         SceneManager.LoadScene(tournamentBracketSceneName);
     }
 }

@@ -163,6 +163,9 @@ public class CharacterSelectManager : MonoBehaviour
         SelectionData.Instance.playerPrefab = characterPrefabs[playerIndex];
         SelectionData.Instance.comPrefab = characterPrefabs[comIndex];
 
+        if (MatchContext.Instance != null)
+            MatchContext.Instance.SetMode(MatchContext.MatchMode.QuickMatch);
+
         Debug.Log("Saved player prefab: " + SelectionData.Instance.playerPrefab.name);
         Debug.Log("Saved com prefab: " + SelectionData.Instance.comPrefab.name);
 

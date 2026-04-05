@@ -5,39 +5,45 @@ public class TournamentMatchResultHandler : MonoBehaviour
     [Header("Rewards")]
     public int winReward = 10;
     public int loseReward = 5;
+    public int finalWinReward = 20;
 
-    public void FinishTournamentMatch(bool playerWon)
+    public bool FinishTournamentMatch(bool playerWon, int playerScore, int opponentScore)
     {
         if (TournamentStateData.Instance == null)
         {
             Debug.LogError("TournamentStateData.Instance is missing.");
-            return;
+            return false;
         }
 
         if (TournamentResultData.Instance == null)
         {
             Debug.LogError("TournamentResultData.Instance is missing.");
-            return;
+            return false;
         }
 
         var st = TournamentStateData.Instance;
-
-        bool isSemiFinal = !st.playerMatchResolved;
-        bool isFinal = st.playerMatchResolved && !st.finalResolved;
-
-        int reward = playerWon ? winReward : loseReward;
-
-        // Add the real coins to the player
-        if (CoinManager.Instance != null)
-            CoinManager.Instance.AddCoins(reward);
-
-        if (isSemiFinal)
+        if (st.activeRound == TournamentStateData.TournamentRound.None)
         {
+            Debug.LogWarning("FinishTournamentMatch called with no active tournament round. Ignoring duplicate or invalid call.");
+            return false;
+        }
+
+        TournamentStateData.TournamentRound resolvedRound = st.activeRound;
+        int reward = playerWon ? winReward : loseReward;
+        bool handled = false;
+
+        if (st.activeRound == TournamentStateData.TournamentRound.SemiFinal)
+        {
+            if (st.playerMatchResolved)
+            {
+                Debug.LogWarning("Semi-final result was already resolved. Ignoring duplicate result call.");
+                return false;
+            }
+
             st.playerMatchResolved = true;
 
             if (playerWon)
             {
-                // Player qualifies to final left slot
                 st.finalLeft = st.tl;
 
                 TournamentResultData.Instance.SetResult(
@@ -50,7 +56,6 @@ public class TournamentMatchResultHandler : MonoBehaviour
             }
             else
             {
-                // Opponent takes final left slot
                 st.finalLeft = st.bl;
 
                 TournamentResultData.Instance.SetResult(
@@ -61,13 +66,23 @@ public class TournamentMatchResultHandler : MonoBehaviour
                     reward
                 );
             }
+
+            handled = true;
         }
-        else if (isFinal)
+        else if (st.activeRound == TournamentStateData.TournamentRound.Final)
         {
+            if (st.finalResolved)
+            {
+                Debug.LogWarning("Final result was already resolved. Ignoring duplicate result call.");
+                return false;
+            }
+
             st.finalResolved = true;
+            st.finalScore = playerScore + " - " + opponentScore;
 
             if (playerWon)
             {
+                reward = finalWinReward > 0 ? finalWinReward : 20;
                 st.champion = st.finalLeft;
 
                 TournamentResultData.Instance.SetResult(
@@ -90,11 +105,35 @@ public class TournamentMatchResultHandler : MonoBehaviour
                     reward
                 );
             }
+
+            handled = true;
         }
 
+        if (!handled)
+        {
+            Debug.LogWarning("Tournament result was not handled because the current state is inconsistent.");
+            return false;
+        }
+
+        if (CoinManager.Instance != null)
+            CoinManager.Instance.AddCoins(reward);
+        else
+            Debug.LogWarning("CoinManager.Instance is missing, so tournament reward could not be added.");
+
+        st.ClearPendingMatch();
+
         Debug.Log("Tournament updated. playerWon = " + playerWon +
+                  ", round = " + resolvedRound +
                   ", finalLeft = " + st.finalLeft +
                   ", finalRight = " + st.finalRight +
-                  ", champion = " + st.champion);
+                  ", champion = " + st.champion +
+                  ", reward = " + reward);
+
+        return true;
+    }
+
+    public bool FinishTournamentMatch(bool playerWon)
+    {
+        return FinishTournamentMatch(playerWon, 0, 0);
     }
 }

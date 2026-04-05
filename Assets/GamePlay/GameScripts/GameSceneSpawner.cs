@@ -10,9 +10,14 @@ public class GameSceneSpawner : MonoBehaviour
 
     void Start()
     {
-        if (TournamentStateData.Instance != null &&
+        bool shouldSpawnTournamentMatch =
+            MatchContext.Instance != null &&
+            MatchContext.Instance.currentMode == MatchContext.MatchMode.Tournament &&
+            TournamentStateData.Instance != null &&
             TournamentSelectionData.Instance != null &&
-            TournamentStateData.Instance.nextOpponentIndex >= 0)
+            TournamentStateData.Instance.nextOpponentIndex >= 0;
+
+        if (shouldSpawnTournamentMatch)
         {
             SpawnTournamentMatch();
         }

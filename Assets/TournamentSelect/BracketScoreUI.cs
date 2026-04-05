@@ -18,6 +18,18 @@ public class BracketScoreUI : MonoBehaviour
         routine = StartCoroutine(ShowRoutine(text));
     }
 
+    public void ShowImmediate(string text)
+    {
+        if (scoreText == null) return;
+
+        if (routine != null) StopCoroutine(routine);
+        routine = null;
+        scoreText.gameObject.SetActive(true);
+        scoreText.text = text;
+        scoreText.alpha = 1f;
+        scoreText.rectTransform.localScale = Vector3.one;
+    }
+
     IEnumerator ShowRoutine(string text)
     {
         scoreText.gameObject.SetActive(true);

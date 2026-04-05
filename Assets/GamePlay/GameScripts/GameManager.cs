@@ -65,14 +65,17 @@ public class CountdownManager : MonoBehaviour
     private bool gameplayEnabled = false;
     private bool matchTimerRunning = false;
     private bool matchEnded = false;
+    private bool resultProcessed = false;
 
     private float currentTime;
+    private TournamentMatchResultHandler tournamentMatchResultHandler;
 
     void Start()
     {
         currentTime = matchTime;
         UpdateScoreUI();
         UpdateTimerUI();
+        tournamentMatchResultHandler = FindObjectOfType<TournamentMatchResultHandler>();
 
         if (gameOverImage != null)
             gameOverImage.SetActive(false);
@@ -370,6 +373,7 @@ public class CountdownManager : MonoBehaviour
         matchTimerRunning = false;
 
         SetGameplay(false);
+        FinalizeMatchResultIfNeeded();
 
         if (timerText != null)
             timerText.text = "0";
@@ -402,9 +406,95 @@ public class CountdownManager : MonoBehaviour
             endGameButton.SetActive(true);
     }
 
-   public void LoadNextScene()
-{
-    Debug.Log("BUTTON CLICKED");
-    SceneManager.LoadScene(1);
-}
+    public void FinalizeMatchResultIfNeeded()
+    {
+        if (resultProcessed)
+            return;
+
+        if (MatchContext.Instance == null)
+        {
+            Debug.Log("No MatchContext found. Skipping tournament result processing.");
+            resultProcessed = true;
+            return;
+        }
+
+        Debug.Log("Match ended with score " + player1Score + " - " + player2Score +
+                  " in mode " + MatchContext.Instance.currentMode);
+
+        if (MatchContext.Instance.currentMode != MatchContext.MatchMode.Tournament)
+        {
+            resultProcessed = true;
+            return;
+        }
+
+        if (tournamentMatchResultHandler == null)
+            tournamentMatchResultHandler = FindObjectOfType<TournamentMatchResultHandler>();
+
+        if (tournamentMatchResultHandler == null)
+        {
+            Debug.LogError("Tournament match ended but no TournamentMatchResultHandler was found in GameScene.");
+            return;
+        }
+
+        int playerScore;
+        int opponentScore;
+        GetPlayerAndOpponentScores(out playerScore, out opponentScore);
+
+        bool playerWon = DidPlayerWinMatch(playerScore, opponentScore);
+        if (tournamentMatchResultHandler.FinishTournamentMatch(playerWon, playerScore, opponentScore))
+            resultProcessed = true;
+    }
+
+    bool DidPlayerWinMatch(int playerScore, int opponentScore)
+    {
+        Debug.Log("Resolved player score = " + playerScore + ", opponent score = " + opponentScore);
+
+        if (playerScore == opponentScore)
+        {
+            Debug.LogWarning("Match ended in a draw. Treating it as a loss for knockout progression.");
+            return false;
+        }
+
+        return playerScore > opponentScore;
+    }
+
+    void GetPlayerAndOpponentScores(out int playerScore, out int opponentScore)
+    {
+        bool playerIsLeftSide = IsPlayerOnLeftSide();
+
+        if (playerIsLeftSide)
+        {
+            playerScore = player1Score;
+            opponentScore = player2Score;
+        }
+        else
+        {
+            playerScore = player2Score;
+            opponentScore = player1Score;
+        }
+    }
+
+    bool IsPlayerOnLeftSide()
+    {
+        if (leftPlayerMovement != null)
+            return leftPlayerMovement.isPlayer;
+
+        if (rightPlayerMovement != null)
+            return !rightPlayerMovement.isPlayer;
+
+        if (leftKick != null)
+            return leftKick.isPlayer;
+
+        if (rightKick != null)
+            return !rightKick.isPlayer;
+
+        Debug.LogWarning("Could not detect player side reliably. Falling back to left side.");
+        return true;
+    }
+
+    public void LoadNextScene()
+    {
+        Debug.Log("BUTTON CLICKED");
+        SceneManager.LoadScene(1);
+    }
 }

@@ -15,6 +15,16 @@ public class CoinManager : MonoBehaviour
 
     private const string CoinsKey = "Coins";
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    static void EnsureInstanceExists()
+    {
+        if (Instance != null)
+            return;
+
+        GameObject coinManagerObject = new GameObject("CoinManager");
+        coinManagerObject.AddComponent<CoinManager>();
+    }
+
     private void Awake()
     {
         if (Instance == null)

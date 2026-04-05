@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,6 +24,7 @@ public class TournamentBracketManager : MonoBehaviour
 
     [Header("Score UI (for TR vs BR winner)")]
     public BracketScoreUI scoreUI;
+    public BracketScoreUI finalScoreUI;
 
     [Header("Shuffle 1 (initial opponents)")]
     public float shuffleDuration = 0.75f;
@@ -33,11 +35,18 @@ public class TournamentBracketManager : MonoBehaviour
     public float otherMatchShuffleDuration = 0.45f;
     public float otherMatchShuffleInterval = 0.03f;
 
+    [Header("Auto final reveal after player elimination")]
+    public float eliminatedFinalDelay = 0.25f;
+
     [Header("Scene names")]
     public string gameSceneName = "GameScene";
 
+    bool isResolvingEliminatedFinal = false;
+
     void Start()
     {
+        EnsureScoreReferences();
+
         if (playMatchBtn != null) playMatchBtn.interactable = false;
 
         if (TournamentStateData.Instance == null)
@@ -51,7 +60,9 @@ public class TournamentBracketManager : MonoBehaviour
         else
         {
             RedrawAll();
+            RedrawSavedScores();
             DecideIfPlayEnabled();
+            TryResolveFinalAfterElimination();
         }
     }
 
@@ -92,9 +103,13 @@ public class TournamentBracketManager : MonoBehaviour
         st.playerMatchResolved = false;
         st.finalResolved = false;
         st.champion = -1;
+        st.otherMatchScore = "";
+        st.finalScore = "";
 
         st.finalLeft = -1;
         st.finalRight = -1;
+
+        HideAllScoreUI();
 
         // Show TL instantly (no empty frame)
         SetImage(slotTL, st.tl);
@@ -172,18 +187,73 @@ public class TournamentBracketManager : MonoBehaviour
 
         // Pick winner for real + show score
         int winner = (Random.value < 0.5f) ? st.tr : st.br;
-        int loser = (winner == st.tr) ? st.br : st.tr;
 
         st.finalRight = winner;
         st.otherMatchResolved = true;
 
         int wg, lg;
         MakeKnockoutScore(out wg, out lg);
+        st.otherMatchScore = BuildSideOrderedScore(winner == st.tr, wg, lg);
 
         if (scoreUI != null)
-            scoreUI.Show($"{wg} - {lg}");
+            scoreUI.Show(st.otherMatchScore);
 
         RedrawAll();
+    }
+
+    IEnumerator ResolveEliminatedFinalWithShuffle()
+    {
+        var st = TournamentStateData.Instance;
+        isResolvingEliminatedFinal = true;
+
+        if (finalScoreUI != null)
+            finalScoreUI.Hide();
+
+        if (eliminatedFinalDelay > 0f)
+        {
+            float delay = 0f;
+            while (delay < eliminatedFinalDelay)
+            {
+                delay += Time.unscaledDeltaTime;
+                yield return null;
+            }
+        }
+
+        SetImage(champion, st.finalLeft);
+
+        float elapsed = 0f;
+        float tick = 0f;
+
+        while (elapsed < otherMatchShuffleDuration)
+        {
+            float dt = Time.unscaledDeltaTime;
+            elapsed += dt;
+            tick += dt;
+
+            if (tick >= otherMatchShuffleInterval)
+            {
+                tick = 0f;
+                int show = (Random.value < 0.5f) ? st.finalLeft : st.finalRight;
+                SetImage(champion, show);
+            }
+
+            yield return null;
+        }
+
+        bool finalLeftWon = Random.value < 0.5f;
+        st.champion = finalLeftWon ? st.finalLeft : st.finalRight;
+        st.finalResolved = true;
+
+        int wg, lg;
+        MakeKnockoutScore(out wg, out lg);
+        st.finalScore = BuildSideOrderedScore(finalLeftWon, wg, lg);
+
+        if (finalScoreUI != null)
+            finalScoreUI.Show(st.finalScore);
+
+        RedrawAll();
+        DecideIfPlayEnabled();
+        isResolvingEliminatedFinal = false;
     }
 
     void DecideIfPlayEnabled()
@@ -191,10 +261,96 @@ public class TournamentBracketManager : MonoBehaviour
         var st = TournamentStateData.Instance;
 
         bool canPlaySemi = st.bracketGenerated && !st.playerMatchResolved;
-        bool canPlayFinal = st.playerMatchResolved && st.otherMatchResolved && !st.finalResolved;
+        bool playerQualifiedForFinal = st.playerMatchResolved && st.finalLeft == st.tl;
+        bool canPlayFinal = playerQualifiedForFinal && st.otherMatchResolved && !st.finalResolved;
 
         if (playMatchBtn != null)
             playMatchBtn.interactable = canPlaySemi || canPlayFinal;
+    }
+
+    void TryResolveFinalAfterElimination()
+    {
+        var st = TournamentStateData.Instance;
+
+        bool playerEliminatedInSemi = st.playerMatchResolved && st.finalLeft != st.tl;
+        bool canAutoResolveFinal = playerEliminatedInSemi && st.otherMatchResolved && !st.finalResolved;
+
+        if (!canAutoResolveFinal || isResolvingEliminatedFinal)
+            return;
+
+        StartCoroutine(ResolveEliminatedFinalWithShuffle());
+    }
+
+    void EnsureScoreReferences()
+    {
+        if (finalScoreUI != null)
+            return;
+
+        BracketScoreUI[] scoreComponents = FindObjectsOfType<BracketScoreUI>(true);
+        foreach (BracketScoreUI candidate in scoreComponents)
+        {
+            if (candidate == null || candidate == scoreUI || candidate.scoreText == null)
+                continue;
+
+            string objectName = candidate.scoreText.gameObject.name.ToLowerInvariant();
+            if (objectName.Contains("final") && objectName.Contains("score"))
+            {
+                finalScoreUI = candidate;
+                return;
+            }
+        }
+
+        TextMeshProUGUI[] texts = FindObjectsOfType<TextMeshProUGUI>(true);
+        foreach (TextMeshProUGUI candidate in texts)
+        {
+            if (candidate == null)
+                continue;
+
+            string objectName = candidate.gameObject.name.ToLowerInvariant();
+            if (!objectName.Contains("final") || !objectName.Contains("score"))
+                continue;
+
+            finalScoreUI = gameObject.AddComponent<BracketScoreUI>();
+            finalScoreUI.scoreText = candidate;
+            return;
+        }
+    }
+
+    void RedrawSavedScores()
+    {
+        var st = TournamentStateData.Instance;
+
+        if (scoreUI != null)
+        {
+            if (string.IsNullOrWhiteSpace(st.otherMatchScore))
+                scoreUI.Hide();
+            else
+                scoreUI.ShowImmediate(st.otherMatchScore);
+        }
+
+        if (finalScoreUI != null)
+        {
+            if (string.IsNullOrWhiteSpace(st.finalScore))
+                finalScoreUI.Hide();
+            else
+                finalScoreUI.ShowImmediate(st.finalScore);
+        }
+    }
+
+    void HideAllScoreUI()
+    {
+        if (scoreUI != null)
+            scoreUI.Hide();
+
+        if (finalScoreUI != null)
+            finalScoreUI.Hide();
+    }
+
+    string BuildSideOrderedScore(bool leftSideWon, int winnerGoals, int loserGoals)
+    {
+        int leftGoals = leftSideWon ? winnerGoals : loserGoals;
+        int rightGoals = leftSideWon ? loserGoals : winnerGoals;
+        return leftGoals + " - " + rightGoals;
     }
 
     public void OnPlayMatchPressed()
@@ -203,7 +359,10 @@ public class TournamentBracketManager : MonoBehaviour
 
         if (!st.playerMatchResolved)
         {
-            st.nextOpponentIndex = st.bl;
+            if (TournamentResultData.Instance != null)
+                TournamentResultData.Instance.ClearResult();
+
+            st.PrepareMatch(TournamentStateData.TournamentRound.SemiFinal, st.bl);
 
             if (MatchContext.Instance != null)
                 MatchContext.Instance.SetMode(MatchContext.MatchMode.Tournament);
@@ -212,9 +371,12 @@ public class TournamentBracketManager : MonoBehaviour
             return;
         }
 
-        if (st.playerMatchResolved && st.otherMatchResolved && !st.finalResolved)
+        if (st.playerMatchResolved && st.finalLeft == st.tl && st.otherMatchResolved && !st.finalResolved)
         {
-            st.nextOpponentIndex = st.finalRight;
+            if (TournamentResultData.Instance != null)
+                TournamentResultData.Instance.ClearResult();
+
+            st.PrepareMatch(TournamentStateData.TournamentRound.Final, st.finalRight);
 
             if (MatchContext.Instance != null)
                 MatchContext.Instance.SetMode(MatchContext.MatchMode.Tournament);

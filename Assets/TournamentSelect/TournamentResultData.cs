@@ -30,4 +30,13 @@ public class TournamentResultData : MonoBehaviour
         wasFinalMatch = finalMatch;
         rewardCoins = reward;
     }
+
+    public void ClearResult()
+    {
+        playerWon = false;
+        qualified = false;
+        wonTournament = false;
+        wasFinalMatch = false;
+        rewardCoins = 0;
+    }
 }

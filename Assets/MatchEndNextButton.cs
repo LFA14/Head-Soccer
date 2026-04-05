@@ -8,6 +8,10 @@ public class MatchEndNextButton : MonoBehaviour
 
     public void GoToResultScene()
     {
+        CountdownManager matchManager = FindObjectOfType<CountdownManager>();
+        if (matchManager != null)
+            matchManager.FinalizeMatchResultIfNeeded();
+
         if (MatchContext.Instance == null)
         {
             Debug.LogWarning("MatchContext missing, loading quick match result.");
