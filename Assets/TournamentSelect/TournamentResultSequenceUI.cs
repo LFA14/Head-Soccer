@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -12,12 +13,14 @@ public class TournamentResultSequenceUI : MonoBehaviour
     public TMP_Text coinsText;
     public Image messageIcon;
     public GameObject continueButton;
+    public ParticleSystem winConfetti;
 
     [Header("Sprites")]
     public Sprite winSprite;
     public Sprite lossSprite;
     public Sprite congratsSprite;
     public Sprite hardLuckSprite;
+    public Sprite tournamentWonSprite;
 
     [Header("Timing")]
     public float firstDelay = 0.4f;
@@ -30,8 +33,11 @@ public class TournamentResultSequenceUI : MonoBehaviour
     public float endScale = 1f;
     public float overshootScale = 1.15f;
 
+    readonly List<ParticleSystem> confettiSystems = new List<ParticleSystem>();
+
     private void Start()
     {
+        SetupConfettiSystems();
         PrepareUI();
         StartCoroutine(PlaySequence());
     }
@@ -69,6 +75,8 @@ public class TournamentResultSequenceUI : MonoBehaviour
 
         if (continueButton != null)
             continueButton.SetActive(false);
+
+        StopConfettiSystems();
     }
 
     IEnumerator PlaySequence()
@@ -99,14 +107,31 @@ public class TournamentResultSequenceUI : MonoBehaviour
 
         if (messageIcon != null)
         {
-            messageIcon.sprite = data.playerWon ? congratsSprite : hardLuckSprite;
+            messageIcon.sprite = GetMessageSprite(data);
             yield return StartCoroutine(PopInImage(messageIcon));
+
+            if (data.wonTournament)
+                PlayConfettiSystems();
         }
 
         yield return new WaitForSeconds(0.25f);
 
         if (continueButton != null)
             continueButton.SetActive(true);
+    }
+
+    Sprite GetMessageSprite(TournamentResultData data)
+    {
+        if (data == null)
+            return null;
+
+        if (data.wonTournament)
+            return tournamentWonSprite;
+
+        if (data.qualified && !data.wasFinalMatch)
+            return congratsSprite;
+
+        return hardLuckSprite;
     }
 
     IEnumerator PopInImage(Image img)
@@ -216,5 +241,203 @@ public class TournamentResultSequenceUI : MonoBehaviour
         Color c = txt.color;
         c.a = alpha;
         txt.color = c;
+    }
+
+    void SetupConfettiSystems()
+    {
+        confettiSystems.Clear();
+
+        if (winConfetti == null)
+            return;
+
+        ConfigureConfettiLayer(winConfetti, new Vector3(0f, 4.8f, 0f), 0f, 22f, 2.6f, 6.4f, 8.2f, 0.18f, 0.42f, 150, 175, 0.8f, 0.05f);
+        confettiSystems.Add(winConfetti);
+
+        ParticleSystem midLayer = Instantiate(winConfetti, winConfetti.transform.parent);
+        midLayer.name = "WinConfettiMid";
+        ConfigureConfettiLayer(midLayer, new Vector3(0f, 2.95f, 0f), 0.16f, 19f, 3.1f, 5.4f, 7.1f, 0.12f, 0.3f, 110, 130, 0.5f, 0.12f);
+        confettiSystems.Add(midLayer);
+
+        ParticleSystem lowerLayer = Instantiate(winConfetti, winConfetti.transform.parent);
+        lowerLayer.name = "WinConfettiLower";
+        ConfigureConfettiLayer(lowerLayer, new Vector3(0f, 1.25f, 0f), 0.32f, 16f, 3.3f, 4.8f, 6.2f, 0.1f, 0.24f, 85, 105, 0.28f, 0.3f);
+        confettiSystems.Add(lowerLayer);
+    }
+
+    void ConfigureConfettiLayer(
+        ParticleSystem system,
+        Vector3 position,
+        float delay,
+        float width,
+        float height,
+        float lifetimeMin,
+        float lifetimeMax,
+        float sizeMin,
+        float sizeMax,
+        short burstMin,
+        short burstMax,
+        float horizontalDrift,
+        float whiteAccent)
+    {
+        if (system == null)
+            return;
+
+        system.transform.localPosition = position;
+        system.transform.localRotation = Quaternion.identity;
+        system.transform.localScale = Vector3.one;
+
+        var main = system.main;
+        main.loop = false;
+        main.playOnAwake = false;
+        main.duration = 5.4f;
+        main.startLifetime = new ParticleSystem.MinMaxCurve(lifetimeMin, lifetimeMax);
+        main.startSpeed = new ParticleSystem.MinMaxCurve(0.05f, 0.22f);
+        main.startSize = new ParticleSystem.MinMaxCurve(sizeMin, sizeMax);
+        main.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
+        main.startColor = BuildStartColor(whiteAccent);
+        main.gravityModifier = 0.04f;
+        main.maxParticles = 320;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+
+        var emission = system.emission;
+        emission.enabled = true;
+        emission.rateOverTime = 0f;
+        emission.rateOverDistance = 0f;
+        emission.SetBursts(new[] { new ParticleSystem.Burst(delay, burstMin, burstMax) });
+
+        var shape = system.shape;
+        shape.enabled = true;
+        shape.shapeType = ParticleSystemShapeType.Box;
+        shape.scale = new Vector3(width, height, 0.25f);
+        shape.position = Vector3.zero;
+        shape.rotation = Vector3.zero;
+        shape.randomDirectionAmount = 0.65f;
+        shape.randomPositionAmount = 0.6f;
+
+        var velocity = system.velocityOverLifetime;
+        velocity.enabled = true;
+        velocity.space = ParticleSystemSimulationSpace.World;
+        velocity.x = new ParticleSystem.MinMaxCurve(-horizontalDrift, horizontalDrift);
+        velocity.y = new ParticleSystem.MinMaxCurve(-0.02f, -0.08f);
+        velocity.z = new ParticleSystem.MinMaxCurve(-0.03f, 0.03f);
+
+        var noise = system.noise;
+        noise.enabled = true;
+        noise.separateAxes = true;
+        noise.strengthX = 0.22f;
+        noise.strengthY = 0.12f;
+        noise.strengthZ = 0.06f;
+        noise.frequency = 0.28f;
+        noise.scrollSpeed = 0.08f;
+        noise.damping = true;
+
+        var colorOverLifetime = system.colorOverLifetime;
+        colorOverLifetime.enabled = true;
+        colorOverLifetime.color = new ParticleSystem.MinMaxGradient(BuildConfettiGradient(whiteAccent));
+
+        var sizeOverLifetime = system.sizeOverLifetime;
+        sizeOverLifetime.enabled = true;
+        sizeOverLifetime.separateAxes = false;
+        sizeOverLifetime.size = new ParticleSystem.MinMaxCurve(1f, BuildSizeCurve());
+
+        var renderer = system.GetComponent<ParticleSystemRenderer>();
+        if (renderer != null)
+        {
+            renderer.renderMode = ParticleSystemRenderMode.Billboard;
+            renderer.sortingOrder = 20;
+            renderer.lengthScale = 1f;
+            renderer.velocityScale = 0f;
+            renderer.cameraVelocityScale = 0f;
+            ApplyConfettiMaterialTint(renderer);
+        }
+
+        system.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+    }
+
+    ParticleSystem.MinMaxGradient BuildStartColor(float whiteAccent)
+    {
+        Color richGold = new Color(0.92f, 0.76f, 0.18f, 1f);
+        Color brightGold = new Color(1f, 0.87f, 0.28f, 1f);
+        Color softWhite = new Color(1f, 0.985f, 0.95f, 1f);
+        Color accentColor = Color.Lerp(brightGold, softWhite, Mathf.Clamp01(whiteAccent));
+
+        return new ParticleSystem.MinMaxGradient(richGold, accentColor);
+    }
+
+    void ApplyConfettiMaterialTint(ParticleSystemRenderer renderer)
+    {
+        if (renderer == null)
+            return;
+
+        Material material = renderer.material;
+        if (material == null)
+            return;
+
+        Color neutralTint = Color.white;
+
+        if (material.HasProperty("_BaseColor"))
+            material.SetColor("_BaseColor", neutralTint);
+
+        if (material.HasProperty("_Color"))
+            material.SetColor("_Color", neutralTint);
+
+        if (material.HasProperty("_TintColor"))
+            material.SetColor("_TintColor", neutralTint);
+
+        renderer.sharedMaterial = material;
+    }
+
+    Gradient BuildConfettiGradient(float whiteAccent)
+    {
+        Gradient gradient = new Gradient();
+        Color deepGold = new Color(0.88f, 0.7f, 0.16f);
+        Color brightGold = new Color(1f, 0.86f, 0.3f);
+        Color softWhite = new Color(1f, 0.985f, 0.96f);
+        Color highlight = Color.Lerp(brightGold, softWhite, Mathf.Clamp01(whiteAccent));
+
+        gradient.SetKeys(
+            new[]
+            {
+                new GradientColorKey(deepGold, 0f),
+                new GradientColorKey(highlight, 0.4f),
+                new GradientColorKey(brightGold, 0.72f),
+                new GradientColorKey(deepGold, 1f)
+            },
+            new[]
+            {
+                new GradientAlphaKey(1f, 0f),
+                new GradientAlphaKey(0.94f, 0.84f),
+                new GradientAlphaKey(0f, 1f)
+            }
+        );
+        return gradient;
+    }
+
+    AnimationCurve BuildSizeCurve()
+    {
+        return new AnimationCurve(
+            new Keyframe(0f, 1f),
+            new Keyframe(0.45f, 1.08f),
+            new Keyframe(0.78f, 0.96f),
+            new Keyframe(1f, 0.8f)
+        );
+    }
+
+    void StopConfettiSystems()
+    {
+        foreach (ParticleSystem system in confettiSystems)
+        {
+            if (system != null)
+                system.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+    }
+
+    void PlayConfettiSystems()
+    {
+        foreach (ParticleSystem system in confettiSystems)
+        {
+            if (system != null)
+                system.Play();
+        }
     }
 }

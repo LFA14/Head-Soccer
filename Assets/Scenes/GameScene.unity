@@ -522,6 +522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TournamentMatchResultHandler
   winReward: 10
   loseReward: 5
+  finalWinReward: 20
 --- !u!4 &236297364
 Transform:
   m_ObjectHideFlags: 0
@@ -1100,6 +1101,8 @@ MonoBehaviour:
   gameOverImage: {fileID: 562386951}
   endGameButton: {fileID: 172615884}
   sceneToLoad: MainMenu
+  quickMatchWinReward: 10
+  quickMatchLoseReward: 5
   powerBar1: {fileID: 1896389948}
   powerBar2: {fileID: 645070488}
   powerBar3: {fileID: 1867374517}
@@ -3633,8 +3636,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13, y: -128}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 85.139, y: -201.113}
+  m_SizeDelta: {x: 371.758, y: 196.226}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1774477542
 MonoBehaviour:
