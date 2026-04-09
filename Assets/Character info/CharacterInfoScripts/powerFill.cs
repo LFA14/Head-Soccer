@@ -17,19 +17,50 @@ public class PowerFill : MonoBehaviour
     bool full = false;
     Vector3 originalPos;
     Color baseColor;
+    bool initialized;
+
+    public bool IsFull
+    {
+        get { return full; }
+    }
+
+    void Awake()
+    {
+        CacheInitialState();
+    }
 
     void Start()
     {
-        originalPos = barTransform.localPosition;
-        baseColor = fillImage.color;
+        CacheInitialState();
+        ResetBarInstant();
+    }
+
+    void CacheInitialState()
+    {
+        if (initialized)
+            return;
+
+        if (barTransform == null)
+            barTransform = GetComponent<RectTransform>();
+
+        if (barTransform != null)
+            originalPos = barTransform.localPosition;
+
+        if (fillImage != null)
+            baseColor = fillImage.color;
+
+        initialized = true;
     }
 
     void Update()
     {
+        if (fillImage == null)
+            return;
+
         if (!full)
         {
             timer += Time.deltaTime;
-            fillImage.fillAmount = timer / fillTime;
+            fillImage.fillAmount = Mathf.Clamp01(timer / fillTime);
 
             if (fillImage.fillAmount >= 1f)
             {
@@ -41,11 +72,71 @@ public class PowerFill : MonoBehaviour
             // SHAKE
             float x = Mathf.Sin(Time.time * shakeSpeed) * shakeAmount;
             float y = Mathf.Cos(Time.time * shakeSpeed) * shakeAmount;
-            barTransform.localPosition = originalPos + new Vector3(x, y, 0);
+            if (barTransform != null)
+                barTransform.localPosition = originalPos + new Vector3(x, y, 0);
 
             // GLOW
             float glow = (Mathf.Sin(Time.time * glowSpeed) + 1f) / 2f;
             fillImage.color = Color.Lerp(baseColor, baseColor * 2f, glow);
+        }
+    }
+
+    public bool TryConsume()
+    {
+        if (!full)
+            return false;
+
+        ResetBarInstant();
+        return true;
+    }
+
+    public void ResetBarInstant()
+    {
+        CacheInitialState();
+
+        timer = 0f;
+        full = false;
+
+        if (fillImage != null)
+        {
+            fillImage.fillAmount = 0f;
+            fillImage.color = baseColor;
+        }
+
+        if (barTransform != null)
+            barTransform.localPosition = originalPos;
+    }
+
+    public static void ResetAllBarsInScene()
+    {
+        PowerFill[] bars = FindObjectsOfType<PowerFill>(true);
+
+        for (int i = 0; i < bars.Length; i++)
+        {
+            if (bars[i] != null)
+                bars[i].ResetBarInstant();
+        }
+    }
+
+    public static void ResetBarsForSide(bool rightSide)
+    {
+        PowerFill[] bars = FindObjectsOfType<PowerFill>(true);
+
+        for (int i = 0; i < bars.Length; i++)
+        {
+            if (bars[i] == null)
+                continue;
+
+            RectTransform rect = bars[i].barTransform != null
+                ? bars[i].barTransform
+                : bars[i].GetComponent<RectTransform>();
+
+            if (rect == null)
+                continue;
+
+            bool isRightBar = rect.anchoredPosition.x > 0f;
+            if (isRightBar == rightSide)
+                bars[i].ResetBarInstant();
         }
     }
 }
