@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2219135143139106925, guid: 64f58a5ee77553a469e42429afd00295, type: 3}
       propertyPath: m_Name
-      value: Character Variant
+      value: SaudiCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 2709993451595357857, guid: 64f58a5ee77553a469e42429afd00295, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -69,7 +69,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4447746673881671087, guid: 64f58a5ee77553a469e42429afd00295, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64f58a5ee77553a469e42429afd00295, type: 3}

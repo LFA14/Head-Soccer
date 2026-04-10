@@ -91,6 +91,7 @@ public class CountdownManager : MonoBehaviour
 
         FindPlayers();
         CachePlayerReferences();
+        PowerFill.ResetAllBarsInScene();
         StartCoroutine(Countdown());
     }
 
@@ -188,6 +189,7 @@ public class CountdownManager : MonoBehaviour
     {
         SetGameplay(false);
         matchTimerRunning = false;
+        PowerFill.ResetAllBarsInScene();
 
         yield return new WaitForSeconds(1f);
 
@@ -420,6 +422,7 @@ public class CountdownManager : MonoBehaviour
         matchTimerRunning = false;
 
         SetGameplay(false);
+        PowerFill.ResetAllBarsInScene();
         FinalizeMatchResultIfNeeded();
 
         if (timerText != null)

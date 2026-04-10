@@ -150,6 +150,12 @@ public class GameSceneSpawner : MonoBehaviour
             playerKick.isPlayer = true;
         }
 
+        CharacterSpecialController playerSpecial = player.GetComponent<CharacterSpecialController>();
+        if (playerSpecial == null)
+            playerSpecial = player.AddComponent<CharacterSpecialController>();
+
+        playerSpecial.Configure(true);
+
         PlayerMovement aiMove = ai.GetComponentInChildren<PlayerMovement>();
         if (aiMove != null)
         {
@@ -171,5 +177,11 @@ public class GameSceneSpawner : MonoBehaviour
         {
             aiKick.isPlayer = false;
         }
+
+        CharacterSpecialController aiSpecial = ai.GetComponent<CharacterSpecialController>();
+        if (aiSpecial == null)
+            aiSpecial = ai.AddComponent<CharacterSpecialController>();
+
+        aiSpecial.Configure(false);
     }
 }
