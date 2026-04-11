@@ -190,6 +190,7 @@ public class CountdownManager : MonoBehaviour
         SetGameplay(false);
         matchTimerRunning = false;
         PowerFill.ResetAllBarsInScene();
+        ResetAllSpecialStates();
 
         yield return new WaitForSeconds(1f);
 
@@ -423,6 +424,7 @@ public class CountdownManager : MonoBehaviour
 
         SetGameplay(false);
         PowerFill.ResetAllBarsInScene();
+        ResetAllSpecialStates();
         FinalizeMatchResultIfNeeded();
 
         if (timerText != null)
@@ -575,5 +577,16 @@ public class CountdownManager : MonoBehaviour
     {
         Debug.Log("BUTTON CLICKED");
         SceneManager.LoadScene(1);
+    }
+
+    void ResetAllSpecialStates()
+    {
+        CharacterSpecialController[] specials = FindObjectsOfType<CharacterSpecialController>(true);
+
+        for (int i = 0; i < specials.Length; i++)
+        {
+            if (specials[i] != null)
+                specials[i].ResetSpecialState();
+        }
     }
 }

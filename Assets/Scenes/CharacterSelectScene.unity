@@ -1878,6 +1878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MatchContext
   currentMode: 1
+  playerIsOnRightSide: 1
 --- !u!1 &917224555
 GameObject:
   m_ObjectHideFlags: 0
