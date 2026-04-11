@@ -24,6 +24,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 2641997005039248779, guid: 71b2faaa451495a4e90d8404301341b2, type: 3}
+    - target: {fileID: 3009183150431992221, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
+      propertyPath: goalWallSize.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009183150431992221, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
+      propertyPath: goalWallSize.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009183150431992221, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
+      propertyPath: goalWallSprite
+      value: 
+      objectReference: {fileID: 7499154508442906066, guid: 57cbfadfdc5b99541a600893b09884a7, type: 3}
+    - target: {fileID: 3009183150431992221, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
+      propertyPath: goalWallDistanceFromGoal
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4006192136973009353, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.82305

@@ -7,8 +7,8 @@ public class CharacterSpecialController : MonoBehaviour
     {
         PowerShot,
         CurveShot,
-        DashShot,
-        StallShot
+        FreezeOpponent,
+        StickyBall
     }
 
     [Header("Input")]
@@ -39,20 +39,36 @@ public class CharacterSpecialController : MonoBehaviour
     public float curveShotVerticalForce = 8f;
     public float curveShotTorque = -14f;
 
-    [Header("Dash Shot")]
-    public float dashShotHorizontalForce = 12f;
-    public float dashShotVerticalForce = 5f;
-    public float playerDashForce = 7f;
+    [Header("Freeze Opponent")]
+    public float freezeDuration = 3f;
+    public Color freezeTint = new Color(0.35f, 0.7f, 1f, 1f);
 
-    [Header("Stall Shot")]
-    public float stallDuration = 0.2f;
-    public float stallReleaseHorizontalForce = 10f;
-    public float stallReleaseVerticalForce = 9f;
+    [Header("Sticky Ball")]
+    public float stickyBallDuration = 0.75f;
+    public Vector2 stickyBallHoldOffset = new Vector2(0.9f, 0.35f);
+    public float stickyBallReleaseHorizontalForce = 8f;
+    public float stickyBallReleaseVerticalForce = 5f;
 
     [Header("Safety")]
     public float retriggerDelay = 0.15f;
 
     private Rigidbody2D playerRb;
+    private Coroutine freezeRoutine;
+    private Coroutine stickyBallRoutine;
+    private Rigidbody2D stickyBallRb;
+    private float stickyBallSavedGravity;
+    private Collider2D[] stickyBallColliders;
+    private Collider2D[] stickyOwnerColliders;
+    private Transform frozenOpponentRoot;
+    private Rigidbody2D frozenOpponentRb;
+    private PlayerMovement frozenOpponentMovement;
+    private KickController frozenOpponentKick;
+    private SimpleAI frozenOpponentAI;
+    private SpriteRenderer[] frozenOpponentRenderers;
+    private Color[] frozenOpponentColors;
+    private bool frozenOpponentMovementWasEnabled;
+    private bool frozenOpponentKickWasEnabled;
+    private bool frozenOpponentAIWasEnabled;
     private float lastTriggerTime = -10f;
     private float auraFrameTimer;
     private int auraFrameIndex;
@@ -121,18 +137,20 @@ public class CharacterSpecialController : MonoBehaviour
                 ApplyCurveShot(ballRb, shotDirection);
                 break;
 
-            case SpecialPowerType.DashShot:
-                ApplyDashShot(ballRb, shotDirection);
+            case SpecialPowerType.FreezeOpponent:
+                TriggerFreezeOpponent();
                 break;
 
-            case SpecialPowerType.StallShot:
-                StartCoroutine(ApplyStallShot(ballRb, shotDirection));
+            case SpecialPowerType.StickyBall:
+                TriggerStickyBall(ballRb, shotDirection);
                 break;
         }
     }
 
     public void ResetSpecialState()
     {
+        RestoreStickyBall();
+        RestoreFrozenOpponent();
         SetSpecialArmed(false);
     }
 
@@ -150,11 +168,11 @@ public class CharacterSpecialController : MonoBehaviour
         }
         else if (normalizedName.Contains("egypt"))
         {
-            specialPower = SpecialPowerType.DashShot;
+            specialPower = SpecialPowerType.FreezeOpponent;
         }
         else if (normalizedName.Contains("saudi"))
         {
-            specialPower = SpecialPowerType.StallShot;
+            specialPower = SpecialPowerType.StickyBall;
         }
     }
 
@@ -241,45 +259,253 @@ public class CharacterSpecialController : MonoBehaviour
         ballRb.AddTorque(curveShotTorque * Mathf.Sign(shotDirection.x), ForceMode2D.Impulse);
     }
 
-    void ApplyDashShot(Rigidbody2D ballRb, Vector2 shotDirection)
+    void TriggerFreezeOpponent()
     {
-        if (playerRb != null)
-        {
-            playerRb.AddForce(
-                new Vector2(shotDirection.x * playerDashForce, 1.5f),
-                ForceMode2D.Impulse
-            );
-        }
+        if (freezeRoutine != null)
+            StopCoroutine(freezeRoutine);
 
-        ballRb.linearVelocity = Vector2.zero;
-        ballRb.AddForce(
-            new Vector2(shotDirection.x * dashShotHorizontalForce, dashShotVerticalForce),
-            ForceMode2D.Impulse
-        );
+        RestoreFrozenOpponent();
+        freezeRoutine = StartCoroutine(ApplyFreezeOpponent());
     }
 
-    IEnumerator ApplyStallShot(Rigidbody2D ballRb, Vector2 shotDirection)
+    IEnumerator ApplyFreezeOpponent()
     {
-        Vector2 savedVelocity = ballRb.linearVelocity;
-        float savedAngularVelocity = ballRb.angularVelocity;
-        float savedGravity = ballRb.gravityScale;
+        Transform opponentRoot = FindOpponentRoot();
+        if (opponentRoot == null)
+        {
+            freezeRoutine = null;
+            yield break;
+        }
+
+        frozenOpponentRoot = opponentRoot;
+        frozenOpponentRb = opponentRoot.GetComponentInChildren<Rigidbody2D>(true);
+        frozenOpponentMovement = opponentRoot.GetComponentInChildren<PlayerMovement>(true);
+        frozenOpponentKick = opponentRoot.GetComponentInChildren<KickController>(true);
+        frozenOpponentAI = opponentRoot.GetComponentInChildren<SimpleAI>(true);
+        frozenOpponentRenderers = opponentRoot.GetComponentsInChildren<SpriteRenderer>(true);
+        frozenOpponentColors = new Color[frozenOpponentRenderers.Length];
+
+        if (frozenOpponentMovement != null)
+        {
+            frozenOpponentMovementWasEnabled = frozenOpponentMovement.enabled;
+            frozenOpponentMovement.enabled = false;
+        }
+
+        if (frozenOpponentKick != null)
+        {
+            frozenOpponentKickWasEnabled = frozenOpponentKick.enabled;
+            frozenOpponentKick.enabled = false;
+        }
+
+        if (frozenOpponentAI != null)
+        {
+            frozenOpponentAIWasEnabled = frozenOpponentAI.enabled;
+            frozenOpponentAI.enabled = false;
+        }
+
+        if (frozenOpponentRb != null)
+        {
+            frozenOpponentRb.linearVelocity = Vector2.zero;
+            frozenOpponentRb.angularVelocity = 0f;
+        }
+
+        for (int i = 0; i < frozenOpponentRenderers.Length; i++)
+        {
+            if (frozenOpponentRenderers[i] == null)
+                continue;
+
+            frozenOpponentColors[i] = frozenOpponentRenderers[i].color;
+            frozenOpponentRenderers[i].color = freezeTint;
+        }
+
+        yield return new WaitForSeconds(freezeDuration);
+
+        freezeRoutine = null;
+        ClearFrozenOpponentState();
+    }
+
+    Transform FindOpponentRoot()
+    {
+        Rigidbody2D[] rigidbodies = FindObjectsOfType<Rigidbody2D>(true);
+        Transform bestHead = null;
+        float bestDistance = float.MaxValue;
+
+        for (int i = 0; i < rigidbodies.Length; i++)
+        {
+            Rigidbody2D body = rigidbodies[i];
+
+            if (body == null || body.transform == null || body.transform.name != "Head")
+                continue;
+
+            if (playerRb != null && body == playerRb)
+                continue;
+
+            float distance = Mathf.Abs(body.transform.position.x - transform.position.x);
+            if (distance < 0.1f)
+                continue;
+
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestHead = body.transform;
+            }
+        }
+
+        return bestHead != null ? bestHead.root : null;
+    }
+
+    void RestoreFrozenOpponent()
+    {
+        if (freezeRoutine != null)
+        {
+            StopCoroutine(freezeRoutine);
+            freezeRoutine = null;
+        }
+
+        ClearFrozenOpponentState();
+    }
+
+    void ClearFrozenOpponentState()
+    {
+        freezeRoutine = null;
+
+        if (frozenOpponentMovement != null)
+            frozenOpponentMovement.enabled = frozenOpponentMovementWasEnabled;
+
+        if (frozenOpponentKick != null)
+            frozenOpponentKick.enabled = frozenOpponentKickWasEnabled;
+
+        if (frozenOpponentAI != null)
+            frozenOpponentAI.enabled = frozenOpponentAIWasEnabled;
+
+        if (frozenOpponentRb != null)
+        {
+            frozenOpponentRb.linearVelocity = Vector2.zero;
+            frozenOpponentRb.angularVelocity = 0f;
+        }
+
+        if (frozenOpponentRenderers != null && frozenOpponentColors != null)
+        {
+            int colorCount = Mathf.Min(frozenOpponentRenderers.Length, frozenOpponentColors.Length);
+            for (int i = 0; i < colorCount; i++)
+            {
+                if (frozenOpponentRenderers[i] != null)
+                    frozenOpponentRenderers[i].color = frozenOpponentColors[i];
+            }
+        }
+
+        frozenOpponentRoot = null;
+        frozenOpponentRb = null;
+        frozenOpponentMovement = null;
+        frozenOpponentKick = null;
+        frozenOpponentAI = null;
+        frozenOpponentRenderers = null;
+        frozenOpponentColors = null;
+        frozenOpponentMovementWasEnabled = false;
+        frozenOpponentKickWasEnabled = false;
+        frozenOpponentAIWasEnabled = false;
+    }
+
+    void TriggerStickyBall(Rigidbody2D ballRb, Vector2 shotDirection)
+    {
+        if (ballRb == null)
+            return;
+
+        if (stickyBallRoutine != null)
+            StopCoroutine(stickyBallRoutine);
+
+        RestoreStickyBall();
+        stickyBallRoutine = StartCoroutine(ApplyStickyBall(ballRb, shotDirection));
+    }
+
+    IEnumerator ApplyStickyBall(Rigidbody2D ballRb, Vector2 shotDirection)
+    {
+        stickyBallRb = ballRb;
+        stickyBallSavedGravity = ballRb.gravityScale;
+        stickyBallColliders = ballRb.GetComponentsInChildren<Collider2D>(true);
+        stickyOwnerColliders = GetComponentsInChildren<Collider2D>(true);
 
         ballRb.linearVelocity = Vector2.zero;
         ballRb.angularVelocity = 0f;
         ballRb.gravityScale = 0f;
+        SetStickyBallOwnerCollisionIgnored(true);
 
-        yield return new WaitForSeconds(stallDuration);
+        float elapsed = 0f;
 
-        if (ballRb == null)
+        while (elapsed < stickyBallDuration && stickyBallRb != null)
+        {
+            Transform followTarget = playerRb != null ? playerRb.transform : transform;
+            Vector2 holdOffset = new Vector2(
+                stickyBallHoldOffset.x * shotDirection.x,
+                stickyBallHoldOffset.y
+            );
+
+            stickyBallRb.position = (Vector2)followTarget.position + holdOffset;
+            stickyBallRb.linearVelocity = Vector2.zero;
+            stickyBallRb.angularVelocity = 0f;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (stickyBallRb == null)
+        {
+            stickyBallRoutine = null;
             yield break;
+        }
 
-        ballRb.gravityScale = savedGravity;
-        ballRb.linearVelocity = savedVelocity * 0.2f;
-        ballRb.angularVelocity = savedAngularVelocity * 0.2f;
-        ballRb.AddForce(
-            new Vector2(shotDirection.x * stallReleaseHorizontalForce, stallReleaseVerticalForce),
+        SetStickyBallOwnerCollisionIgnored(false);
+        stickyBallRb.gravityScale = stickyBallSavedGravity;
+        stickyBallRb.linearVelocity = Vector2.zero;
+        stickyBallRb.angularVelocity = 0f;
+        stickyBallRb.AddForce(
+            new Vector2(shotDirection.x * stickyBallReleaseHorizontalForce, stickyBallReleaseVerticalForce),
             ForceMode2D.Impulse
         );
+
+        stickyBallRb = null;
+        stickyBallRoutine = null;
+    }
+
+    void RestoreStickyBall()
+    {
+        if (stickyBallRoutine != null)
+        {
+            StopCoroutine(stickyBallRoutine);
+            stickyBallRoutine = null;
+        }
+
+        if (stickyBallRb != null)
+        {
+            SetStickyBallOwnerCollisionIgnored(false);
+            stickyBallRb.gravityScale = stickyBallSavedGravity;
+            stickyBallRb = null;
+        }
+
+        stickyBallColliders = null;
+        stickyOwnerColliders = null;
+    }
+
+    void SetStickyBallOwnerCollisionIgnored(bool ignored)
+    {
+        if (stickyBallColliders == null || stickyOwnerColliders == null)
+            return;
+
+        for (int i = 0; i < stickyBallColliders.Length; i++)
+        {
+            Collider2D ballCollider = stickyBallColliders[i];
+            if (ballCollider == null)
+                continue;
+
+            for (int j = 0; j < stickyOwnerColliders.Length; j++)
+            {
+                Collider2D ownerCollider = stickyOwnerColliders[j];
+                if (ownerCollider == null)
+                    continue;
+
+                Physics2D.IgnoreCollision(ballCollider, ownerCollider, ignored);
+            }
+        }
     }
 
     void SetSpecialArmed(bool armed)
@@ -455,6 +681,8 @@ public class CharacterSpecialController : MonoBehaviour
 
     void OnDisable()
     {
+        RestoreStickyBall();
+        RestoreFrozenOpponent();
         SetSpecialArmed(false);
     }
 }

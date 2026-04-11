@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 6729200607606096262, guid: b2ae48cf9f1afdc438e2532fbbc3dabd, type: 3}
+    - target: {fileID: 7557651769159281554, guid: 64f58a5ee77553a469e42429afd00295, type: 3}
+      propertyPath: stickyBallDuration
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8554643129188012998, guid: 64f58a5ee77553a469e42429afd00295, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.82305
