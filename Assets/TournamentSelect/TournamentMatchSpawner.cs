@@ -87,6 +87,12 @@ public class TournamentMatchSpawner : MonoBehaviour
         KickController kick = obj.GetComponentInChildren<KickController>(true);
         if (kick != null)
             kick.isPlayer = true;
+
+        CharacterSpecialController special = obj.GetComponent<CharacterSpecialController>();
+        if (special == null)
+            special = obj.AddComponent<CharacterSpecialController>();
+
+        special.Configure(true);
     }
 
     void SetupOpponent(GameObject obj)
@@ -104,5 +110,11 @@ public class TournamentMatchSpawner : MonoBehaviour
         KickController kick = obj.GetComponentInChildren<KickController>(true);
         if (kick != null)
             kick.isPlayer = false;
+
+        CharacterSpecialController special = obj.GetComponent<CharacterSpecialController>();
+        if (special == null)
+            special = obj.AddComponent<CharacterSpecialController>();
+
+        special.Configure(false);
     }
 }

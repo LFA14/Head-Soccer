@@ -6,9 +6,19 @@ public class CharacterSpecialTouchRelay : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        TryTrigger(collision);
+    }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        TryTrigger(collision);
+    }
+
+    void TryTrigger(Collision2D collision)
+    {
         if (owner == null || !collision.gameObject.CompareTag("Ball"))
             return;
 
-        owner.TryTriggerSpecial(collision.rigidbody);
+        owner.TryTriggerSpecial(collision);
     }
 }

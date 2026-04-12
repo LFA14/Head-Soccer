@@ -128,7 +128,7 @@ public class TournamentResultSequenceUI : MonoBehaviour
         if (data.wonTournament)
             return tournamentWonSprite;
 
-        if (data.qualified && !data.wasFinalMatch)
+        if (data.playerWon)
             return congratsSprite;
 
         return hardLuckSprite;

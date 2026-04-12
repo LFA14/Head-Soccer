@@ -201,9 +201,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1825864309}
-        m_TargetAssemblyTypeName: ReturnToMenuButton, Assembly-CSharp
-        m_MethodName: ReturnToMenu
+      - m_Target: {fileID: 1128672209}
+        m_TargetAssemblyTypeName: TournamentResultContinueButton, Assembly-CSharp
+        m_MethodName: ContinueAfterTournamentResult
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -568,7 +568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TournamentResultContinueButton
   bracketSceneName: TournamentBracketScene
-  mainMenuSceneName: MainMenu
+  mainMenuSceneName: MenuScene
   quickMatchResultSceneName: QuickMatchResultScene
 --- !u!4 &1128672210
 Transform:

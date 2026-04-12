@@ -189,7 +189,6 @@ public class CountdownManager : MonoBehaviour
     {
         SetGameplay(false);
         matchTimerRunning = false;
-        PowerFill.ResetAllBarsInScene();
         ResetAllSpecialStates();
 
         yield return new WaitForSeconds(1f);

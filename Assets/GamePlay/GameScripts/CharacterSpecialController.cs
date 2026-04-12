@@ -31,8 +31,11 @@ public class CharacterSpecialController : MonoBehaviour
     public bool specialArmed;
 
     [Header("Power Shot")]
+    public float powerShotHoldDuration = 0.5f;
     public float powerShotHorizontalForce = 45f;
     public float powerShotVerticalForce = 12f;
+    public float powerShotRedDuration = 1.5f;
+    public Color powerShotBallTint = Color.red;
 
     [Header("Curve Shot")]
     public float curveShotHorizontalForce = 13f;
@@ -54,7 +57,13 @@ public class CharacterSpecialController : MonoBehaviour
 
     private Rigidbody2D playerRb;
     private Coroutine freezeRoutine;
+    private Coroutine powerShotRoutine;
     private Coroutine stickyBallRoutine;
+    private Rigidbody2D powerShotBallRb;
+    private float powerShotSavedGravity;
+    private Collider2D[] powerShotBallColliders;
+    private Collider2D[] powerShotOwnerColliders;
+    private BallSpecialVisualController powerShotBallVisual;
     private Rigidbody2D stickyBallRb;
     private float stickyBallSavedGravity;
     private Collider2D[] stickyBallColliders;
@@ -70,6 +79,7 @@ public class CharacterSpecialController : MonoBehaviour
     private bool frozenOpponentKickWasEnabled;
     private bool frozenOpponentAIWasEnabled;
     private float lastTriggerTime = -10f;
+    private float freezeEndTime = -1f;
     private float auraFrameTimer;
     private int auraFrameIndex;
     private bool auraSetupWarningShown;
@@ -84,16 +94,26 @@ public class CharacterSpecialController : MonoBehaviour
 
     void Update()
     {
-        if (!isPlayerControlled)
-            return;
+        bool canArm = linkedPowerBar != null && linkedPowerBar.IsFull;
 
-        bool canArm = linkedPowerBar == null || linkedPowerBar.IsFull;
-
-        if (Input.GetKeyDown(activationKey) && canArm)
+        if (isPlayerControlled)
+        {
+            if (Input.GetKeyDown(activationKey) && canArm)
+                SetSpecialArmed(true);
+        }
+        else if (canArm && !specialArmed)
+        {
             SetSpecialArmed(true);
+        }
 
         if (specialArmed)
             UpdateAuraSpriteAnimation();
+
+        if (frozenOpponentRoot != null && freezeEndTime >= 0f && Time.time >= freezeEndTime)
+        {
+            freezeRoutine = null;
+            ClearFrozenOpponentState();
+        }
     }
 
     public void Configure(bool controlledByPlayer)
@@ -103,17 +123,31 @@ public class CharacterSpecialController : MonoBehaviour
         linkedPowerBar = FindLinkedPowerBar();
         AttachRelaysToColliders();
         AutoAssignAuraReferences();
+        SetupAuraSortingAndPlacement();
+    }
+
+    public void TryTriggerSpecial(Collision2D ballCollision)
+    {
+        if (ballCollision == null)
+            return;
+
+        TryTriggerSpecial(ballCollision.rigidbody, ballCollision);
     }
 
     public void TryTriggerSpecial(Rigidbody2D ballRb)
     {
-        if (ballRb == null || !specialArmed)
+        TryTriggerSpecial(ballRb, null);
+    }
+
+    void TryTriggerSpecial(Rigidbody2D ballRb, Collision2D ballCollision)
+    {
+        if (!specialArmed)
+            return;
+
+        if (ballRb == null)
             return;
 
         if (Time.time - lastTriggerTime < retriggerDelay)
-            return;
-
-        if (linkedPowerBar != null && !linkedPowerBar.IsFull)
             return;
 
         bool isOnRightSide = transform.position.x > 0f;
@@ -130,7 +164,7 @@ public class CharacterSpecialController : MonoBehaviour
         switch (specialPower)
         {
             case SpecialPowerType.PowerShot:
-                ApplyPowerShot(ballRb, shotDirection);
+                TriggerPowerShot(ballRb, ballCollision, shotDirection);
                 break;
 
             case SpecialPowerType.CurveShot:
@@ -149,6 +183,7 @@ public class CharacterSpecialController : MonoBehaviour
 
     public void ResetSpecialState()
     {
+        RestorePowerShot();
         RestoreStickyBall();
         RestoreFrozenOpponent();
         SetSpecialArmed(false);
@@ -239,14 +274,71 @@ public class CharacterSpecialController : MonoBehaviour
         return transform.position.x <= 0f ? Vector2.right : Vector2.left;
     }
 
-    void ApplyPowerShot(Rigidbody2D ballRb, Vector2 shotDirection)
+    void TriggerPowerShot(Rigidbody2D ballRb, Collision2D ballCollision, Vector2 shotDirection)
     {
+        if (ballRb == null)
+            return;
+
+        if (powerShotRoutine != null)
+            StopCoroutine(powerShotRoutine);
+
+        RestorePowerShot();
+        powerShotRoutine = StartCoroutine(ApplyPowerShot(ballRb, ballCollision, shotDirection));
+    }
+
+    IEnumerator ApplyPowerShot(Rigidbody2D ballRb, Collision2D ballCollision, Vector2 shotDirection)
+    {
+        powerShotBallRb = ballRb;
+        powerShotSavedGravity = ballRb.gravityScale;
+        powerShotBallColliders = ballRb.GetComponentsInChildren<Collider2D>(true);
+        powerShotOwnerColliders = GetComponentsInChildren<Collider2D>(true);
+        powerShotBallVisual = ballRb.GetComponent<BallSpecialVisualController>();
+
+        if (powerShotBallVisual == null)
+            powerShotBallVisual = ballRb.gameObject.AddComponent<BallSpecialVisualController>();
+
+        Transform followTarget = playerRb != null ? playerRb.transform : transform;
+        Vector2 holdOffset = ballRb.position - (Vector2)followTarget.position;
+
         ballRb.linearVelocity = Vector2.zero;
         ballRb.angularVelocity = 0f;
-        ballRb.AddForce(
+        ballRb.gravityScale = 0f;
+        SetPowerShotOwnerCollisionIgnored(true);
+        powerShotBallVisual.SetTint(powerShotBallTint);
+
+        float elapsed = 0f;
+
+        while (elapsed < powerShotHoldDuration && powerShotBallRb != null)
+        {
+            powerShotBallRb.position = (Vector2)followTarget.position + holdOffset;
+            powerShotBallRb.linearVelocity = Vector2.zero;
+            powerShotBallRb.angularVelocity = 0f;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (powerShotBallRb == null)
+        {
+            powerShotRoutine = null;
+            yield break;
+        }
+
+        SetPowerShotOwnerCollisionIgnored(false);
+        powerShotBallRb.gravityScale = powerShotSavedGravity;
+        powerShotBallRb.linearVelocity = Vector2.zero;
+        powerShotBallRb.angularVelocity = 0f;
+        powerShotBallVisual.SetTintForDuration(powerShotBallTint, powerShotRedDuration);
+        powerShotBallRb.AddForce(
             new Vector2(shotDirection.x * powerShotHorizontalForce, powerShotVerticalForce),
             ForceMode2D.Impulse
         );
+
+        powerShotBallRb = null;
+        powerShotBallColliders = null;
+        powerShotOwnerColliders = null;
+        powerShotBallVisual = null;
+        powerShotRoutine = null;
     }
 
     void ApplyCurveShot(Rigidbody2D ballRb, Vector2 shotDirection)
@@ -318,7 +410,10 @@ public class CharacterSpecialController : MonoBehaviour
             frozenOpponentRenderers[i].color = freezeTint;
         }
 
-        yield return new WaitForSeconds(freezeDuration);
+        freezeEndTime = Time.time + freezeDuration;
+
+        while (freezeEndTime >= 0f && Time.time < freezeEndTime)
+            yield return null;
 
         freezeRoutine = null;
         ClearFrozenOpponentState();
@@ -326,32 +421,61 @@ public class CharacterSpecialController : MonoBehaviour
 
     Transform FindOpponentRoot()
     {
-        Rigidbody2D[] rigidbodies = FindObjectsOfType<Rigidbody2D>(true);
-        Transform bestHead = null;
+        CharacterSpecialController[] specials = FindObjectsOfType<CharacterSpecialController>(true);
+        Transform bestRoot = null;
         float bestDistance = float.MaxValue;
 
-        for (int i = 0; i < rigidbodies.Length; i++)
+        for (int i = 0; i < specials.Length; i++)
         {
-            Rigidbody2D body = rigidbodies[i];
+            CharacterSpecialController candidate = specials[i];
 
-            if (body == null || body.transform == null || body.transform.name != "Head")
+            if (candidate == null || candidate == this)
                 continue;
 
-            if (playerRb != null && body == playerRb)
+            if (candidate.isPlayerControlled == isPlayerControlled)
                 continue;
 
-            float distance = Mathf.Abs(body.transform.position.x - transform.position.x);
+            Transform candidateRoot = candidate.transform.root;
+            if (candidateRoot == null)
+                continue;
+
+            float distance = Mathf.Abs(candidateRoot.position.x - transform.position.x);
             if (distance < 0.1f)
                 continue;
 
             if (distance < bestDistance)
             {
                 bestDistance = distance;
-                bestHead = body.transform;
+                bestRoot = candidateRoot;
             }
         }
 
-        return bestHead != null ? bestHead.root : null;
+        if (bestRoot != null)
+            return bestRoot;
+
+        PlayerMovement[] movements = FindObjectsOfType<PlayerMovement>(true);
+        for (int i = 0; i < movements.Length; i++)
+        {
+            PlayerMovement movement = movements[i];
+            if (movement == null)
+                continue;
+
+            if (movement.isPlayer == isPlayerControlled)
+                continue;
+
+            Transform candidateRoot = movement.transform.root;
+            if (candidateRoot == null || candidateRoot == transform.root)
+                continue;
+
+            float distance = Mathf.Abs(candidateRoot.position.x - transform.position.x);
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestRoot = candidateRoot;
+            }
+        }
+
+        return bestRoot;
     }
 
     void RestoreFrozenOpponent()
@@ -365,18 +489,44 @@ public class CharacterSpecialController : MonoBehaviour
         ClearFrozenOpponentState();
     }
 
+    void RestorePowerShot()
+    {
+        if (powerShotRoutine != null)
+        {
+            StopCoroutine(powerShotRoutine);
+            powerShotRoutine = null;
+        }
+
+        if (powerShotBallRb != null)
+        {
+            SetPowerShotOwnerCollisionIgnored(false);
+            powerShotBallRb.gravityScale = powerShotSavedGravity;
+            powerShotBallRb.linearVelocity = Vector2.zero;
+            powerShotBallRb.angularVelocity = 0f;
+        }
+
+        if (powerShotBallVisual != null)
+            powerShotBallVisual.RestoreOriginal();
+
+        powerShotBallRb = null;
+        powerShotBallColliders = null;
+        powerShotOwnerColliders = null;
+        powerShotBallVisual = null;
+    }
+
     void ClearFrozenOpponentState()
     {
         freezeRoutine = null;
+        freezeEndTime = -1f;
 
         if (frozenOpponentMovement != null)
-            frozenOpponentMovement.enabled = frozenOpponentMovementWasEnabled;
+            frozenOpponentMovement.enabled = true;
 
         if (frozenOpponentKick != null)
-            frozenOpponentKick.enabled = frozenOpponentKickWasEnabled;
+            frozenOpponentKick.enabled = true;
 
         if (frozenOpponentAI != null)
-            frozenOpponentAI.enabled = frozenOpponentAIWasEnabled;
+            frozenOpponentAI.enabled = true;
 
         if (frozenOpponentRb != null)
         {
@@ -500,6 +650,28 @@ public class CharacterSpecialController : MonoBehaviour
             for (int j = 0; j < stickyOwnerColliders.Length; j++)
             {
                 Collider2D ownerCollider = stickyOwnerColliders[j];
+                if (ownerCollider == null)
+                    continue;
+
+                Physics2D.IgnoreCollision(ballCollider, ownerCollider, ignored);
+            }
+        }
+    }
+
+    void SetPowerShotOwnerCollisionIgnored(bool ignored)
+    {
+        if (powerShotBallColliders == null || powerShotOwnerColliders == null)
+            return;
+
+        for (int i = 0; i < powerShotBallColliders.Length; i++)
+        {
+            Collider2D ballCollider = powerShotBallColliders[i];
+            if (ballCollider == null)
+                continue;
+
+            for (int j = 0; j < powerShotOwnerColliders.Length; j++)
+            {
+                Collider2D ownerCollider = powerShotOwnerColliders[j];
                 if (ownerCollider == null)
                     continue;
 
@@ -681,6 +853,7 @@ public class CharacterSpecialController : MonoBehaviour
 
     void OnDisable()
     {
+        RestorePowerShot();
         RestoreStickyBall();
         RestoreFrozenOpponent();
         SetSpecialArmed(false);
