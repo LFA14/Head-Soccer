@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterSpecialController : MonoBehaviour
@@ -8,7 +9,8 @@ public class CharacterSpecialController : MonoBehaviour
         PowerShot,
         CurveShot,
         FreezeOpponent,
-        StickyBall
+        StickyBall,
+        MirrorShot
     }
 
     [Header("Input")]
@@ -52,6 +54,14 @@ public class CharacterSpecialController : MonoBehaviour
     public float stickyBallReleaseHorizontalForce = 8f;
     public float stickyBallReleaseVerticalForce = 5f;
 
+    [Header("Mirror Shot (Brazil)")]
+    public int mirrorGhostCount = 2;
+    public float mirrorShotDuration = 2.5f;
+    public float mirrorSpreadAngle = 18f;
+    public float mirrorSpeedMultiplierMin = 0.9f;
+    public float mirrorSpeedMultiplierMax = 1.15f;
+    public float mirrorGhostAlpha = 1f;
+
     [Header("Safety")]
     public float retriggerDelay = 0.15f;
 
@@ -59,6 +69,7 @@ public class CharacterSpecialController : MonoBehaviour
     private Coroutine freezeRoutine;
     private Coroutine powerShotRoutine;
     private Coroutine stickyBallRoutine;
+    private Coroutine mirrorShotRoutine;
     private Rigidbody2D powerShotBallRb;
     private float powerShotSavedGravity;
     private Collider2D[] powerShotBallColliders;
@@ -68,6 +79,7 @@ public class CharacterSpecialController : MonoBehaviour
     private float stickyBallSavedGravity;
     private Collider2D[] stickyBallColliders;
     private Collider2D[] stickyOwnerColliders;
+    private readonly List<GameObject> mirrorGhostObjects = new List<GameObject>();
     private Transform frozenOpponentRoot;
     private Rigidbody2D frozenOpponentRb;
     private PlayerMovement frozenOpponentMovement;
@@ -178,6 +190,10 @@ public class CharacterSpecialController : MonoBehaviour
             case SpecialPowerType.StickyBall:
                 TriggerStickyBall(ballRb, shotDirection);
                 break;
+
+            case SpecialPowerType.MirrorShot:
+                TriggerMirrorShot(ballRb, shotDirection);
+                break;
         }
     }
 
@@ -185,6 +201,7 @@ public class CharacterSpecialController : MonoBehaviour
     {
         RestorePowerShot();
         RestoreStickyBall();
+        RestoreMirrorShot();
         RestoreFrozenOpponent();
         SetSpecialArmed(false);
     }
@@ -199,7 +216,7 @@ public class CharacterSpecialController : MonoBehaviour
         }
         else if (normalizedName.Contains("brazil"))
         {
-            specialPower = SpecialPowerType.CurveShot;
+            specialPower = SpecialPowerType.MirrorShot;
         }
         else if (normalizedName.Contains("egypt"))
         {
@@ -568,6 +585,99 @@ public class CharacterSpecialController : MonoBehaviour
         stickyBallRoutine = StartCoroutine(ApplyStickyBall(ballRb, shotDirection));
     }
 
+    void TriggerMirrorShot(Rigidbody2D ballRb, Vector2 shotDirection)
+    {
+        if (ballRb == null)
+            return;
+
+        ApplyCurveShot(ballRb, shotDirection);
+
+        if (mirrorShotRoutine != null)
+            StopCoroutine(mirrorShotRoutine);
+
+        RestoreMirrorShot();
+        mirrorShotRoutine = StartCoroutine(ApplyMirrorShot(ballRb, shotDirection));
+    }
+
+    IEnumerator ApplyMirrorShot(Rigidbody2D realBallRb, Vector2 shotDirection)
+    {
+        if (realBallRb == null)
+        {
+            mirrorShotRoutine = null;
+            yield break;
+        }
+
+        Vector2 baseVelocity = realBallRb.linearVelocity;
+        if (baseVelocity.sqrMagnitude < 0.01f)
+        {
+            baseVelocity = new Vector2(
+                shotDirection.x * curveShotHorizontalForce,
+                curveShotVerticalForce
+            );
+        }
+
+        int ghostCount = Mathf.Max(1, mirrorGhostCount);
+        float baseAngularVelocity = realBallRb.angularVelocity;
+
+        for (int i = 0; i < ghostCount; i++)
+        {
+            float t = ghostCount == 1 ? 0.5f : (float)i / (ghostCount - 1);
+            float angleOffset = Mathf.Lerp(-mirrorSpreadAngle, mirrorSpreadAngle, t);
+            float speedMultiplier = Random.Range(mirrorSpeedMultiplierMin, mirrorSpeedMultiplierMax);
+            Vector2 ghostVelocity = (Quaternion.Euler(0f, 0f, angleOffset) * baseVelocity) * speedMultiplier;
+
+            GameObject ghost = Instantiate(
+                realBallRb.gameObject,
+                realBallRb.position,
+                realBallRb.transform.rotation
+            );
+
+            if (ghost == null)
+                continue;
+
+            ghost.name = realBallRb.gameObject.name + "_MirrorGhost_" + i;
+            ghost.tag = "Untagged";
+            ghost.layer = realBallRb.gameObject.layer;
+
+            CharacterSpecialTouchRelay[] relays = ghost.GetComponentsInChildren<CharacterSpecialTouchRelay>(true);
+            for (int relayIndex = 0; relayIndex < relays.Length; relayIndex++)
+            {
+                if (relays[relayIndex] != null)
+                    Destroy(relays[relayIndex]);
+            }
+
+            SpriteRenderer[] ghostRenderers = ghost.GetComponentsInChildren<SpriteRenderer>(true);
+            for (int r = 0; r < ghostRenderers.Length; r++)
+            {
+                if (ghostRenderers[r] == null)
+                    continue;
+
+                Color color = ghostRenderers[r].color;
+                color.a = 1f;
+                ghostRenderers[r].color = color;
+            }
+
+            Rigidbody2D ghostRb = ghost.GetComponent<Rigidbody2D>();
+            if (ghostRb == null)
+                ghostRb = ghost.AddComponent<Rigidbody2D>();
+
+            ghostRb.gravityScale = realBallRb.gravityScale;
+            ghostRb.mass = realBallRb.mass;
+            ghostRb.linearDamping = realBallRb.linearDamping;
+            ghostRb.angularDamping = realBallRb.angularDamping;
+            ghostRb.interpolation = realBallRb.interpolation;
+            ghostRb.collisionDetectionMode = realBallRb.collisionDetectionMode;
+            ghostRb.linearVelocity = ghostVelocity;
+            ghostRb.angularVelocity = baseAngularVelocity + Random.Range(-240f, 240f);
+
+            mirrorGhostObjects.Add(ghost);
+        }
+
+        yield return new WaitForSeconds(mirrorShotDuration);
+        ClearMirrorGhosts();
+        mirrorShotRoutine = null;
+    }
+
     IEnumerator ApplyStickyBall(Rigidbody2D ballRb, Vector2 shotDirection)
     {
         stickyBallRb = ballRb;
@@ -634,6 +744,28 @@ public class CharacterSpecialController : MonoBehaviour
 
         stickyBallColliders = null;
         stickyOwnerColliders = null;
+    }
+
+    void RestoreMirrorShot()
+    {
+        if (mirrorShotRoutine != null)
+        {
+            StopCoroutine(mirrorShotRoutine);
+            mirrorShotRoutine = null;
+        }
+
+        ClearMirrorGhosts();
+    }
+
+    void ClearMirrorGhosts()
+    {
+        for (int i = 0; i < mirrorGhostObjects.Count; i++)
+        {
+            if (mirrorGhostObjects[i] != null)
+                Destroy(mirrorGhostObjects[i]);
+        }
+
+        mirrorGhostObjects.Clear();
     }
 
     void SetStickyBallOwnerCollisionIgnored(bool ignored)
@@ -855,6 +987,7 @@ public class CharacterSpecialController : MonoBehaviour
     {
         RestorePowerShot();
         RestoreStickyBall();
+        RestoreMirrorShot();
         RestoreFrozenOpponent();
         SetSpecialArmed(false);
     }
