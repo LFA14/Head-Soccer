@@ -22,6 +22,12 @@ public class TournamentResultSequenceUI : MonoBehaviour
     public Sprite hardLuckSprite;
     public Sprite tournamentWonSprite;
 
+    [Header("Audio")]
+    public AudioClip winSound;
+    public AudioClip lossSound;
+    [Range(0f, 1f)] public float resultSoundVolume = 1f;
+    [Range(0f, 1f)] public float resultMusicVolumeMultiplier = 0.18f;
+
     [Header("Timing")]
     public float firstDelay = 0.4f;
     public float betweenDelay = 0.35f;
@@ -34,6 +40,9 @@ public class TournamentResultSequenceUI : MonoBehaviour
     public float overshootScale = 1.15f;
 
     readonly List<ParticleSystem> confettiSystems = new List<ParticleSystem>();
+    readonly Dictionary<AudioSource, float> duckedAudioVolumes = new Dictionary<AudioSource, float>();
+    private AudioSource resultAudioSource;
+    private Coroutine restoreMusicRoutine;
 
     private void Start()
     {
@@ -91,6 +100,7 @@ public class TournamentResultSequenceUI : MonoBehaviour
         if (resultIcon != null)
         {
             resultIcon.sprite = data.playerWon ? winSprite : lossSprite;
+            PlayOutcomeSound();
             yield return StartCoroutine(PopInImage(resultIcon));
         }
 
@@ -439,5 +449,94 @@ public class TournamentResultSequenceUI : MonoBehaviour
             if (system != null)
                 system.Play();
         }
+    }
+
+    void EnsureAudioSource()
+    {
+        if (resultAudioSource != null)
+            return;
+
+        resultAudioSource = GetComponent<AudioSource>();
+
+        if (resultAudioSource == null)
+            resultAudioSource = gameObject.AddComponent<AudioSource>();
+
+        resultAudioSource.playOnAwake = false;
+        resultAudioSource.loop = false;
+        resultAudioSource.spatialBlend = 0f;
+    }
+
+    void PlayOutcomeSound()
+    {
+        if (TournamentResultData.Instance == null)
+            return;
+
+        AudioClip clipToPlay = TournamentResultData.Instance.playerWon ? winSound : lossSound;
+        if (clipToPlay == null)
+            return;
+
+        EnsureAudioSource();
+
+        if (resultAudioSource == null)
+            return;
+
+        DuckBackgroundAudio();
+
+        if (restoreMusicRoutine != null)
+            StopCoroutine(restoreMusicRoutine);
+
+        restoreMusicRoutine = StartCoroutine(RestoreMusicAfterDelay(clipToPlay.length));
+
+        resultAudioSource.PlayOneShot(clipToPlay, resultSoundVolume);
+    }
+
+    IEnumerator RestoreMusicAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(Mathf.Max(0f, delay));
+
+        RestoreDuckedAudio();
+
+        restoreMusicRoutine = null;
+    }
+
+    void OnDisable()
+    {
+        if (restoreMusicRoutine != null)
+            StopCoroutine(restoreMusicRoutine);
+
+        RestoreDuckedAudio();
+    }
+
+    void DuckBackgroundAudio()
+    {
+        RestoreDuckedAudio();
+
+        AudioSource[] audioSources = FindObjectsOfType<AudioSource>(true);
+        float clampedMultiplier = Mathf.Clamp01(resultMusicVolumeMultiplier);
+
+        for (int i = 0; i < audioSources.Length; i++)
+        {
+            AudioSource source = audioSources[i];
+
+            if (source == null || source == resultAudioSource)
+                continue;
+
+            if (!source.enabled || source.mute || !source.gameObject.activeInHierarchy)
+                continue;
+
+            duckedAudioVolumes[source] = source.volume;
+            source.volume *= clampedMultiplier;
+        }
+    }
+
+    void RestoreDuckedAudio()
+    {
+        foreach (KeyValuePair<AudioSource, float> pair in duckedAudioVolumes)
+        {
+            if (pair.Key != null)
+                pair.Key.volume = pair.Value;
+        }
+
+        duckedAudioVolumes.Clear();
     }
 }

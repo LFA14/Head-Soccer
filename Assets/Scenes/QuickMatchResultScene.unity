@@ -1105,6 +1105,10 @@ MonoBehaviour:
   congratsSprite: {fileID: 8977413830798906838, guid: e279ebf140b130f4ab8138a490f8c3eb, type: 3}
   hardLuckSprite: {fileID: -1144463847553692720, guid: 83192b53e639b274a8bfdcddc4646f5f, type: 3}
   tournamentWonSprite: {fileID: 0}
+  winSound: {fileID: 8300000, guid: b08069a88b4b33f4b80fe4208f1016ad, type: 3}
+  lossSound: {fileID: 8300000, guid: 962d9433f0ea42c4b814f3f35c053624, type: 3}
+  resultSoundVolume: 1
+  resultMusicVolumeMultiplier: 0.18
   firstDelay: 0.4
   betweenDelay: 0.35
   popDuration: 0.35

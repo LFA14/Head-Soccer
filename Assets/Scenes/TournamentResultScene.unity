@@ -160,6 +160,10 @@ MonoBehaviour:
   congratsSprite: {fileID: -1887196244182336564, guid: 90bf06560ba165d44b7936ce3320cb86, type: 3}
   hardLuckSprite: {fileID: -7710731179452640888, guid: 61c31f62bde9ef14eb10bc9299a1a81b, type: 3}
   tournamentWonSprite: {fileID: 5577512094223407871, guid: cee7c61fa549c9242a595147d79efb79, type: 3}
+  winSound: {fileID: 8300000, guid: b08069a88b4b33f4b80fe4208f1016ad, type: 3}
+  lossSound: {fileID: 8300000, guid: 962d9433f0ea42c4b814f3f35c053624, type: 3}
+  resultSoundVolume: 1
+  resultMusicVolumeMultiplier: 0.18
   firstDelay: 0.4
   betweenDelay: 0.35
   popDuration: 0.35

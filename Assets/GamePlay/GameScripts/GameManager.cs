@@ -11,6 +11,14 @@ public class CountdownManager : MonoBehaviour
     public Sprite threeSprite;
     public Sprite twoSprite;
     public Sprite oneSprite;
+    public Sprite goalSprite;
+    public float goalDisplayDuration = 3f;
+    public Vector2 goalImageSize = new Vector2(700f, 500f);
+    public AudioClip goalSfx;
+    [Range(0f, 1f)] public float goalSfxVolume = 1f;
+    public AudioClip crowdSfx;
+    [Range(0f, 1f)] public float crowdSfxVolume = 0.45f;
+    [Range(0f, 1f)] public float gameplayMusicVolumeMultiplier = 0.12f;
     public GameObject[] objectsToDisableAtStart;
 
     [Header("Score")]
@@ -75,6 +83,15 @@ public class CountdownManager : MonoBehaviour
     private float currentTime;
     private float suddenDeathTime = 0f;
     private TournamentMatchResultHandler tournamentMatchResultHandler;
+    private Vector2 defaultCountdownSize = new Vector2(300f, 300f);
+    private AudioSource goalAudioSource;
+    private AudioSource crowdAudioSource;
+
+    void Awake()
+    {
+        EnsureGoalAudioSource();
+        EnsureCrowdAudioSource();
+    }
 
     void Start()
     {
@@ -82,6 +99,7 @@ public class CountdownManager : MonoBehaviour
         UpdateScoreUI();
         UpdateTimerUI();
         tournamentMatchResultHandler = FindObjectOfType<TournamentMatchResultHandler>();
+        UpdateMusicDucking(true);
 
         if (gameOverImage != null)
             gameOverImage.SetActive(false);
@@ -191,7 +209,7 @@ public class CountdownManager : MonoBehaviour
         matchTimerRunning = false;
         ResetAllSpecialStates();
 
-        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(ShowGoalCelebration());
 
         FindPlayers();
         CachePlayerReferences();
@@ -200,6 +218,107 @@ public class CountdownManager : MonoBehaviour
         yield return StartCoroutine(Countdown());
 
         goalScored = false;
+    }
+
+    IEnumerator ShowGoalCelebration()
+    {
+        if (countdownImage == null || goalSprite == null)
+        {
+            yield return new WaitForSeconds(goalDisplayDuration);
+            yield break;
+        }
+
+        RectTransform countdownRect = countdownImage.rectTransform;
+        Vector2 originalSize = countdownRect != null ? countdownRect.sizeDelta : defaultCountdownSize;
+        Sprite originalSprite = countdownImage.sprite;
+        bool originalPreserveAspect = countdownImage.preserveAspect;
+        Color originalColor = countdownImage.color;
+        Vector3 originalScale = countdownImage.transform.localScale;
+        Quaternion originalRotation = countdownImage.transform.localRotation;
+
+        countdownImage.gameObject.SetActive(true);
+        countdownImage.sprite = goalSprite;
+        countdownImage.preserveAspect = true;
+        countdownImage.color = new Color(1f, 1f, 1f, 0f);
+        countdownImage.transform.localScale = Vector3.one * 0.25f;
+        countdownImage.transform.localRotation = Quaternion.Euler(0f, 0f, -10f);
+        PlayGoalSound();
+
+        if (countdownRect != null)
+            countdownRect.sizeDelta = goalImageSize;
+
+        float entranceDuration = 0.4f;
+        float settleDuration = 0.2f;
+        float exitDuration = 0.45f;
+        float holdDuration = Mathf.Max(0f, goalDisplayDuration - entranceDuration - settleDuration - exitDuration);
+        float t = 0f;
+        Vector3 introStartScale = Vector3.one * 0.25f;
+        Vector3 introPeakScale = Vector3.one * 1.22f;
+        Vector3 finalScale = Vector3.one;
+
+        while (t < entranceDuration)
+        {
+            t += Time.deltaTime;
+            float progress = EaseOutCubic(Mathf.Clamp01(t / entranceDuration));
+
+            countdownImage.color = new Color(1f, 1f, 1f, progress);
+            countdownImage.transform.localScale = Vector3.LerpUnclamped(introStartScale, introPeakScale, progress);
+            countdownImage.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(-10f, 3f, progress));
+            yield return null;
+        }
+
+        t = 0f;
+
+        while (t < settleDuration)
+        {
+            t += Time.deltaTime;
+            float progress = EaseOutBack(Mathf.Clamp01(t / settleDuration));
+
+            countdownImage.color = Color.white;
+            countdownImage.transform.localScale = Vector3.LerpUnclamped(introPeakScale, finalScale, progress);
+            countdownImage.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(3f, 0f, progress));
+            yield return null;
+        }
+
+        float elapsedHold = 0f;
+
+        while (elapsedHold < holdDuration)
+        {
+            elapsedHold += Time.deltaTime;
+
+            float pulse = 1f + Mathf.Sin(elapsedHold * 12f) * 0.03f;
+            float shake = Mathf.Sin(elapsedHold * 42f) * 1.6f;
+
+            countdownImage.color = Color.white;
+            countdownImage.transform.localScale = finalScale * pulse;
+            countdownImage.transform.localRotation = Quaternion.Euler(0f, 0f, shake);
+            yield return null;
+        }
+
+        t = 0f;
+        Vector3 exitScale = Vector3.one * 1.35f;
+
+        while (t < exitDuration)
+        {
+            t += Time.deltaTime;
+            float progress = EaseInCubic(Mathf.Clamp01(t / exitDuration));
+
+            countdownImage.color = new Color(1f, 1f, 1f, 1f - progress);
+            countdownImage.transform.localScale = Vector3.LerpUnclamped(finalScale, exitScale, progress);
+            countdownImage.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(0f, -6f, progress));
+            yield return null;
+        }
+
+        countdownImage.sprite = originalSprite;
+        countdownImage.preserveAspect = originalPreserveAspect;
+        countdownImage.color = originalColor;
+        countdownImage.transform.localScale = originalScale;
+        countdownImage.transform.localRotation = originalRotation;
+
+        if (countdownRect != null)
+            countdownRect.sizeDelta = originalSize;
+
+        countdownImage.gameObject.SetActive(false);
     }
 
     void FindPlayers()
@@ -338,7 +457,9 @@ public class CountdownManager : MonoBehaviour
         if (countdownImage == null)
             yield break;
 
+        countdownImage.rectTransform.sizeDelta = defaultCountdownSize;
         countdownImage.sprite = sprite;
+        countdownImage.preserveAspect = false;
         yield return null;
         yield return StartCoroutine(PopEffect());
         yield return new WaitForSeconds(0.8f);
@@ -377,9 +498,96 @@ public class CountdownManager : MonoBehaviour
         countdownImage.transform.localScale = end;
     }
 
+    float EaseOutCubic(float t)
+    {
+        t = Mathf.Clamp01(t);
+        return 1f - Mathf.Pow(1f - t, 3f);
+    }
+
+    float EaseInCubic(float t)
+    {
+        t = Mathf.Clamp01(t);
+        return t * t * t;
+    }
+
+    float EaseOutBack(float t)
+    {
+        t = Mathf.Clamp01(t);
+        const float overshoot = 1.70158f;
+        float shifted = t - 1f;
+        return 1f + (overshoot + 1f) * shifted * shifted * shifted + overshoot * shifted * shifted;
+    }
+
+    void EnsureGoalAudioSource()
+    {
+        if (goalAudioSource != null)
+            return;
+
+        goalAudioSource = GetComponent<AudioSource>();
+
+        if (goalAudioSource == null)
+            goalAudioSource = gameObject.AddComponent<AudioSource>();
+
+        goalAudioSource.playOnAwake = false;
+        goalAudioSource.loop = false;
+        goalAudioSource.spatialBlend = 0f;
+    }
+
+    void EnsureCrowdAudioSource()
+    {
+        if (crowdAudioSource != null)
+            return;
+
+        crowdAudioSource = gameObject.AddComponent<AudioSource>();
+        crowdAudioSource.playOnAwake = false;
+        crowdAudioSource.loop = true;
+        crowdAudioSource.spatialBlend = 0f;
+        crowdAudioSource.volume = crowdSfxVolume;
+    }
+
+    void PlayGoalSound()
+    {
+        if (goalSfx == null)
+            return;
+
+        EnsureGoalAudioSource();
+
+        if (goalAudioSource == null)
+            return;
+
+        goalAudioSource.PlayOneShot(goalSfx, goalSfxVolume);
+    }
+
+    void UpdateCrowdSound(bool shouldPlay)
+    {
+        if (crowdSfx == null)
+            return;
+
+        EnsureCrowdAudioSource();
+
+        if (crowdAudioSource == null)
+            return;
+
+        crowdAudioSource.volume = crowdSfxVolume;
+
+        if (shouldPlay)
+        {
+            if (crowdAudioSource.clip != crowdSfx)
+                crowdAudioSource.clip = crowdSfx;
+
+            if (!crowdAudioSource.isPlaying)
+                crowdAudioSource.Play();
+        }
+        else if (crowdAudioSource.isPlaying)
+        {
+            crowdAudioSource.Pause();
+        }
+    }
+
     void SetGameplay(bool state)
     {
         gameplayEnabled = state;
+        UpdateCrowdSound(state && !matchEnded);
 
         if (!state)
         {
@@ -422,6 +630,8 @@ public class CountdownManager : MonoBehaviour
         matchTimerRunning = false;
 
         SetGameplay(false);
+        UpdateCrowdSound(false);
+        UpdateMusicDucking(false);
         PowerFill.ResetAllBarsInScene();
         ResetAllSpecialStates();
         FinalizeMatchResultIfNeeded();
@@ -587,5 +797,21 @@ public class CountdownManager : MonoBehaviour
             if (specials[i] != null)
                 specials[i].ResetSpecialState();
         }
+    }
+
+    void UpdateMusicDucking(bool gameplayActive)
+    {
+        if (MenuMusic.Instance == null)
+            return;
+
+        if (gameplayActive && !matchEnded)
+            MenuMusic.Instance.SetVolumeMultiplier(gameplayMusicVolumeMultiplier);
+        else
+            MenuMusic.Instance.RestoreOriginalVolume();
+    }
+
+    void OnDisable()
+    {
+        UpdateMusicDucking(false);
     }
 }
