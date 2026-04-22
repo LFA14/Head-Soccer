@@ -1219,7 +1219,7 @@ MonoBehaviour:
   player2Score: 0
   player1ScoreText: {fileID: 650728717}
   player2ScoreText: {fileID: 429205234}
-  matchTime: 10
+  matchTime: 30
   timerText: {fileID: 1774477543}
   gameOverImage: {fileID: 562386951}
   endGameButton: {fileID: 172615884}

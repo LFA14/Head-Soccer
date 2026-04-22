@@ -1,0 +1,611 @@
+fileFormatVersion: 2
+guid: c42172bd6f1daab4bba025ca757a0484
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7228981403028371218
+    second: ReadyButton_0
+  - first:
+      213: 1091490311761099707
+    second: ReadyButton_1
+  - first:
+      213: 7272095685498569580
+    second: ReadyButton_2
+  - first:
+      213: -6125049745372613497
+    second: ReadyButton_3
+  - first:
+      213: -3221312074266363807
+    second: ReadyButton_4
+  - first:
+      213: 4236392522120703805
+    second: ReadyButton_5
+  - first:
+      213: 8125927619461151328
+    second: ReadyButton_6
+  - first:
+      213: 6633698775754436012
+    second: ReadyButton_7
+  - first:
+      213: 3169579046561368333
+    second: ReadyButton_8
+  - first:
+      213: -1216436795540690874
+    second: ReadyButton_9
+  - first:
+      213: -139571001659040865
+    second: ReadyButton_10
+  - first:
+      213: 119109040094459710
+    second: ReadyButton_11
+  - first:
+      213: 4326251148683998756
+    second: ReadyButton_12
+  - first:
+      213: -1521626230857477857
+    second: ReadyButton_13
+  - first:
+      213: 3092649597140400045
+    second: ReadyButton_14
+  - first:
+      213: -2436874571928504556
+    second: ReadyButton_15
+  - first:
+      213: -7054456019860034306
+    second: ReadyButton_16
+  - first:
+      213: 8400502269207032191
+    second: ReadyButton_17
+  - first:
+      213: 2062710084471997166
+    second: ReadyButton_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ReadyButton_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 0
+        width: 1502
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee8c698f6bf7dab90800000000000000
+      internalID: -7228981403028371218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_1
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 767
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbbfc44d7a0c52f00800000000000000
+      internalID: 1091490311761099707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_2
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 775
+        width: 323
+        height: 249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c630bca2f7cabe460800000000000000
+      internalID: 7272095685498569580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_3
+      rect:
+        serializedVersion: 2
+        x: 1334
+        y: 442
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 784f77f55b37ffaa0800000000000000
+      internalID: -6125049745372613497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_4
+      rect:
+        serializedVersion: 2
+        x: 1339
+        y: 435
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1683da65cb99b43d0800000000000000
+      internalID: -3221312074266363807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_5
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 433
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3f2022bd80baca30800000000000000
+      internalID: 4236392522120703805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_6
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 430
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06a748ced1815c070800000000000000
+      internalID: 8125927619461151328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_7
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 421
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cad69c3c3e1af0c50800000000000000
+      internalID: 6633698775754436012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_8
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 423
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d09cfc5895b9cfb20800000000000000
+      internalID: 3169579046561368333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_9
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 426
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 648251eed295e1fe0800000000000000
+      internalID: -1216436795540690874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_10
+      rect:
+        serializedVersion: 2
+        x: 1202
+        y: 421
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9bda29d9e4201ef0800000000000000
+      internalID: -139571001659040865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_11
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 426
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e373e587a0927a100800000000000000
+      internalID: 119109040094459710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_12
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 419
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4267f6e8f7ee90c30800000000000000
+      internalID: 4326251148683998756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_13
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 415
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f11d2d4410912eae0800000000000000
+      internalID: -1521626230857477857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_14
+      rect:
+        serializedVersion: 2
+        x: 1181
+        y: 407
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da7fe4c4c6c4bea20800000000000000
+      internalID: 3092649597140400045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_15
+      rect:
+        serializedVersion: 2
+        x: 1236
+        y: 413
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 417f40aec7b7e2ed0800000000000000
+      internalID: -2436874571928504556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_16
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 399
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efc60a440a9891e90800000000000000
+      internalID: -7054456019860034306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_17
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 406
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f71b2fa5e44949470800000000000000
+      internalID: 8400502269207032191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ReadyButton_18
+      rect:
+        serializedVersion: 2
+        x: 1241
+        y: 407
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee2c193a4e730ac10800000000000000
+      internalID: 2062710084471997166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ReadyButton_0: -7228981403028371218
+      ReadyButton_1: 1091490311761099707
+      ReadyButton_10: -139571001659040865
+      ReadyButton_11: 119109040094459710
+      ReadyButton_12: 4326251148683998756
+      ReadyButton_13: -1521626230857477857
+      ReadyButton_14: 3092649597140400045
+      ReadyButton_15: -2436874571928504556
+      ReadyButton_16: -7054456019860034306
+      ReadyButton_17: 8400502269207032191
+      ReadyButton_18: 2062710084471997166
+      ReadyButton_2: 7272095685498569580
+      ReadyButton_3: -6125049745372613497
+      ReadyButton_4: -3221312074266363807
+      ReadyButton_5: 4236392522120703805
+      ReadyButton_6: 8125927619461151328
+      ReadyButton_7: 6633698775754436012
+      ReadyButton_8: 3169579046561368333
+      ReadyButton_9: -1216436795540690874
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
