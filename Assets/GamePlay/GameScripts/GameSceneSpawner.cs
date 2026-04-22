@@ -1,3 +1,7 @@
+using System;
+using System.Linq;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class GameSceneSpawner : MonoBehaviour
@@ -8,8 +12,19 @@ public class GameSceneSpawner : MonoBehaviour
     [Header("Tournament Fallback Prefabs (same order as tournament portraits)")]
     public GameObject[] tournamentCharacterPrefabs;
 
+    [Header("Photon")]
+    public string photonResourcesCharacterFolder = "Characters";
+
+    private bool spawnedOnlinePlayer;
+
     void Start()
     {
+        if (PhotonNetwork.InRoom)
+        {
+            SpawnOnlineMatch();
+            return;
+        }
+
         bool shouldSpawnTournamentMatch =
             MatchContext.Instance != null &&
             MatchContext.Instance.currentMode == MatchContext.MatchMode.Tournament &&
@@ -25,6 +40,79 @@ public class GameSceneSpawner : MonoBehaviour
         {
             SpawnNormalMatch();
         }
+    }
+
+    void SpawnOnlineMatch()
+    {
+        if (spawnedOnlinePlayer)
+            return;
+
+        if (tournamentCharacterPrefabs == null || tournamentCharacterPrefabs.Length == 0)
+        {
+            Debug.LogError("Online character prefabs are not assigned.");
+            return;
+        }
+
+        int selectedIndex = PhotonLobbyKeys.GetSelectedCharacterIndex(
+            PhotonNetwork.LocalPlayer,
+            0,
+            tournamentCharacterPrefabs.Length);
+
+        if (selectedIndex < 0 || selectedIndex >= tournamentCharacterPrefabs.Length)
+        {
+            Debug.LogWarning("Online selected character index was out of range. Falling back to index 0.");
+            selectedIndex = 0;
+        }
+
+        GameObject selectedPrefab = tournamentCharacterPrefabs[selectedIndex];
+        if (selectedPrefab == null)
+        {
+            Debug.LogError("Online selected prefab is missing for index " + selectedIndex);
+            return;
+        }
+
+        Player[] orderedPlayers = PhotonNetwork.PlayerList.OrderBy(player => player.ActorNumber).ToArray();
+        int localPlayerOrder = Array.FindIndex(
+            orderedPlayers,
+            player => player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber);
+
+        bool usePrimarySpawn = localPlayerOrder <= 0;
+        Transform assignedSpawnPoint = usePrimarySpawn ? playerSpawnPoint : aiSpawnPoint;
+        Transform opposingSpawnPoint = usePrimarySpawn ? aiSpawnPoint : playerSpawnPoint;
+
+        if (assignedSpawnPoint == null)
+        {
+            Debug.LogError("Assigned online spawn point is missing.");
+            return;
+        }
+
+        bool playerIsOnRightSide = opposingSpawnPoint != null &&
+                                   assignedSpawnPoint.position.x > opposingSpawnPoint.position.x;
+
+        if (MatchContext.Instance != null)
+        {
+            MatchContext.Instance.SetMode(MatchContext.MatchMode.Online);
+            MatchContext.Instance.SetPlayerSide(playerIsOnRightSide);
+        }
+
+        string resourcePath = BuildPhotonResourcePath(selectedPrefab);
+        Vector3 spawnPosition = assignedSpawnPoint.position + new Vector3(0f, 1f, 0f);
+        PhotonNetwork.Instantiate(
+            resourcePath,
+            spawnPosition,
+            Quaternion.identity,
+            0,
+            new object[] { usePrimarySpawn ? 0 : 1 });
+
+        spawnedOnlinePlayer = true;
+    }
+
+    string BuildPhotonResourcePath(GameObject prefab)
+    {
+        if (string.IsNullOrWhiteSpace(photonResourcesCharacterFolder))
+            return prefab.name;
+
+        return photonResourcesCharacterFolder.TrimEnd('/') + "/" + prefab.name;
     }
 
     void SpawnNormalMatch()

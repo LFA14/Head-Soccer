@@ -8,7 +8,8 @@ public class MatchContext : MonoBehaviour
     {
         None,
         QuickMatch,
-        Tournament
+        Tournament,
+        Online
     }
 
     public MatchMode currentMode = MatchMode.None;

@@ -54,6 +54,16 @@ public class LobbyCharacterSelectManager
         return GetPrefab(OpponentCharacterIndex);
     }
 
+    public void SetLocalIndex(int index)
+    {
+        LocalCharacterIndex = NormalizeIndex(index);
+    }
+
+    public void SetOpponentIndex(int index)
+    {
+        OpponentCharacterIndex = index < 0 ? -1 : NormalizeIndex(index);
+    }
+
     public int MovePrevious()
     {
         if (!HasCharacters)
@@ -79,6 +89,26 @@ public class LobbyCharacterSelectManager
     public void ClearOpponent()
     {
         OpponentCharacterIndex = -1;
+    }
+
+    public Sprite GetPortrait(int index)
+    {
+        if (index < 0 || index >= portraitSprites.Length)
+        {
+            return null;
+        }
+
+        return portraitSprites[index];
+    }
+
+    public GameObject GetPrefab(int index)
+    {
+        if (index < 0 || index >= characterPrefabs.Length)
+        {
+            return null;
+        }
+
+        return characterPrefabs[index];
     }
 
     public int PickOpponentIndex(System.Random random)
@@ -118,23 +148,14 @@ public class LobbyCharacterSelectManager
         }
     }
 
-    private Sprite GetPortrait(int index)
+    private int NormalizeIndex(int index)
     {
-        if (index < 0 || index >= portraitSprites.Length)
+        if (!HasCharacters)
         {
-            return null;
+            return 0;
         }
 
-        return portraitSprites[index];
-    }
-
-    private GameObject GetPrefab(int index)
-    {
-        if (index < 0 || index >= characterPrefabs.Length)
-        {
-            return null;
-        }
-
-        return characterPrefabs[index];
+        int wrappedIndex = index % characterCount;
+        return wrappedIndex < 0 ? wrappedIndex + characterCount : wrappedIndex;
     }
 }

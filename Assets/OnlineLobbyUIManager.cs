@@ -1,22 +1,38 @@
-using System;
-using System.Collections;
+using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
-public class OnlineLobbyUIManager : MonoBehaviour
+public class OnlineLobbyUIManager : MonoBehaviourPunCallbacks
 {
+    private const string ConnectingStatus = "Connecting...";
+    private const string ConnectedStatus = "Connected!";
+    private const string WaitingForPlayerStatus = "Waiting for player...";
+    private const string OpponentJoinedStatus = "Opponent joined!";
+    private const string PlayerLeftStatus = "Player left. Waiting for player...";
+    private const string ReadyStatus = "Ready!";
+    private const string NotReadyStatus = "Not Ready";
+    private const string BothPlayersReadyStatus = "Both players ready";
+    private const string WaitingForOpponentReadyStatus = "Ready! Waiting for opponent...";
+    private const string WaitingForPlayerWhileReadyStatus = "Ready! Waiting for player...";
+    private const string OpponentReadyStatus = "Opponent ready. You are not ready.";
+    private const byte MaxPlayersPerRoom = 2;
+    private const int MaxCreateRetries = 5;
+
+    private enum PendingLobbyAction
+    {
+        None,
+        CreateRoom,
+        JoinRoom
+    }
+
     [Header("Character Order")]
     [SerializeField] private Sprite[] portraitSprites;
     [SerializeField] private GameObject[] characterPrefabs;
-
-    [Header("Fake Lobby Timing")]
-    [SerializeField] private bool simulateOpponentJoinOnCreate = true;
-    [SerializeField] private bool simulateOpponentAutoReady = true;
-    [SerializeField] private float fakeOpponentJoinDelay = 1.75f;
-    [SerializeField] private float fakeOpponentReadyDelay = 0.75f;
 
     [Header("UI Colors")]
     [SerializeField] private Color readyButtonNormalTint = Color.white;
@@ -27,6 +43,7 @@ public class OnlineLobbyUIManager : MonoBehaviour
     [Header("Fallbacks")]
     [SerializeField] private string fallbackMainMenuSceneName = "MenuScene";
     [SerializeField] private string emptyLobbyCodeDisplay = "------";
+    [SerializeField] private string gameSceneName = "GameScene";
 
     private GameObject startPanel;
     private GameObject joinPanel;
@@ -52,46 +69,47 @@ public class OnlineLobbyUIManager : MonoBehaviour
     private Image readyButtonImage;
 
     private ReturnToMenuButton returnToMenuButton;
-
-    private readonly System.Random random = new System.Random();
-
-    private FakeLobbyManager fakeLobbyManager;
     private LobbyCharacterSelectManager characterSelectManager;
 
-    private Coroutine fakeOpponentJoinRoutine;
-    private Coroutine fakeOpponentReadyRoutine;
-
     private string defaultJoinPromptText = "Enter Lobby Code";
-    private string defaultStatusText = FakeLobbyManager.NotReadyStatus;
+    private string defaultStatusText = NotReadyStatus;
     private string defaultLobbyCodeText = "------";
     private bool listenersRegistered;
-
-    public int SelectedCharacterIndex => characterSelectManager != null ? characterSelectManager.LocalCharacterIndex : 0;
-    public GameObject SelectedCharacterPrefab => characterSelectManager != null ? characterSelectManager.GetLocalPrefab() : null;
-    public GameObject OpponentCharacterPrefab => characterSelectManager != null ? characterSelectManager.GetOpponentPrefab() : null;
+    private bool loadingGameScene;
+    private PendingLobbyAction pendingAction;
+    private string pendingRoomCode = string.Empty;
+    private int createRetryCount;
 
     private void Awake()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         AutoAssignReferences();
         CacheDefaultTextValues();
 
-        fakeLobbyManager = new FakeLobbyManager();
         characterSelectManager = new LobbyCharacterSelectManager(portraitSprites, characterPrefabs);
 
         RegisterListeners();
-        ApplyPlayer1Portrait();
-        ClearPlayer2Portrait();
+        ApplyLocalPortrait();
+        ClearRemotePortrait();
     }
 
     private void Start()
     {
+        if (PhotonNetwork.InRoom)
+        {
+            loadingGameScene = false;
+            RefreshLobbyUi();
+            return;
+        }
+
         ResetToStartPanel();
+        EnsureConnectedToPhoton();
     }
 
     private void OnDestroy()
     {
         UnregisterListeners();
-        StopLobbySimulation();
     }
 
     private void RegisterListeners()
@@ -146,94 +164,87 @@ public class OnlineLobbyUIManager : MonoBehaviour
 
     private void OnCreateLobbyPressed()
     {
-        StopLobbySimulation();
+        pendingAction = PendingLobbyAction.CreateRoom;
+        pendingRoomCode = GenerateRoomCode();
+        createRetryCount = 0;
+        SetJoinPrompt(defaultJoinPromptText, false);
+        EnsureConnectedToPhoton();
 
-        fakeLobbyManager.CreateLobby();
-        characterSelectManager.ClearOpponent();
-
-        ShowPanels(showStart: false, showJoin: false, showRoom: true);
-        ResetJoinPrompt();
-        ClearLobbyCodeInput();
-        ApplyPlayer1Portrait();
-        ClearPlayer2Portrait();
-        SetLobbyCode(fakeLobbyManager.LobbyCode);
-        RefreshRoomStatus();
-
-        if (simulateOpponentJoinOnCreate)
+        if (PhotonNetwork.IsConnectedAndReady)
         {
-            fakeOpponentJoinRoutine = StartCoroutine(SimulateOpponentJoinAfterDelay());
+            CreateRoomWithCode(pendingRoomCode);
         }
     }
 
     private void OnJoinLobbyPressed()
     {
-        StopLobbySimulation();
+        pendingAction = PendingLobbyAction.None;
+        pendingRoomCode = string.Empty;
+        createRetryCount = 0;
         ResetJoinPrompt();
         ShowPanels(showStart: false, showJoin: true, showRoom: false);
     }
 
     private void OnConfirmJoinPressed()
     {
-        string normalizedCode = FakeLobbyManager.NormalizeLobbyCode(lobbyCodeInput != null ? lobbyCodeInput.text : string.Empty);
+        string normalizedCode = PhotonLobbyKeys.NormalizeRoomCode(lobbyCodeInput != null ? lobbyCodeInput.text : string.Empty);
         if (string.IsNullOrEmpty(normalizedCode))
         {
             SetJoinPrompt("Please enter a lobby code.", true);
             return;
         }
 
-        StopLobbySimulation();
-
-        fakeLobbyManager.JoinLobby(normalizedCode);
-        characterSelectManager.PickOpponentIndex(random);
-        fakeLobbyManager.SetOpponentJoined(characterSelectManager.OpponentCharacterIndex);
-
-        ShowPanels(showStart: false, showJoin: false, showRoom: true);
+        pendingAction = PendingLobbyAction.JoinRoom;
+        pendingRoomCode = normalizedCode;
         ResetJoinPrompt();
-        ApplyPlayer1Portrait();
-        ApplyPlayer2Portrait();
-        SetLobbyCode(fakeLobbyManager.LobbyCode);
-        UpdateStatusText(FakeLobbyManager.ConnectedStatus);
-        UpdateReadyButtonVisual();
+        EnsureConnectedToPhoton();
 
-        if (simulateOpponentAutoReady)
+        if (PhotonNetwork.IsConnectedAndReady)
         {
-            fakeOpponentReadyRoutine = StartCoroutine(SimulateOpponentReadyAfterDelay());
+            JoinRoomWithCode(pendingRoomCode);
         }
     }
 
     private void OnReadyPressed()
     {
-        if (!fakeLobbyManager.InRoom)
+        if (!PhotonNetwork.InRoom || PhotonNetwork.LocalPlayer == null)
         {
             return;
         }
 
-        fakeLobbyManager.ToggleLocalReady();
-        RefreshRoomStatus();
-
-        if (simulateOpponentAutoReady && fakeLobbyManager.OpponentPresent && !fakeLobbyManager.OpponentReady && fakeOpponentReadyRoutine == null)
-        {
-            fakeOpponentReadyRoutine = StartCoroutine(SimulateOpponentReadyAfterDelay());
-        }
+        bool nextReadyState = !PhotonLobbyKeys.GetReadyState(PhotonNetwork.LocalPlayer);
+        SetLocalPlayerProperties(characterSelectManager.LocalCharacterIndex, nextReadyState);
+        RefreshLobbyUi();
     }
 
     private void OnLeaveLobbyPressed()
     {
-        ResetToStartPanel();
+        pendingAction = PendingLobbyAction.None;
+        pendingRoomCode = string.Empty;
+        loadingGameScene = false;
+
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+        else
+        {
+            ResetToStartPanel();
+        }
     }
 
     private void OnPlayerUpPressed()
     {
         characterSelectManager.MovePrevious();
-        ApplyPlayer1Portrait();
-        KeepOpponentDifferentIfNeeded();
+        ApplyLocalPortrait();
+        PushLocalCharacterSelection();
     }
 
     private void OnPlayerDownPressed()
     {
         characterSelectManager.MoveNext();
-        ApplyPlayer1Portrait();
-        KeepOpponentDifferentIfNeeded();
+        ApplyLocalPortrait();
+        PushLocalCharacterSelection();
     }
 
     private void OnLobbyCodeSubmitted(string _)
@@ -244,63 +255,350 @@ public class OnlineLobbyUIManager : MonoBehaviour
         }
     }
 
+    public override void OnConnectedToMaster()
+    {
+        if (pendingAction == PendingLobbyAction.CreateRoom)
+        {
+            CreateRoomWithCode(pendingRoomCode);
+            return;
+        }
+
+        if (pendingAction == PendingLobbyAction.JoinRoom)
+        {
+            JoinRoomWithCode(pendingRoomCode);
+        }
+    }
+
+    public override void OnCreatedRoom()
+    {
+        UpdateStatusText(WaitingForPlayerStatus);
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        if (pendingAction == PendingLobbyAction.CreateRoom && createRetryCount < MaxCreateRetries)
+        {
+            createRetryCount++;
+            pendingRoomCode = GenerateRoomCode();
+            CreateRoomWithCode(pendingRoomCode);
+            return;
+        }
+
+        pendingAction = PendingLobbyAction.None;
+        pendingRoomCode = string.Empty;
+        ShowPanels(showStart: true, showJoin: false, showRoom: false);
+        SetJoinPrompt("Could not create room. Try again.", true);
+        Debug.LogWarning($"Create room failed ({returnCode}): {message}");
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        pendingAction = PendingLobbyAction.None;
+        ShowPanels(showStart: false, showJoin: true, showRoom: false);
+        SetJoinPrompt("Room not found. Check the code.", true);
+        Debug.LogWarning($"Join room failed ({returnCode}): {message}");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        pendingAction = PendingLobbyAction.None;
+        createRetryCount = 0;
+        loadingGameScene = false;
+
+        ShowPanels(showStart: false, showJoin: false, showRoom: true);
+        SetLobbyCode(PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.Name : pendingRoomCode);
+
+        SetLocalPlayerProperties(characterSelectManager.LocalCharacterIndex, false);
+
+        if (MatchContext.Instance != null)
+        {
+            MatchContext.Instance.SetMode(MatchContext.MatchMode.Online);
+        }
+
+        RefreshLobbyUi();
+        TryStartGameIfBothPlayersReady();
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        loadingGameScene = false;
+        RefreshLobbyUi();
+        TryStartGameIfBothPlayersReady();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        loadingGameScene = false;
+        RefreshLobbyUi();
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (!PhotonLobbyKeys.ContainsLobbyProperties(changedProps))
+        {
+            return;
+        }
+
+        RefreshLobbyUi();
+        TryStartGameIfBothPlayersReady();
+    }
+
+    public override void OnLeftRoom()
+    {
+        loadingGameScene = false;
+        ResetToStartPanel();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        loadingGameScene = false;
+
+        if (SceneManager.GetActiveScene().name == "OnlineLobbyScene")
+        {
+            ResetToStartPanel();
+            SetJoinPrompt("Disconnected from Photon.", true);
+        }
+
+        Debug.LogWarning("Photon disconnected: " + cause);
+    }
+
+    private void EnsureConnectedToPhoton()
+    {
+        if (PhotonNetwork.IsConnectedAndReady || PhotonNetwork.IsConnected)
+        {
+            return;
+        }
+
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
+    private void CreateRoomWithCode(string code)
+    {
+        if (!PhotonNetwork.IsConnectedAndReady || string.IsNullOrWhiteSpace(code))
+        {
+            return;
+        }
+
+        pendingRoomCode = code;
+
+        RoomOptions roomOptions = new RoomOptions
+        {
+            MaxPlayers = MaxPlayersPerRoom,
+            CleanupCacheOnLeave = true,
+            PublishUserId = true
+        };
+
+        PhotonNetwork.CreateRoom(code, roomOptions, TypedLobby.Default);
+    }
+
+    private void JoinRoomWithCode(string code)
+    {
+        if (!PhotonNetwork.IsConnectedAndReady || string.IsNullOrWhiteSpace(code))
+        {
+            return;
+        }
+
+        pendingRoomCode = code;
+        PhotonNetwork.JoinRoom(code);
+    }
+
+    private void PushLocalCharacterSelection()
+    {
+        if (!PhotonNetwork.InRoom || PhotonNetwork.LocalPlayer == null)
+        {
+            return;
+        }
+
+        bool currentReadyState = PhotonLobbyKeys.GetReadyState(PhotonNetwork.LocalPlayer);
+        SetLocalPlayerProperties(characterSelectManager.LocalCharacterIndex, currentReadyState);
+    }
+
+    private void SetLocalPlayerProperties(int characterIndex, bool readyState)
+    {
+        if (PhotonNetwork.LocalPlayer == null)
+        {
+            return;
+        }
+
+        Hashtable properties = PhotonLobbyKeys.CreateLobbyProperties(characterIndex, readyState);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+    }
+
+    private void TryStartGameIfBothPlayersReady()
+    {
+        if (!PhotonNetwork.InRoom || !PhotonNetwork.IsMasterClient || loadingGameScene)
+        {
+            return;
+        }
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount != MaxPlayersPerRoom)
+        {
+            return;
+        }
+
+        Player[] players = PhotonNetwork.PlayerList;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (!PhotonLobbyKeys.GetReadyState(players[i]))
+            {
+                return;
+            }
+        }
+
+        loadingGameScene = true;
+        UpdateStatusText(BothPlayersReadyStatus);
+
+        if (MatchContext.Instance != null)
+        {
+            MatchContext.Instance.SetMode(MatchContext.MatchMode.Online);
+        }
+
+        PhotonNetwork.LoadLevel(gameSceneName);
+    }
+
+    private void RefreshLobbyUi()
+    {
+        if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom == null)
+        {
+            ApplyLocalPortrait();
+            ClearRemotePortrait();
+            UpdateReadyButtonVisual(false);
+            return;
+        }
+
+        ShowPanels(showStart: false, showJoin: false, showRoom: true);
+        SetLobbyCode(PhotonNetwork.CurrentRoom.Name);
+
+        int localCharacterIndex = PhotonLobbyKeys.GetSelectedCharacterIndex(
+            PhotonNetwork.LocalPlayer,
+            characterSelectManager.LocalCharacterIndex,
+            characterSelectManager.CharacterCount);
+
+        characterSelectManager.SetLocalIndex(localCharacterIndex);
+        ApplyLocalPortrait();
+
+        Player remotePlayer = GetRemotePlayer();
+        if (remotePlayer != null)
+        {
+            int remoteCharacterIndex = PhotonLobbyKeys.GetSelectedCharacterIndex(remotePlayer, 0, characterSelectManager.CharacterCount);
+            characterSelectManager.SetOpponentIndex(remoteCharacterIndex);
+            ApplyRemotePortrait();
+        }
+        else
+        {
+            characterSelectManager.ClearOpponent();
+            ClearRemotePortrait();
+        }
+
+        bool localReady = PhotonLobbyKeys.GetReadyState(PhotonNetwork.LocalPlayer);
+        UpdateReadyButtonVisual(localReady);
+        UpdateStatusText(BuildRoomStatusText(localReady, remotePlayer));
+    }
+
+    private string BuildRoomStatusText(bool localReady, Player remotePlayer)
+    {
+        if (loadingGameScene)
+        {
+            return BothPlayersReadyStatus;
+        }
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            return ConnectingStatus;
+        }
+
+        if (!PhotonNetwork.InRoom)
+        {
+            return ConnectedStatus;
+        }
+
+        if (remotePlayer == null)
+        {
+            return localReady ? WaitingForPlayerWhileReadyStatus : WaitingForPlayerStatus;
+        }
+
+        bool remoteReady = PhotonLobbyKeys.GetReadyState(remotePlayer);
+        if (localReady && remoteReady)
+        {
+            return BothPlayersReadyStatus;
+        }
+
+        if (localReady)
+        {
+            return WaitingForOpponentReadyStatus;
+        }
+
+        if (remoteReady)
+        {
+            return OpponentReadyStatus;
+        }
+
+        return PhotonNetwork.CurrentRoom.PlayerCount == MaxPlayersPerRoom ? OpponentJoinedStatus : PlayerLeftStatus;
+    }
+
+    private Player GetRemotePlayer()
+    {
+        Player[] players = PhotonNetwork.PlayerList;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (PhotonNetwork.LocalPlayer == null || players[i].ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                return players[i];
+            }
+        }
+
+        return null;
+    }
+
     private void ResetToStartPanel()
     {
-        StopLobbySimulation();
-        fakeLobbyManager.Reset();
-        characterSelectManager.ClearOpponent();
-
         ShowPanels(showStart: true, showJoin: false, showRoom: false);
         ResetJoinPrompt();
         ClearLobbyCodeInput();
-        ClearPlayer2Portrait();
-        ApplyPlayer1Portrait();
         SetLobbyCode(defaultLobbyCodeText);
         UpdateStatusText(defaultStatusText);
-        UpdateReadyButtonVisual();
+        characterSelectManager.ClearOpponent();
+        ApplyLocalPortrait();
+        ClearRemotePortrait();
+        UpdateReadyButtonVisual(false);
     }
 
-    private IEnumerator SimulateOpponentJoinAfterDelay()
+    private void ApplyLocalPortrait()
     {
-        yield return new WaitForSeconds(fakeOpponentJoinDelay);
-
-        fakeOpponentJoinRoutine = null;
-
-        if (!fakeLobbyManager.InRoom || !fakeLobbyManager.IsHost)
-        {
-            yield break;
-        }
-
-        characterSelectManager.PickOpponentIndex(random);
-        fakeLobbyManager.SetOpponentJoined(characterSelectManager.OpponentCharacterIndex);
-        ApplyPlayer2Portrait();
-        RefreshRoomStatus();
-
-        if (simulateOpponentAutoReady)
-        {
-            fakeOpponentReadyRoutine = StartCoroutine(SimulateOpponentReadyAfterDelay());
-        }
+        ApplyPortrait(player1PortraitImage, characterSelectManager.GetLocalPortrait(), true);
     }
 
-    private IEnumerator SimulateOpponentReadyAfterDelay()
+    private void ApplyRemotePortrait()
     {
-        yield return new WaitForSeconds(fakeOpponentReadyDelay);
-
-        fakeOpponentReadyRoutine = null;
-
-        if (!fakeLobbyManager.InRoom || !fakeLobbyManager.OpponentPresent)
-        {
-            yield break;
-        }
-
-        fakeLobbyManager.SetOpponentReady(true);
-        RefreshRoomStatus();
+        ApplyPortrait(player2PortraitImage, characterSelectManager.GetOpponentPortrait(), true);
     }
 
-    private void RefreshRoomStatus()
+    private void ClearRemotePortrait()
     {
-        UpdateStatusText(fakeLobbyManager.GetStatusText());
-        UpdateReadyButtonVisual();
+        ApplyPortrait(player2PortraitImage, null, false);
+    }
+
+    private void ApplyPortrait(Image portraitImage, Sprite sprite, bool visible)
+    {
+        if (portraitImage == null)
+        {
+            return;
+        }
+
+        portraitImage.sprite = sprite;
+        portraitImage.enabled = visible && sprite != null;
+
+        Color color = portraitImage.color;
+        color.a = portraitImage.enabled ? 1f : 0f;
+        portraitImage.color = color;
+    }
+
+    private void UpdateReadyButtonVisual(bool isReady)
+    {
+        if (readyButtonImage != null)
+        {
+            readyButtonImage.color = isReady ? readyButtonReadyTint : readyButtonNormalTint;
+        }
     }
 
     private void SetLobbyCode(string code)
@@ -333,83 +631,6 @@ public class OnlineLobbyUIManager : MonoBehaviour
     private void ResetJoinPrompt()
     {
         SetJoinPrompt(defaultJoinPromptText, false);
-    }
-
-    private void UpdateReadyButtonVisual()
-    {
-        if (readyButtonImage != null)
-        {
-            readyButtonImage.color = fakeLobbyManager.LocalReady ? readyButtonReadyTint : readyButtonNormalTint;
-        }
-    }
-
-    private void ApplyPlayer1Portrait()
-    {
-        ApplyPortrait(player1PortraitImage, characterSelectManager.GetLocalPortrait(), true);
-    }
-
-    private void ApplyPlayer2Portrait()
-    {
-        ApplyPortrait(player2PortraitImage, characterSelectManager.GetOpponentPortrait(), true);
-    }
-
-    private void ClearPlayer2Portrait()
-    {
-        ApplyPortrait(player2PortraitImage, null, false);
-    }
-
-    private void ApplyPortrait(Image portraitImage, Sprite sprite, bool visible)
-    {
-        if (portraitImage == null)
-        {
-            return;
-        }
-
-        portraitImage.sprite = sprite;
-        portraitImage.enabled = visible && sprite != null;
-
-        Color color = portraitImage.color;
-        color.a = portraitImage.enabled ? 1f : 0f;
-        portraitImage.color = color;
-    }
-
-    private void KeepOpponentDifferentIfNeeded()
-    {
-        if (!fakeLobbyManager.OpponentPresent)
-        {
-            return;
-        }
-
-        characterSelectManager.EnsureOpponentDiffers(random);
-        fakeLobbyManager.SetOpponentJoined(characterSelectManager.OpponentCharacterIndex);
-        ApplyPlayer2Portrait();
-        RefreshRoomStatus();
-    }
-
-    private void StopLobbySimulation()
-    {
-        if (fakeOpponentJoinRoutine != null)
-        {
-            StopCoroutine(fakeOpponentJoinRoutine);
-            fakeOpponentJoinRoutine = null;
-        }
-
-        if (fakeOpponentReadyRoutine != null)
-        {
-            StopCoroutine(fakeOpponentReadyRoutine);
-            fakeOpponentReadyRoutine = null;
-        }
-    }
-
-    private void ReturnToMainMenu()
-    {
-        if (returnToMenuButton != null)
-        {
-            returnToMenuButton.ReturnToMenu();
-            return;
-        }
-
-        SceneManager.LoadScene(fallbackMainMenuSceneName);
     }
 
     private void ShowPanels(bool showStart, bool showJoin, bool showRoom)
@@ -495,6 +716,11 @@ public class OnlineLobbyUIManager : MonoBehaviour
         }
     }
 
+    private string GenerateRoomCode()
+    {
+        return Random.Range(100000, 999999).ToString();
+    }
+
     private GameObject FindGameObjectByPath(string path)
     {
         string[] pathParts = path.Split('/');
@@ -545,6 +771,17 @@ public class OnlineLobbyUIManager : MonoBehaviour
     {
         GameObject target = FindGameObjectByPath(path);
         return target != null ? target.GetComponent<T>() : null;
+    }
+
+    private void ReturnToMainMenu()
+    {
+        if (returnToMenuButton != null)
+        {
+            returnToMenuButton.ReturnToMenu();
+            return;
+        }
+
+        SceneManager.LoadScene(fallbackMainMenuSceneName);
     }
 
     private static void AddButtonListener(Button button, UnityEngine.Events.UnityAction action)

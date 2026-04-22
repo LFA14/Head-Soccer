@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -107,6 +108,35 @@ public class CountdownManager : MonoBehaviour
         if (endGameButton != null)
             endGameButton.SetActive(false);
 
+        if (PhotonNetwork.InRoom)
+        {
+            StartCoroutine(InitializeOnlineMatchWhenPlayersArePresent());
+            return;
+        }
+
+        InitializeSpawnedMatch();
+    }
+
+    IEnumerator InitializeOnlineMatchWhenPlayersArePresent()
+    {
+        float waitDeadline = 10f;
+
+        while (waitDeadline > 0f)
+        {
+            FindPlayers();
+
+            if (leftPlayerHead != null && rightPlayerHead != null)
+                break;
+
+            waitDeadline -= Time.deltaTime;
+            yield return null;
+        }
+
+        InitializeSpawnedMatch();
+    }
+
+    void InitializeSpawnedMatch()
+    {
         FindPlayers();
         CachePlayerReferences();
         PowerFill.ResetAllBarsInScene();
