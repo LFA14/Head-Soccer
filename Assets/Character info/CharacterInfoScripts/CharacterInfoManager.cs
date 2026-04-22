@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -40,7 +41,30 @@ public class CharacterInfoManager : MonoBehaviour
     private Coroutine storyPopRoutine;
     private Coroutine namePopRoutine;
 
+    private static readonly string[] DesiredDisplayNames =
+    {
+        "ArgentinaCharacter",
+        "Character",
+        "EgyptCharacter",
+        "SaudiCharacter"
+    };
+
+    private static readonly string[][] CharacterAliases =
+    {
+        new[] { "argentinacharacter", "argentina", "leo" },
+        new[] { "character", "ronaldinho", "brazil" },
+        new[] { "egyptcharacter", "egypt", "faroun" },
+        new[] { "saudicharacter", "saudi", "turki" }
+    };
+
     private void Awake()
+    {
+        AutoAssignReferences();
+        NormalizeCharacters();
+        HookButtons();
+    }
+
+    private void OnEnable()
     {
         HookButtons();
     }
@@ -97,18 +121,31 @@ public class CharacterInfoManager : MonoBehaviour
         if (characters == null || characters.Length == 0)
             return;
 
+        if (currentIndex < 0 || currentIndex >= characters.Length)
+            currentIndex = 0;
+
         CharacterData currentCharacter = characters[currentIndex];
 
         if (playerPortrait != null)
         {
             playerPortrait.sprite = currentCharacter.portrait;
             playerPortrait.preserveAspect = true;
+            playerPortrait.enabled = currentCharacter.portrait != null;
+
+            Color portraitColor = playerPortrait.color;
+            portraitColor.a = 1f;
+            playerPortrait.color = portraitColor;
         }
 
         if (storyImage != null)
         {
             storyImage.sprite = currentCharacter.storyPicture;
             storyImage.preserveAspect = true;
+            storyImage.enabled = currentCharacter.storyPicture != null;
+
+            Color storyColor = storyImage.color;
+            storyColor.a = 1f;
+            storyImage.color = storyColor;
         }
 
         if (playerNameText != null)
@@ -159,6 +196,114 @@ public class CharacterInfoManager : MonoBehaviour
 
         if (kickPanel != null)
             kickPanel.Setup(currentCharacterId, "shot");
+    }
+
+    private void AutoAssignReferences()
+    {
+        if (playerPortrait == null)
+            playerPortrait = FindByName<Image>("PlayerPortrait");
+
+        if (storyImage == null)
+            storyImage = FindByName<Image>("StoryImage");
+
+        if (leftButton == null)
+            leftButton = FindByName<Button>("PlayerUp");
+
+        if (rightButton == null)
+            rightButton = FindByName<Button>("PlayerDown");
+    }
+
+    private void NormalizeCharacters()
+    {
+        if (characters == null || characters.Length == 0)
+            return;
+
+        List<CharacterData> normalizedCharacters = new List<CharacterData>();
+        HashSet<int> usedIndexes = new HashSet<int>();
+
+        for (int i = 0; i < DesiredDisplayNames.Length; i++)
+        {
+            int matchIndex = FindCharacterIndex(CharacterAliases[i], usedIndexes);
+            if (matchIndex < 0)
+                continue;
+
+            CharacterData source = characters[matchIndex];
+            normalizedCharacters.Add(new CharacterData
+            {
+                characterId = string.IsNullOrWhiteSpace(source.characterId) ? DesiredDisplayNames[i] : source.characterId,
+                characterName = DesiredDisplayNames[i],
+                portrait = source.portrait,
+                storyPicture = source.storyPicture
+            });
+
+            usedIndexes.Add(matchIndex);
+        }
+
+        if (normalizedCharacters.Count == 0)
+            return;
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            if (usedIndexes.Contains(i) || characters[i] == null)
+                continue;
+
+            normalizedCharacters.Add(characters[i]);
+        }
+
+        characters = normalizedCharacters.ToArray();
+
+        if (currentIndex < 0 || currentIndex >= characters.Length)
+            currentIndex = 0;
+    }
+
+    private int FindCharacterIndex(string[] aliases, HashSet<int> usedIndexes)
+    {
+        for (int i = 0; i < characters.Length; i++)
+        {
+            if (usedIndexes.Contains(i) || characters[i] == null)
+                continue;
+
+            if (MatchesAlias(characters[i], aliases))
+                return i;
+        }
+
+        return -1;
+    }
+
+    private bool MatchesAlias(CharacterData data, string[] aliases)
+    {
+        string characterIdValue = NormalizeKey(data.characterId);
+        string characterNameValue = NormalizeKey(data.characterName);
+        string portraitNameValue = data.portrait != null ? NormalizeKey(data.portrait.name) : string.Empty;
+        string storyNameValue = data.storyPicture != null ? NormalizeKey(data.storyPicture.name) : string.Empty;
+
+        for (int i = 0; i < aliases.Length; i++)
+        {
+            string alias = aliases[i];
+            if (characterIdValue == alias || characterNameValue == alias || portraitNameValue == alias || storyNameValue == alias)
+                return true;
+        }
+
+        return false;
+    }
+
+    private static string NormalizeKey(string value)
+    {
+        return string.IsNullOrWhiteSpace(value)
+            ? string.Empty
+            : value.Trim().ToLowerInvariant();
+    }
+
+    private T FindByName<T>(string objectName) where T : Component
+    {
+        T[] components = FindObjectsOfType<T>(true);
+        for (int i = 0; i < components.Length; i++)
+        {
+            if (components[i] != null && components[i].name == objectName)
+                return components[i];
+        }
+
+        return null;
     }
 
     private IEnumerator Pop(RectTransform target)

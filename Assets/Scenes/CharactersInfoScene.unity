@@ -5033,8 +5033,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinManager
   startingCoins: 100
-  resetCoinsOnPlay: 1
-  resetAllSavesOnPlay: 1
+  resetCoinsOnPlay: 0
+  resetAllSavesOnPlay: 0
 --- !u!4 &2045461368
 Transform:
   m_ObjectHideFlags: 0
