@@ -30,6 +30,7 @@ public class MatchContext : MonoBehaviour
     public void SetMode(MatchMode mode)
     {
         currentMode = mode;
+        GameModeManager.SetOnlineMatch(mode == MatchMode.Online);
     }
 
     public void SetPlayerSide(bool isOnRightSide)

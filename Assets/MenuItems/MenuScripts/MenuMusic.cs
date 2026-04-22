@@ -6,6 +6,8 @@ public class MenuMusic : MonoBehaviour
 
     private AudioSource audioSource;
     private float originalVolume = 1f;
+    private bool userMuted;
+    private bool gameplayMuted;
 
     void Awake()
     {
@@ -26,8 +28,20 @@ public class MenuMusic : MonoBehaviour
 
     public void ToggleMusic()
     {
-        if (audioSource == null) return;
-        audioSource.mute = !audioSource.mute;
+        if (audioSource == null)
+            return;
+
+        userMuted = !userMuted;
+        ApplyMuteState();
+    }
+
+    public void SetGameplayMuted(bool muted)
+    {
+        if (audioSource == null)
+            return;
+
+        gameplayMuted = muted;
+        ApplyMuteState();
     }
 
     public void SetVolumeMultiplier(float multiplier)
@@ -44,5 +58,10 @@ public class MenuMusic : MonoBehaviour
             return;
 
         audioSource.volume = originalVolume;
+    }
+
+    private void ApplyMuteState()
+    {
+        audioSource.mute = userMuted || gameplayMuted;
     }
 }

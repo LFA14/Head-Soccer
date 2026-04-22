@@ -21,6 +21,12 @@ public class PhotonCharacterAvatar : MonoBehaviourPun, IPunObservable, IPunInsta
 
     private void Awake()
     {
+        if (!GameModeManager.IsOnlineMatch || !PhotonNetwork.InRoom)
+        {
+            enabled = false;
+            return;
+        }
+
         headRigidbody = GetComponentInChildren<Rigidbody2D>(true);
         playerMovement = GetComponentInChildren<PlayerMovement>(true);
         kickController = GetComponent<KickController>();
@@ -47,13 +53,18 @@ public class PhotonCharacterAvatar : MonoBehaviourPun, IPunObservable, IPunInsta
 
     private void Start()
     {
+        if (!GameModeManager.IsOnlineMatch || !PhotonNetwork.InRoom)
+        {
+            return;
+        }
+
         ApplySpawnFacing();
         ApplyOwnershipState();
     }
 
     private void FixedUpdate()
     {
-        if (photonView.IsMine || headRigidbody == null)
+        if (!GameModeManager.IsOnlineMatch || !PhotonNetwork.InRoom || photonView.IsMine || headRigidbody == null)
         {
             return;
         }
@@ -67,6 +78,11 @@ public class PhotonCharacterAvatar : MonoBehaviourPun, IPunObservable, IPunInsta
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
+        if (!GameModeManager.IsOnlineMatch || !PhotonNetwork.InRoom)
+        {
+            return;
+        }
+
         object[] instantiationData = info.photonView.InstantiationData;
         if (instantiationData != null &&
             instantiationData.Length > 0 &&
@@ -78,7 +94,7 @@ public class PhotonCharacterAvatar : MonoBehaviourPun, IPunObservable, IPunInsta
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (headRigidbody == null)
+        if (!GameModeManager.IsOnlineMatch || !PhotonNetwork.InRoom || headRigidbody == null)
         {
             return;
         }

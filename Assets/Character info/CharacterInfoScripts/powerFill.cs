@@ -24,6 +24,20 @@ public class PowerFill : MonoBehaviour
         get { return full; }
     }
 
+    public float NormalizedProgress
+    {
+        get
+        {
+            if (full)
+                return 1f;
+
+            if (fillTime <= 0f)
+                return 1f;
+
+            return Mathf.Clamp01(timer / fillTime);
+        }
+    }
+
     void Awake()
     {
         CacheInitialState();
@@ -100,6 +114,24 @@ public class PowerFill : MonoBehaviour
         if (fillImage != null)
         {
             fillImage.fillAmount = 0f;
+            fillImage.color = baseColor;
+        }
+
+        if (barTransform != null)
+            barTransform.localPosition = originalPos;
+    }
+
+    public void SetProgressNormalized(float normalizedProgress)
+    {
+        CacheInitialState();
+
+        float clampedProgress = Mathf.Clamp01(normalizedProgress);
+        full = clampedProgress >= 1f;
+        timer = full ? fillTime : clampedProgress * Mathf.Max(fillTime, 0.0001f);
+
+        if (fillImage != null)
+        {
+            fillImage.fillAmount = clampedProgress;
             fillImage.color = baseColor;
         }
 

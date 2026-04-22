@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -87,6 +88,13 @@ public class CountdownManager : MonoBehaviour
     private Vector2 defaultCountdownSize = new Vector2(300f, 300f);
     private AudioSource goalAudioSource;
     private AudioSource crowdAudioSource;
+    private readonly List<PowerBarState> savedPowerBarStates = new List<PowerBarState>();
+
+    private struct PowerBarState
+    {
+        public PowerFill bar;
+        public float progress;
+    }
 
     void Awake()
     {
@@ -108,7 +116,7 @@ public class CountdownManager : MonoBehaviour
         if (endGameButton != null)
             endGameButton.SetActive(false);
 
-        if (PhotonNetwork.InRoom)
+        if (GameModeManager.IsOnlineMatch && PhotonNetwork.InRoom)
         {
             StartCoroutine(InitializeOnlineMatchWhenPlayersArePresent());
             return;
@@ -235,6 +243,7 @@ public class CountdownManager : MonoBehaviour
 
     IEnumerator ResetAfterGoal()
     {
+        SavePowerBarStates();
         SetGameplay(false);
         matchTimerRunning = false;
         ResetAllSpecialStates();
@@ -246,6 +255,7 @@ public class CountdownManager : MonoBehaviour
         ResetObjects();
 
         yield return StartCoroutine(Countdown());
+        RestorePowerBarStates();
 
         goalScored = false;
     }
@@ -829,15 +839,53 @@ public class CountdownManager : MonoBehaviour
         }
     }
 
+    void SavePowerBarStates()
+    {
+        savedPowerBarStates.Clear();
+
+        PowerFill[] bars = FindObjectsOfType<PowerFill>(true);
+        for (int i = 0; i < bars.Length; i++)
+        {
+            if (bars[i] == null)
+                continue;
+
+            savedPowerBarStates.Add(new PowerBarState
+            {
+                bar = bars[i],
+                progress = bars[i].NormalizedProgress
+            });
+        }
+    }
+
+    void RestorePowerBarStates()
+    {
+        for (int i = 0; i < savedPowerBarStates.Count; i++)
+        {
+            PowerBarState state = savedPowerBarStates[i];
+            if (state.bar == null)
+                continue;
+
+            state.bar.SetProgressNormalized(state.progress);
+        }
+
+        savedPowerBarStates.Clear();
+    }
+
     void UpdateMusicDucking(bool gameplayActive)
     {
         if (MenuMusic.Instance == null)
             return;
 
         if (gameplayActive && !matchEnded)
-            MenuMusic.Instance.SetVolumeMultiplier(gameplayMusicVolumeMultiplier);
+        {
+            MenuMusic.Instance.SetGameplayMuted(true);
+            MenuMusic.Instance.SetVolumeMultiplier(0f);
+        }
         else
+        {
+            MenuMusic.Instance.SetGameplayMuted(false);
             MenuMusic.Instance.RestoreOriginalVolume();
+        }
     }
 
     void OnDisable()

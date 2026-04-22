@@ -19,7 +19,7 @@ public class GameSceneSpawner : MonoBehaviour
 
     void Start()
     {
-        if (PhotonNetwork.InRoom)
+        if (GameModeManager.IsOnlineMatch && PhotonNetwork.InRoom)
         {
             SpawnOnlineMatch();
             return;
@@ -45,6 +45,9 @@ public class GameSceneSpawner : MonoBehaviour
     void SpawnOnlineMatch()
     {
         if (spawnedOnlinePlayer)
+            return;
+
+        if (!GameModeManager.IsOnlineMatch)
             return;
 
         if (tournamentCharacterPrefabs == null || tournamentCharacterPrefabs.Length == 0)

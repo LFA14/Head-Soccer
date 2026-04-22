@@ -314,6 +314,10 @@ public class OnlineLobbyUIManager : MonoBehaviourPunCallbacks
         {
             MatchContext.Instance.SetMode(MatchContext.MatchMode.Online);
         }
+        else
+        {
+            GameModeManager.SetOnlineMatch(true);
+        }
 
         RefreshLobbyUi();
         TryStartGameIfBothPlayersReady();
@@ -346,12 +350,14 @@ public class OnlineLobbyUIManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         loadingGameScene = false;
+        GameModeManager.SetOnlineMatch(false);
         ResetToStartPanel();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         loadingGameScene = false;
+        GameModeManager.SetOnlineMatch(false);
 
         if (SceneManager.GetActiveScene().name == "OnlineLobbyScene")
         {
@@ -451,6 +457,10 @@ public class OnlineLobbyUIManager : MonoBehaviourPunCallbacks
         if (MatchContext.Instance != null)
         {
             MatchContext.Instance.SetMode(MatchContext.MatchMode.Online);
+        }
+        else
+        {
+            GameModeManager.SetOnlineMatch(true);
         }
 
         PhotonNetwork.LoadLevel(gameSceneName);
@@ -552,6 +562,11 @@ public class OnlineLobbyUIManager : MonoBehaviourPunCallbacks
 
     private void ResetToStartPanel()
     {
+        if (!PhotonNetwork.InRoom)
+        {
+            GameModeManager.SetOnlineMatch(false);
+        }
+
         ShowPanels(showStart: true, showJoin: false, showRoom: false);
         ResetJoinPrompt();
         ClearLobbyCodeInput();
