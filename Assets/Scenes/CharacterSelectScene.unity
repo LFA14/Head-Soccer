@@ -1924,6 +1924,9 @@ MonoBehaviour:
   comIndex: 0
   popScale: 1.12
   popDuration: 0.12
+  arrowSfxSource: {fileID: 1294399907}
+  arrowClickSfx: {fileID: 8300000, guid: 5fe70d2f07150e44582dc3cc23ba74df, type: 3}
+  arrowClickVolume: 1
   gameSceneName: GameScene
 --- !u!4 &917224557
 Transform:

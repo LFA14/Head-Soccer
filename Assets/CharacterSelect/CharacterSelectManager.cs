@@ -23,6 +23,11 @@ public class CharacterSelectManager : MonoBehaviour
     public float popScale = 1.12f;
     public float popDuration = 0.12f;
 
+    [Header("Arrow Sound")]
+    public AudioSource arrowSfxSource;
+    public AudioClip arrowClickSfx;
+    [Range(0f, 1f)] public float arrowClickVolume = 1f;
+
     [Header("Scene")]
     public string gameSceneName = "GameScene";
 
@@ -36,24 +41,28 @@ public class CharacterSelectManager : MonoBehaviour
     {
         playerIndex = Prev(playerIndex);
         ApplyPlayer(true);
+        PlayArrowSound();
     }
 
     public void PlayerDown()
     {
         playerIndex = Next(playerIndex);
         ApplyPlayer(true);
+        PlayArrowSound();
     }
 
     public void ComUp()
     {
         comIndex = Prev(comIndex);
         ApplyCom(true);
+        PlayArrowSound();
     }
 
     public void ComDown()
     {
         comIndex = Next(comIndex);
         ApplyCom(true);
+        PlayArrowSound();
     }
 
     int Next(int i)
@@ -132,6 +141,14 @@ public class CharacterSelectManager : MonoBehaviour
         }
 
         t.localScale = start;
+    }
+
+    void PlayArrowSound()
+    {
+        if (arrowSfxSource == null || arrowClickSfx == null)
+            return;
+
+        arrowSfxSource.PlayOneShot(arrowClickSfx, arrowClickVolume);
     }
 
     public void ConfirmSelection()
