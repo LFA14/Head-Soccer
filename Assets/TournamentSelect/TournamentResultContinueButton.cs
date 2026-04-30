@@ -6,6 +6,7 @@ public class TournamentResultContinueButton : MonoBehaviour
     public string bracketSceneName = "TournamentBracketScene";
     public string mainMenuSceneName = "MenuScene";
     public string quickMatchResultSceneName = "QuickMatchResultScene";
+    public float menuInputSuppressDuration = 0.5f;
 
     public void ContinueAfterTournamentResult()
     {
@@ -17,7 +18,7 @@ public class TournamentResultContinueButton : MonoBehaviour
             if (TournamentResultData.Instance != null)
                 TournamentResultData.Instance.ClearResult();
 
-            SceneManager.LoadScene(GetSafeMainMenuSceneName());
+            LoadMainMenuSafely();
             return;
         }
 
@@ -28,13 +29,13 @@ public class TournamentResultContinueButton : MonoBehaviour
             if (TournamentResultData.Instance != null)
                 TournamentResultData.Instance.ClearResult();
 
-            SceneManager.LoadScene(GetSafeMainMenuSceneName());
+            LoadMainMenuSafely();
             return;
         }
 
         if (TournamentResultData.Instance == null)
         {
-            SceneManager.LoadScene(GetSafeMainMenuSceneName());
+            LoadMainMenuSafely();
             return;
         }
 
@@ -67,5 +68,11 @@ public class TournamentResultContinueButton : MonoBehaviour
         }
 
         return "MenuScene";
+    }
+
+    void LoadMainMenuSafely()
+    {
+        MenuButtonAction.SuppressLoadsFor(menuInputSuppressDuration);
+        SceneManager.LoadScene(GetSafeMainMenuSceneName());
     }
 }

@@ -1,8 +1,25 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuMusic : MonoBehaviour
 {
     public static MenuMusic Instance;
+
+    private static readonly string[] DefaultAllowedSceneNames =
+    {
+        "MenuScene",
+        "CharacterSelectScene",
+        "TournamentScene",
+        "OnlineLobbyScene"
+    };
+
+    [SerializeField] private string[] allowedSceneNames =
+    {
+        "MenuScene",
+        "CharacterSelectScene",
+        "TournamentScene",
+        "OnlineLobbyScene"
+    };
 
     private AudioSource audioSource;
     private float originalVolume = 1f;
@@ -24,6 +41,9 @@ public class MenuMusic : MonoBehaviour
 
         if (audioSource != null)
             originalVolume = audioSource.volume;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        ApplySceneMusicState(SceneManager.GetActiveScene().name);
     }
 
     public void ToggleMusic()
@@ -33,6 +53,9 @@ public class MenuMusic : MonoBehaviour
 
         userMuted = !userMuted;
         ApplyMuteState();
+
+        if (!userMuted && IsMusicAllowedInScene(SceneManager.GetActiveScene().name) && !audioSource.isPlaying)
+            audioSource.Play();
     }
 
     public void SetGameplayMuted(bool muted)
@@ -63,5 +86,57 @@ public class MenuMusic : MonoBehaviour
     private void ApplyMuteState()
     {
         audioSource.mute = userMuted || gameplayMuted;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ApplySceneMusicState(scene.name);
+    }
+
+    private void ApplySceneMusicState(string sceneName)
+    {
+        if (audioSource == null)
+            return;
+
+        if (IsMusicAllowedInScene(sceneName))
+        {
+            gameplayMuted = false;
+            RestoreOriginalVolume();
+            ApplyMuteState();
+
+            if (!audioSource.isPlaying)
+                audioSource.Play();
+        }
+        else
+        {
+            gameplayMuted = false;
+            audioSource.Stop();
+            RestoreOriginalVolume();
+            ApplyMuteState();
+        }
+    }
+
+    private bool IsMusicAllowedInScene(string sceneName)
+    {
+        string[] sceneNames = allowedSceneNames != null && allowedSceneNames.Length > 0
+            ? allowedSceneNames
+            : DefaultAllowedSceneNames;
+
+        for (int i = 0; i < sceneNames.Length; i++)
+        {
+            if (sceneNames[i] == sceneName)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            Instance = null;
+        }
     }
 }

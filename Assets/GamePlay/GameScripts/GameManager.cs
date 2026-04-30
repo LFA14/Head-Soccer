@@ -122,12 +122,30 @@ public class CountdownManager : MonoBehaviour
             return;
         }
 
-        InitializeSpawnedMatch();
+        StartCoroutine(InitializeMatchWhenPlayersArePresent());
     }
 
     IEnumerator InitializeOnlineMatchWhenPlayersArePresent()
     {
         float waitDeadline = 10f;
+
+        while (waitDeadline > 0f)
+        {
+            FindPlayers();
+
+            if (leftPlayerHead != null && rightPlayerHead != null)
+                break;
+
+            waitDeadline -= Time.deltaTime;
+            yield return null;
+        }
+
+        InitializeSpawnedMatch();
+    }
+
+    IEnumerator InitializeMatchWhenPlayersArePresent()
+    {
+        float waitDeadline = 2f;
 
         while (waitDeadline > 0f)
         {
@@ -250,7 +268,7 @@ public class CountdownManager : MonoBehaviour
 
         yield return StartCoroutine(ShowGoalCelebration());
 
-        FindPlayers();
+        EnsurePlayerAssignments();
         CachePlayerReferences();
         ResetObjects();
 
@@ -402,6 +420,37 @@ public class CountdownManager : MonoBehaviour
 
         leftPlayerRoot = leftPlayerHead != null ? leftPlayerHead.root : null;
         rightPlayerRoot = rightPlayerHead != null ? rightPlayerHead.root : null;
+    }
+
+    void EnsurePlayerAssignments()
+    {
+        if (leftPlayerRoot == null || rightPlayerRoot == null)
+        {
+            FindPlayers();
+            return;
+        }
+
+        if (leftPlayerHead == null)
+            leftPlayerHead = FindHeadInRoot(leftPlayerRoot);
+
+        if (rightPlayerHead == null)
+            rightPlayerHead = FindHeadInRoot(rightPlayerRoot);
+    }
+
+    Transform FindHeadInRoot(Transform root)
+    {
+        if (root == null)
+            return null;
+
+        Rigidbody2D[] bodies = root.GetComponentsInChildren<Rigidbody2D>(true);
+
+        for (int i = 0; i < bodies.Length; i++)
+        {
+            if (bodies[i] != null && bodies[i].transform.name == "Head")
+                return bodies[i].transform;
+        }
+
+        return null;
     }
 
     void CachePlayerReferences()

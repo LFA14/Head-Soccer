@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TournamentResultSequenceUI : MonoBehaviour
@@ -43,12 +44,40 @@ public class TournamentResultSequenceUI : MonoBehaviour
     readonly Dictionary<AudioSource, float> duckedAudioVolumes = new Dictionary<AudioSource, float>();
     private AudioSource resultAudioSource;
     private Coroutine restoreMusicRoutine;
+    private Button continueButtonComponent;
+    private TournamentResultContinueButton continueHandler;
+    private bool continueRequested;
 
     private void Start()
     {
+        WireContinueButton();
         SetupConfettiSystems();
         PrepareUI();
         StartCoroutine(PlaySequence());
+    }
+
+    private void Update()
+    {
+        if (continueRequested || continueButton == null || !continueButton.activeInHierarchy)
+            return;
+
+        if (WasContinueButtonPressed())
+            HandleContinueButtonClicked();
+    }
+
+    void WireContinueButton()
+    {
+        if (continueButton == null)
+            return;
+
+        continueButtonComponent = continueButton.GetComponent<Button>();
+
+        if (continueButtonComponent == null)
+            return;
+
+        continueHandler = FindObjectOfType<TournamentResultContinueButton>();
+        continueButtonComponent.onClick.RemoveListener(HandleContinueButtonClicked);
+        continueButtonComponent.onClick.AddListener(HandleContinueButtonClicked);
     }
 
     void PrepareUI()
@@ -91,7 +120,11 @@ public class TournamentResultSequenceUI : MonoBehaviour
     IEnumerator PlaySequence()
     {
         if (TournamentResultData.Instance == null)
+        {
+            ShowContinueButton();
+
             yield break;
+        }
 
         var data = TournamentResultData.Instance;
 
@@ -126,8 +159,52 @@ public class TournamentResultSequenceUI : MonoBehaviour
 
         yield return new WaitForSeconds(0.25f);
 
-        if (continueButton != null)
-            continueButton.SetActive(true);
+        ShowContinueButton();
+    }
+
+    void ShowContinueButton()
+    {
+        if (continueButton == null)
+            return;
+
+        continueButton.SetActive(true);
+        continueButton.transform.SetAsLastSibling();
+    }
+
+    void HandleContinueButtonClicked()
+    {
+        if (continueRequested)
+            return;
+
+        continueRequested = true;
+
+        if (continueHandler == null)
+            continueHandler = FindObjectOfType<TournamentResultContinueButton>();
+
+        if (continueHandler != null)
+        {
+            continueHandler.ContinueAfterTournamentResult();
+            return;
+        }
+
+        MenuButtonAction.SuppressLoadsFor(0.5f);
+        SceneManager.LoadScene("MenuScene");
+    }
+
+    bool WasContinueButtonPressed()
+    {
+        if (Input.GetMouseButtonDown(0))
+            return true;
+
+        for (int i = 0; i < Input.touchCount; i++)
+        {
+            Touch touch = Input.GetTouch(i);
+
+            if (touch.phase == TouchPhase.Began)
+                return true;
+        }
+
+        return false;
     }
 
     Sprite GetMessageSprite(TournamentResultData data)
@@ -505,6 +582,12 @@ public class TournamentResultSequenceUI : MonoBehaviour
             StopCoroutine(restoreMusicRoutine);
 
         RestoreDuckedAudio();
+    }
+
+    void OnDestroy()
+    {
+        if (continueButtonComponent != null)
+            continueButtonComponent.onClick.RemoveListener(HandleContinueButtonClicked);
     }
 
     void DuckBackgroundAudio()
