@@ -307,6 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 316395791}
   - component: {fileID: 316395794}
+  - component: {fileID: 316395795}
   - component: {fileID: 316395793}
   - component: {fileID: 316395792}
   m_Layer: 0
@@ -379,6 +380,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &316395795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316395790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 316395793}
 --- !u!114 &316395793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2854,6 +2868,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1942829067}
   - component: {fileID: 1942829070}
+  - component: {fileID: 1942829071}
   - component: {fileID: 1942829069}
   - component: {fileID: 1942829068}
   m_Layer: 0
@@ -2926,6 +2941,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1942829071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942829066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b81c75a9766c9a448ccf2a3142646f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlphaHitTestEnabler
+  targetImage: {fileID: 1942829069}
 --- !u!114 &1942829069
 MonoBehaviour:
   m_ObjectHideFlags: 0
