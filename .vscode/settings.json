@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Head-Soccer.slnx"
+    "dotnet.defaultSolution": "Head character.slnx"
 }

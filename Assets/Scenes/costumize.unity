@@ -495,6 +495,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37b746fc9db6423d8e2f4718e078beff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backButtonSprite: {fileID: 21300000, guid: 50e7f013b3108ab42817c6b7c1aaa235, type: 3}
+  arrowButtonSprite: {fileID: 9097593706488181657, guid: 61dcc17e121ecba4eb3ee87a97c195c2, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

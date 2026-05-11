@@ -31,11 +31,20 @@ public class SimpleAI : MonoBehaviour
     public float jumpRangeX = 2.5f;
     public float emergencyJumpRangeX = 1.2f;
 
+    [Header("Anti Juggle")]
+    public float overheadTrapRangeX = 0.45f;
+    public float overheadTrapHeight = 1.15f;
+    public float overheadTrapMaxRiseSpeed = 1.5f;
+
     [Header("Kick")]
     public float kickDistance = 2f;
     public float kickCooldown = 0.3f;
     public float kickHeightTolerance = 1.5f;
     public float kickBurstSpeed = 8f;
+    public float overheadKickRangeX = 0.8f;
+    public float overheadKickMinHeight = 0.2f;
+    public float overheadKickMaxHeight = 2f;
+    public float kickPredictionTime = 0.08f;
 
     [Header("Soccer Logic")]
     public bool attackRightGoal = true;
@@ -106,6 +115,11 @@ public class SimpleAI : MonoBehaviour
         float myY = myPos.y;
 
         float distanceToBallX = Mathf.Abs(predictedBall.x - myX);
+        float directBallX = Mathf.Abs(ballPos.x - myX);
+        bool ballSettledOnHead =
+            directBallX <= overheadTrapRangeX &&
+            ballPos.y <= myY + overheadTrapHeight &&
+            ballVel.y <= overheadTrapMaxRiseSpeed;
 
         float targetX;
 
@@ -133,11 +147,13 @@ public class SimpleAI : MonoBehaviour
 
         bool shouldJump =
             predictedBall.y > myY + minBallHeightToJump &&
-            Mathf.Abs(predictedBall.x - myX) < jumpRangeX;
+            Mathf.Abs(predictedBall.x - myX) < jumpRangeX &&
+            !ballSettledOnHead;
 
         bool emergencyJump =
             ballPos.y > myY + 0.15f &&
-            Mathf.Abs(ballPos.x - myX) < emergencyJumpRangeX;
+            Mathf.Abs(ballPos.x - myX) < emergencyJumpRangeX &&
+            directBallX > overheadTrapRangeX;
 
         if (isGrounded && Time.time >= nextJumpTime && (shouldJump || emergencyJump))
         {
@@ -180,14 +196,23 @@ public class SimpleAI : MonoBehaviour
         if (Time.time < nextKickTime)
             return;
 
-        float distToBall = Vector2.Distance(myPos, ballPos);
-        float verticalDiff = Mathf.Abs(ballPos.y - myPos.y);
+        Vector2 kickBallPos = ballPos;
+        if (ballRb != null)
+            kickBallPos += ballRb.linearVelocity * kickPredictionTime;
+
+        float distToBall = Vector2.Distance(myPos, kickBallPos);
+        float verticalDiff = Mathf.Abs(kickBallPos.y - myPos.y);
+        float horizontalDiff = Mathf.Abs(kickBallPos.x - myPos.x);
 
         bool ballCloseEnough = distToBall <= kickDistance;
         bool heightOkay = verticalDiff <= kickHeightTolerance;
-        bool ballInFront = attackRightGoal ? ballPos.x >= myPos.x - 0.2f : ballPos.x <= myPos.x + 0.2f;
+        bool ballInFront = attackRightGoal ? kickBallPos.x >= myPos.x - 0.2f : kickBallPos.x <= myPos.x + 0.2f;
+        bool overheadClearKick =
+            horizontalDiff <= overheadKickRangeX &&
+            kickBallPos.y >= myPos.y + overheadKickMinHeight &&
+            kickBallPos.y <= myPos.y + overheadKickMaxHeight;
 
-        if (ballCloseEnough && heightOkay && ballInFront)
+        if (ballCloseEnough && ((heightOkay && ballInFront) || overheadClearKick))
         {
             kickController.TriggerKick();
             nextKickTime = Time.time + kickCooldown;

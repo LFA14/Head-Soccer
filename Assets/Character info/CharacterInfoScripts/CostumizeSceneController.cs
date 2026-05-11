@@ -5,6 +5,16 @@ using UnityEngine.UI;
 
 public class CostumizeSceneController : MonoBehaviour
 {
+    private const float PreviewScale = 2.15f;
+    private static readonly Vector2 PreviewCenterOffset = new Vector2(0f, 0f);
+    private static readonly Vector2 BackButtonSize = new Vector2(1200f, 420f);
+    private static readonly Vector2 MainArrowButtonSize = new Vector2(520f, 520f);
+    private static readonly Vector2 SmallArrowButtonSize = new Vector2(220f, 180f);
+
+    [Header("Button Art")]
+    public Sprite backButtonSprite;
+    public Sprite arrowButtonSprite;
+
     private readonly string[] prefabNames =
     {
         "ArgentinaPlayer",
@@ -86,9 +96,10 @@ public class CostumizeSceneController : MonoBehaviour
         GameObject prefab = Resources.Load<GameObject>("Characters/" + prefabNames[characterIndex]);
         if (prefab != null)
         {
-            previewCharacter = Instantiate(prefab, new Vector3(0f, -1.35f, 0f), Quaternion.identity);
-            previewCharacter.transform.localScale = Vector3.one * 1.35f;
+            previewCharacter = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            previewCharacter.transform.localScale = Vector3.one * PreviewScale;
             DisablePreviewBehaviour(previewCharacter);
+            CenterPreviewCharacter(previewCharacter);
         }
 
         if (characterNameText != null)
@@ -139,6 +150,73 @@ public class CostumizeSceneController : MonoBehaviour
             colliders[i].enabled = false;
     }
 
+    private void CenterPreviewCharacter(GameObject root)
+    {
+        if (root == null)
+            return;
+
+        Camera mainCamera = Camera.main;
+        if (mainCamera == null)
+        {
+            root.transform.position = new Vector3(0f, -0.2f, 0f);
+            return;
+        }
+
+        SpriteRenderer[] renderers = root.GetComponentsInChildren<SpriteRenderer>(true);
+        Bounds? previewBounds = BuildPreviewBounds(renderers);
+        if (!previewBounds.HasValue)
+        {
+            root.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, 0f);
+            return;
+        }
+
+        Bounds bounds = previewBounds.Value;
+
+        Vector3 targetCenter = new Vector3(
+            mainCamera.transform.position.x + PreviewCenterOffset.x,
+            mainCamera.transform.position.y + PreviewCenterOffset.y,
+            bounds.center.z);
+
+        root.transform.position += targetCenter - bounds.center;
+    }
+
+    private Bounds? BuildPreviewBounds(SpriteRenderer[] renderers)
+    {
+        if (renderers == null || renderers.Length == 0)
+            return null;
+
+        Bounds bounds = default;
+        bool foundRenderer = false;
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            SpriteRenderer renderer = renderers[i];
+            if (renderer == null || renderer.sprite == null || ShouldIgnorePreviewRenderer(renderer))
+                continue;
+
+            if (!foundRenderer)
+            {
+                bounds = renderer.bounds;
+                foundRenderer = true;
+            }
+            else
+            {
+                bounds.Encapsulate(renderer.bounds);
+            }
+        }
+
+        if (!foundRenderer)
+            return null;
+
+        return bounds;
+    }
+
+    private bool ShouldIgnorePreviewRenderer(SpriteRenderer renderer)
+    {
+        string key = renderer.gameObject.name.ToLowerInvariant();
+        return key.Contains("fireaura") || key.Contains("aura");
+    }
+
     private void BuildInterface()
     {
         Canvas canvas = FindObjectOfType<Canvas>();
@@ -153,19 +231,20 @@ public class CostumizeSceneController : MonoBehaviour
 
         characterNameText = CreateText(canvas.transform, "CharacterName", displayNames[0], new Vector2(0f, 405f), new Vector2(720f, 90f), 68f);
 
-        CreateButton(canvas.transform, "BackButton", "BACK", new Vector2(-780f, 430f), new Vector2(240f, 82f), BackToUpgrades);
-        CreateButton(canvas.transform, "PreviousCharacter", "<", new Vector2(-540f, 50f), new Vector2(130f, 130f), PreviousCharacter);
-        CreateButton(canvas.transform, "NextCharacter", ">", new Vector2(540f, 50f), new Vector2(130f, 130f), NextCharacter);
+        Button backButton = CreateSpriteButton(canvas.transform, "BackButton", new Vector2(40f, -40f), BackButtonSize, BackToUpgrades, backButtonSprite);
+        SetAnchors(backButton.GetComponent<RectTransform>(), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f));
+        CreateSpriteButton(canvas.transform, "PreviousCharacter", new Vector2(-640f, 40f), MainArrowButtonSize, PreviousCharacter, arrowButtonSprite);
+        CreateSpriteButton(canvas.transform, "NextCharacter", new Vector2(640f, 40f), MainArrowButtonSize, NextCharacter, arrowButtonSprite, true);
 
         CreateText(canvas.transform, "ShoesLabel", "SHOES", new Vector2(-360f, -275f), new Vector2(260f, 68f), 46f);
-        CreateButton(canvas.transform, "PreviousShoeColor", "<", new Vector2(-540f, -370f), new Vector2(110f, 88f), PreviousShoeColor);
+        CreateSpriteButton(canvas.transform, "PreviousShoeColor", new Vector2(-540f, -370f), SmallArrowButtonSize, PreviousShoeColor, arrowButtonSprite);
         shoeSwatch = CreatePanel(canvas.transform, "ShoeColor", new Vector2(-360f, -370f), new Vector2(130f, 88f), Color.white);
-        CreateButton(canvas.transform, "NextShoeColor", ">", new Vector2(-180f, -370f), new Vector2(110f, 88f), NextShoeColor);
+        CreateSpriteButton(canvas.transform, "NextShoeColor", new Vector2(-180f, -370f), SmallArrowButtonSize, NextShoeColor, arrowButtonSprite, true);
 
         CreateText(canvas.transform, "TieLabel", "TIE", new Vector2(360f, -275f), new Vector2(260f, 68f), 46f);
-        CreateButton(canvas.transform, "PreviousTieColor", "<", new Vector2(180f, -370f), new Vector2(110f, 88f), PreviousTieColor);
+        CreateSpriteButton(canvas.transform, "PreviousTieColor", new Vector2(180f, -370f), SmallArrowButtonSize, PreviousTieColor, arrowButtonSprite);
         tieSwatch = CreatePanel(canvas.transform, "TieColor", new Vector2(360f, -370f), new Vector2(130f, 88f), Color.white);
-        CreateButton(canvas.transform, "NextTieColor", ">", new Vector2(540f, -370f), new Vector2(110f, 88f), NextTieColor);
+        CreateSpriteButton(canvas.transform, "NextTieColor", new Vector2(540f, -370f), SmallArrowButtonSize, NextTieColor, arrowButtonSprite, true);
     }
 
     private void EnsureEventSystem()
@@ -217,5 +296,40 @@ public class CostumizeSceneController : MonoBehaviour
         TMP_Text text = CreateText(image.transform, "Text", label, Vector2.zero, size, label.Length > 1 ? 38f : 66f);
         text.raycastTarget = false;
         return button;
+    }
+
+    private Button CreateSpriteButton(
+        Transform parent,
+        string objectName,
+        Vector2 anchoredPosition,
+        Vector2 size,
+        UnityEngine.Events.UnityAction action,
+        Sprite sprite,
+        bool flipHorizontally = false)
+    {
+        if (sprite == null)
+            return CreateButton(parent, objectName, objectName.Contains("Back") ? "BACK" : ">", anchoredPosition, size, action);
+
+        Image image = CreatePanel(parent, objectName, anchoredPosition, size, Color.white);
+        image.sprite = sprite;
+        image.preserveAspect = true;
+
+        RectTransform rectTransform = image.rectTransform;
+        rectTransform.localScale = new Vector3(flipHorizontally ? -1f : 1f, 1f, 1f);
+
+        Button button = image.gameObject.AddComponent<Button>();
+        button.targetGraphic = image;
+        button.onClick.AddListener(action);
+        return button;
+    }
+
+    private void SetAnchors(RectTransform rectTransform, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot)
+    {
+        if (rectTransform == null)
+            return;
+
+        rectTransform.anchorMin = anchorMin;
+        rectTransform.anchorMax = anchorMax;
+        rectTransform.pivot = pivot;
     }
 }

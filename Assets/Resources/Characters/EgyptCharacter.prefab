@@ -10,19 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1295801176375819745, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
       propertyPath: jumpForce
-      value: 12.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1295801176375819745, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
       propertyPath: groundCheckRadius
-      value: 0.3
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 1330335343021424140, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
       propertyPath: m_GravityScale
-      value: 2.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1330335343021424140, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
       propertyPath: m_LinearDamping
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1937688624474118393, guid: d5840e4d1893aa442a681af68411a87d, type: 3}
       propertyPath: m_Sprite
