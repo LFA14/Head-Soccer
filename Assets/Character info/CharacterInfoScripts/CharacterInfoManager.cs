@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -114,6 +115,11 @@ public class CharacterInfoManager : MonoBehaviour
 
         currentIndex = (currentIndex - 1 + characters.Length) % characters.Length;
         ShowCharacter(true);
+    }
+
+    public void OpenCostumizeScene()
+    {
+        SceneManager.LoadScene("costumize");
     }
 
     private void ShowCharacter(bool animate)

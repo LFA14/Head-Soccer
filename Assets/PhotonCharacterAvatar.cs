@@ -146,6 +146,7 @@ public class PhotonCharacterAvatar : MonoBehaviourPun, IPunObservable, IPunInsta
 
         if (isLocalAvatar)
         {
+            PlayerCustomizationApplier.ApplyToPlayer(gameObject);
             headRigidbody.bodyType = originalBodyType;
             headRigidbody.gravityScale = originalGravityScale;
         }

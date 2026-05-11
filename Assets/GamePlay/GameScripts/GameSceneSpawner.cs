@@ -246,6 +246,7 @@ public class GameSceneSpawner : MonoBehaviour
             playerSpecial = player.AddComponent<CharacterSpecialController>();
 
         playerSpecial.Configure(true);
+        PlayerCustomizationApplier.ApplyToPlayer(player);
 
         PlayerMovement aiMove = ai.GetComponentInChildren<PlayerMovement>();
         if (aiMove != null)
