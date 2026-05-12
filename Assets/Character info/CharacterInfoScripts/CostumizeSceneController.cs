@@ -93,6 +93,9 @@ public class CostumizeSceneController : MonoBehaviour
         if (previewCharacter != null)
             Destroy(previewCharacter);
 
+        if (characterIndex < 0 || characterIndex >= prefabNames.Length)
+            characterIndex = 0;
+
         GameObject prefab = Resources.Load<GameObject>("Characters/" + prefabNames[characterIndex]);
         if (prefab != null)
         {
@@ -100,6 +103,10 @@ public class CostumizeSceneController : MonoBehaviour
             previewCharacter.transform.localScale = Vector3.one * PreviewScale;
             DisablePreviewBehaviour(previewCharacter);
             CenterPreviewCharacter(previewCharacter);
+        }
+        else
+        {
+            Debug.LogError("Missing character preview prefab at Resources/Characters/" + prefabNames[characterIndex]);
         }
 
         if (characterNameText != null)
@@ -129,12 +136,12 @@ public class CostumizeSceneController : MonoBehaviour
 
     private void DisablePreviewBehaviour(GameObject root)
     {
-        MonoBehaviour[] behaviours = root.GetComponentsInChildren<MonoBehaviour>(true);
-        for (int i = 0; i < behaviours.Length; i++)
-        {
-            if (behaviours[i] != null)
-                behaviours[i].enabled = false;
-        }
+        DisableComponent<PlayerMovement>(root);
+        DisableComponent<SimpleAI>(root);
+        DisableComponent<KickController>(root);
+        DisableComponent<BootKick>(root);
+        DisableComponent<CharacterSpecialController>(root);
+        DisableComponent<CharacterSpecialTouchRelay>(root);
 
         Rigidbody2D[] rigidbodies = root.GetComponentsInChildren<Rigidbody2D>(true);
         for (int i = 0; i < rigidbodies.Length; i++)
@@ -148,6 +155,16 @@ public class CostumizeSceneController : MonoBehaviour
         Collider2D[] colliders = root.GetComponentsInChildren<Collider2D>(true);
         for (int i = 0; i < colliders.Length; i++)
             colliders[i].enabled = false;
+    }
+
+    private void DisableComponent<T>(GameObject root) where T : Behaviour
+    {
+        T[] components = root.GetComponentsInChildren<T>(true);
+        for (int i = 0; i < components.Length; i++)
+        {
+            if (components[i] != null)
+                components[i].enabled = false;
+        }
     }
 
     private void CenterPreviewCharacter(GameObject root)

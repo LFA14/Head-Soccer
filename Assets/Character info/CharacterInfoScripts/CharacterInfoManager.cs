@@ -52,10 +52,10 @@ public class CharacterInfoManager : MonoBehaviour
 
     private static readonly string[][] CharacterAliases =
     {
-        new[] { "argentinacharacter", "argentina", "leo" },
-        new[] { "character", "ronaldinho", "brazil" },
-        new[] { "egyptcharacter", "egypt", "faroun" },
-        new[] { "saudicharacter", "saudi", "turki" }
+        new[] { "argentinacharacter", "argentinacharacter_0", "argentina", "leo" },
+        new[] { "character", "character_0", "ronaldinho", "brazil" },
+        new[] { "egyptcharacter", "egyptcharacter_0", "egypt", "faroun" },
+        new[] { "saudicharacter", "saudicharacter_0", "saudi", "turki" }
     };
 
     private void Awake()
@@ -88,15 +88,22 @@ public class CharacterInfoManager : MonoBehaviour
     {
         if (leftButton != null)
         {
-            leftButton.onClick.RemoveAllListeners();
-            leftButton.onClick.AddListener(PreviousCharacter);
+            HookButtonIfNeeded(leftButton, PreviousCharacter);
         }
 
         if (rightButton != null)
         {
-            rightButton.onClick.RemoveAllListeners();
-            rightButton.onClick.AddListener(NextCharacter);
+            HookButtonIfNeeded(rightButton, NextCharacter);
         }
+    }
+
+    private void HookButtonIfNeeded(Button button, UnityEngine.Events.UnityAction action)
+    {
+        if (button == null || button.onClick.GetPersistentEventCount() > 0)
+            return;
+
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(action);
     }
 
     public void NextCharacter()
@@ -131,12 +138,17 @@ public class CharacterInfoManager : MonoBehaviour
             currentIndex = 0;
 
         CharacterData currentCharacter = characters[currentIndex];
+        if (currentCharacter == null)
+            return;
+
+        Sprite portraitSprite = currentCharacter.portrait != null ? currentCharacter.portrait : currentCharacter.storyPicture;
+        Sprite storySprite = currentCharacter.storyPicture != null ? currentCharacter.storyPicture : currentCharacter.portrait;
 
         if (playerPortrait != null)
         {
-            playerPortrait.sprite = currentCharacter.portrait;
+            playerPortrait.sprite = portraitSprite;
             playerPortrait.preserveAspect = true;
-            playerPortrait.enabled = currentCharacter.portrait != null;
+            playerPortrait.enabled = portraitSprite != null;
 
             Color portraitColor = playerPortrait.color;
             portraitColor.a = 1f;
@@ -145,9 +157,9 @@ public class CharacterInfoManager : MonoBehaviour
 
         if (storyImage != null)
         {
-            storyImage.sprite = currentCharacter.storyPicture;
+            storyImage.sprite = storySprite;
             storyImage.preserveAspect = true;
-            storyImage.enabled = currentCharacter.storyPicture != null;
+            storyImage.enabled = storySprite != null;
 
             Color storyColor = storyImage.color;
             storyColor.a = 1f;
@@ -224,16 +236,27 @@ public class CharacterInfoManager : MonoBehaviour
         if (characters == null || characters.Length == 0)
             return;
 
+        CharacterData[] sourceCharacters = characters;
         List<CharacterData> normalizedCharacters = new List<CharacterData>();
         HashSet<int> usedIndexes = new HashSet<int>();
 
         for (int i = 0; i < DesiredDisplayNames.Length; i++)
         {
-            int matchIndex = FindCharacterIndex(CharacterAliases[i], usedIndexes);
+            int matchIndex = FindCharacterIndex(sourceCharacters, CharacterAliases[i], usedIndexes);
             if (matchIndex < 0)
-                continue;
+                matchIndex = FindFallbackCharacterIndex(sourceCharacters, i, usedIndexes);
 
-            CharacterData source = characters[matchIndex];
+            if (matchIndex < 0)
+            {
+                normalizedCharacters.Add(new CharacterData
+                {
+                    characterId = DesiredDisplayNames[i],
+                    characterName = DesiredDisplayNames[i]
+                });
+                continue;
+            }
+
+            CharacterData source = sourceCharacters[matchIndex];
             normalizedCharacters.Add(new CharacterData
             {
                 characterId = string.IsNullOrWhiteSpace(source.characterId) ? DesiredDisplayNames[i] : source.characterId,
@@ -248,12 +271,12 @@ public class CharacterInfoManager : MonoBehaviour
         if (normalizedCharacters.Count == 0)
             return;
 
-        for (int i = 0; i < characters.Length; i++)
+        for (int i = 0; i < sourceCharacters.Length; i++)
         {
-            if (usedIndexes.Contains(i) || characters[i] == null)
+            if (usedIndexes.Contains(i) || sourceCharacters[i] == null)
                 continue;
 
-            normalizedCharacters.Add(characters[i]);
+            normalizedCharacters.Add(sourceCharacters[i]);
         }
 
         characters = normalizedCharacters.ToArray();
@@ -262,14 +285,28 @@ public class CharacterInfoManager : MonoBehaviour
             currentIndex = 0;
     }
 
-    private int FindCharacterIndex(string[] aliases, HashSet<int> usedIndexes)
+    private int FindCharacterIndex(CharacterData[] sourceCharacters, string[] aliases, HashSet<int> usedIndexes)
     {
-        for (int i = 0; i < characters.Length; i++)
+        for (int i = 0; i < sourceCharacters.Length; i++)
         {
-            if (usedIndexes.Contains(i) || characters[i] == null)
+            if (usedIndexes.Contains(i) || sourceCharacters[i] == null)
                 continue;
 
-            if (MatchesAlias(characters[i], aliases))
+            if (MatchesAlias(sourceCharacters[i], aliases))
+                return i;
+        }
+
+        return -1;
+    }
+
+    private int FindFallbackCharacterIndex(CharacterData[] sourceCharacters, int desiredIndex, HashSet<int> usedIndexes)
+    {
+        if (desiredIndex >= 0 && desiredIndex < sourceCharacters.Length && sourceCharacters[desiredIndex] != null && !usedIndexes.Contains(desiredIndex))
+            return desiredIndex;
+
+        for (int i = 0; i < sourceCharacters.Length; i++)
+        {
+            if (sourceCharacters[i] != null && !usedIndexes.Contains(i))
                 return i;
         }
 
