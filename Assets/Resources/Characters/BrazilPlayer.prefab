@@ -417,10 +417,17 @@ MonoBehaviour:
   minBallHeightToJump: 0.75
   jumpRangeX: 2.8
   emergencyJumpRangeX: 1.4
+  overheadTrapRangeX: 0.45
+  overheadTrapHeight: 1.15
+  overheadTrapMaxRiseSpeed: 1.5
   kickDistance: 1.6
   kickCooldown: 0.45
   kickHeightTolerance: 1.4
   kickBurstSpeed: 8
+  overheadKickRangeX: 0.8
+  overheadKickMinHeight: 0.2
+  overheadKickMaxHeight: 2
+  kickPredictionTime: 0.08
   attackRightGoal: 1
   behindBallOffset: 0.8
   closeControlOffset: 0.35
@@ -459,17 +466,26 @@ MonoBehaviour:
   fireAuraFollowTarget: {fileID: 0}
   specialPower: 0
   specialArmed: 0
+  powerShotHoldDuration: 0.5
   powerShotHorizontalForce: 45
   powerShotVerticalForce: 12
+  powerShotRedDuration: 1.5
+  powerShotBallTint: {r: 1, g: 0, b: 0, a: 1}
   curveShotHorizontalForce: 13
   curveShotVerticalForce: 8
   curveShotTorque: -14
-  dashShotHorizontalForce: 12
-  dashShotVerticalForce: 5
-  playerDashForce: 7
-  stallDuration: 0.2
-  stallReleaseHorizontalForce: 10
-  stallReleaseVerticalForce: 9
+  freezeDuration: 3
+  freezeTint: {r: 0.35, g: 0.7, b: 1, a: 1}
+  stickyBallDuration: 0.75
+  stickyBallHoldOffset: {x: 0.9, y: 0.35}
+  stickyBallReleaseHorizontalForce: 8
+  stickyBallReleaseVerticalForce: 5
+  mirrorGhostCount: 2
+  mirrorShotDuration: 2.5
+  mirrorSpreadAngle: 18
+  mirrorSpeedMultiplierMin: 0.9
+  mirrorSpeedMultiplierMax: 1.15
+  mirrorGhostAlpha: 1
   retriggerDelay: 0.15
 --- !u!114 &114900001
 MonoBehaviour:
